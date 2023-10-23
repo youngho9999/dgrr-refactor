@@ -17,5 +17,6 @@ public class WaitingMember extends BaseEntity {
     private String waitingMemberId;
     private String nickname;
     private String profileImage;
+    private boolean isReady;
 
 }
