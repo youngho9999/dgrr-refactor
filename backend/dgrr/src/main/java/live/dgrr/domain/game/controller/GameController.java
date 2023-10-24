@@ -29,10 +29,4 @@ public class GameController {
         template.convertAndSendToUser(gameStartDtos.get(0).myInfo().memberId(),GAME_START_DEST,gameStartDtos.get(0));
         template.convertAndSendToUser(gameStartDtos.get(1).myInfo().memberId(),GAME_START_DEST,gameStartDtos.get(1));
     }
-
-    @MessageMapping("/game")
-    public void test1() {
-        applicationEventPublisher.publishEvent(new GameStartEvent("oneId","twoId"));
-    }
-
 }
