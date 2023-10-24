@@ -24,6 +24,8 @@ public class GameFirstRoundService {
     private final OpenviduService openviduService;
     private final GameRoomRepository gameRoomRepository;
     private final SimpMessagingTemplate template;
+
+    private static final String GAME_START_DEST = "/recv/game-start";
     @EventListener
     public void gameStart(GameStartEvent gameStartEvent) {
         GameMember memberOne = new GameMember(gameStartEvent.memberOneId(), gameStartEvent.memberOneId()," ", "descript1", 1400, Rank.BRONZE);
@@ -45,7 +47,7 @@ public class GameFirstRoundService {
         GameStartDto memberOneGameStartDto = new GameStartDto(memberOne,memberTwo,gameRoomId,openviduTokenOne,"FIRST");
         GameStartDto memberTwoGameStartDto = new GameStartDto(memberTwo,memberOne,gameRoomId,openviduTokenTwo,"SECOND");
 
-        template.convertAndSendToUser(memberOne.memberId(),"/recv/game-start",memberOneGameStartDto);
-        template.convertAndSendToUser(memberTwo.memberId(),"/recv/game-start",memberTwoGameStartDto);
+        template.convertAndSendToUser(memberOne.memberId(),GAME_START_DEST,memberOneGameStartDto);
+        template.convertAndSendToUser(memberTwo.memberId(),GAME_START_DEST,memberTwoGameStartDto);
     }
 }
