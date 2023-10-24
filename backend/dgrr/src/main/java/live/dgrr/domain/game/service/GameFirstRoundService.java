@@ -5,7 +5,6 @@ import live.dgrr.domain.game.entity.GameMember;
 import live.dgrr.domain.game.entity.GameRoom;
 import live.dgrr.domain.game.entity.GameStatus;
 import live.dgrr.domain.game.repository.GameRoomRepository;
-import live.dgrr.domain.member.service.MemberService;
 import live.dgrr.domain.openvidu.OpenviduService;
 import live.dgrr.global.entity.Rank;
 import lombok.RequiredArgsConstructor;
