@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.redis.core.RedisHash;
-import java.time.LocalDateTime;
 
 
 @Getter
@@ -18,7 +17,5 @@ public class WaitingMember {
     private String nickname;
     private String profileImage;
     private boolean isReady;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
 
 }
