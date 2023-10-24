@@ -1,10 +1,10 @@
 package live.dgrr.domain.watingroom.entity;
 
-import jakarta.persistence.Id;
 import live.dgrr.global.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.util.List;
@@ -20,4 +20,7 @@ public class WaitingRoom extends BaseEntity {
     private WaitingMember memberTwo;
     private List<WaitingMember> watchers;
 
+    public WaitingRoom(int waitingRoomId) {
+        this.roomId = waitingRoomId;
+    }
 }
