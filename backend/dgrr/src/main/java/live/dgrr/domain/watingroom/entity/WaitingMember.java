@@ -1,22 +1,24 @@
 package live.dgrr.domain.watingroom.entity;
 
 import jakarta.persistence.Id;
-import live.dgrr.global.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.redis.core.RedisHash;
+import java.time.LocalDateTime;
 
 
 @Getter
-@RedisHash(value = "waitingmember")
+@RedisHash(value = "waitingmember",timeToLive = 600)
 @NoArgsConstructor
 @AllArgsConstructor
-public class WaitingMember extends BaseEntity {
+public class WaitingMember {
     @Id
     private String waitingMemberId;
     private String nickname;
     private String profileImage;
     private boolean isReady;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
 
 }

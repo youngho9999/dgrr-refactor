@@ -18,7 +18,7 @@ public class WaitingRoomController {
     private final WaitingRoomService waitingRoomService;
 
     @PostMapping("")
-    public ResponseEntity<?> createWaitingRoom () {
+    public ResponseEntity<Integer> createWaitingRoom () {
         log.info("WaitingRoomController - createWaitingRoom");
         int roomId = waitingRoomService.createWaitingRoom();
         return new ResponseEntity<>(roomId, HttpStatus.OK);

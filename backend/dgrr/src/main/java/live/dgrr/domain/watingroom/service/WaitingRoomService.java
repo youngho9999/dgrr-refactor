@@ -20,6 +20,7 @@ public class WaitingRoomService {
     }
 
     public int createWaitingRoom() {
+        //TODO: waitingRoomId 확인 로직 수정 필요
         int waitingRoomId;
         do {
             waitingRoomId = generateRoomId();
