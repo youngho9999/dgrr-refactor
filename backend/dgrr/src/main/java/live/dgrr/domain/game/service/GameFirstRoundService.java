@@ -2,11 +2,11 @@ package live.dgrr.domain.game.service;
 
 import live.dgrr.domain.game.entity.GameMember;
 import live.dgrr.domain.game.entity.GameRoom;
-import live.dgrr.domain.game.entity.GameStartEvent;
 import live.dgrr.domain.game.entity.GameStatus;
 import live.dgrr.domain.game.repository.GameRoomRepository;
 import live.dgrr.domain.member.service.MemberService;
 import live.dgrr.domain.openvidu.OpenviduService;
+import live.dgrr.domain.watingroom.entity.GameStartEvent;
 import live.dgrr.global.entity.Rank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -23,8 +23,8 @@ public class GameFirstRoundService {
     private final GameRoomRepository gameRoomRepository;
     @EventListener
     public void gameStart(GameStartEvent gameStartEvent) {
-        GameMember memberOne = new GameMember("t1", " ", "descript1", 1400, Rank.BRONZE);
-        GameMember memberTwo = new GameMember("t2", " ", "descript2", 1400, Rank.GOLD);
+        GameMember memberOne = new GameMember(gameStartEvent.memberOneId(), " ", "descript1", 1400, Rank.BRONZE);
+        GameMember memberTwo = new GameMember(gameStartEvent.memberTwoId(), " ", "descript2", 1400, Rank.GOLD);
 
         //게임 ID 생성
         String gameRoomId = UUID.randomUUID().toString();
