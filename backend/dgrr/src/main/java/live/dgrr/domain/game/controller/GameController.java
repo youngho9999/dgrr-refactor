@@ -26,8 +26,8 @@ public class GameController {
     public void gameStart(GameStartEvent gameStartEvent) {
         List<GameStartDto> gameStartDtos = gameFirstRoundService.gameStart(gameStartEvent.memberOneId(), gameStartEvent.memberTwoId());
 
-        template.convertAndSendToUser(gameStartDtos.get(0).memberOne().memberId(),GAME_START_DEST,gameStartDtos.get(0));
-        template.convertAndSendToUser(gameStartDtos.get(1).memberOne().memberId(),GAME_START_DEST,gameStartDtos.get(1));
+        template.convertAndSendToUser(gameStartDtos.get(0).myInfo().memberId(),GAME_START_DEST,gameStartDtos.get(0));
+        template.convertAndSendToUser(gameStartDtos.get(1).myInfo().memberId(),GAME_START_DEST,gameStartDtos.get(1));
     }
 
     @MessageMapping("/game")
