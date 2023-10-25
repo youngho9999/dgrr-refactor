@@ -1,9 +1,11 @@
 package live.dgrr.domain.game.entity;
 
+import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import java.time.LocalDateTime;
 
+@Getter
 @RedisHash(value = "gameRoom", timeToLive = 200)
 public class GameRoom {
 
@@ -24,5 +26,9 @@ public class GameRoom {
         this.memberOne = memberOne;
         this.memberTwo = memberTwo;
         this.gameStatus = gameStatus;
+    }
+
+    public void startFirstRound(LocalDateTime now) {
+        this.firstRoundStartTime = now;
     }
 }
