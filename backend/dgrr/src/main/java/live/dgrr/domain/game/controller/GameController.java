@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,16 +18,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GameController {
 
-    private final ApplicationEventPublisher applicationEventPublisher;
     private final GameFirstRoundService gameFirstRoundService;
     private final SimpMessagingTemplate template;
 
     private static final String GAME_START_DEST = "/recv/game-start";
+    private static final String FIRST_ROUND_START = "/recv/firstroundstart";
     @EventListener
     public void gameStart(GameStartEvent gameStartEvent) {
         List<GameStartDto> gameStartDtos = gameFirstRoundService.gameStart(gameStartEvent.memberOneId(), gameStartEvent.memberTwoId());
 
         template.convertAndSendToUser(gameStartDtos.get(0).myInfo().memberId(),GAME_START_DEST,gameStartDtos.get(0));
         template.convertAndSendToUser(gameStartDtos.get(1).myInfo().memberId(),GAME_START_DEST,gameStartDtos.get(1));
+    }
+
+    @MessageMapping("/send/firstroundstart")
+    public void firstRoundStart(@Payload String gameRoomId) {
+        List<String> memberIds = gameFirstRoundService.firstRoundStart(gameRoomId);
+
+        template.convertAndSendToUser(memberIds.get(0), FIRST_ROUND_START, "START");
+        template.convertAndSendToUser(memberIds.get(1), FIRST_ROUND_START, "START");
     }
 }
