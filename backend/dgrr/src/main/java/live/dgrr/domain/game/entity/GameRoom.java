@@ -14,8 +14,10 @@ public class GameRoom {
     private GameMember memberOne;
     private GameMember memberTwo;
     private GameStatus gameStatus;
+    private int firstRoundReadyCounter;
     private LocalDateTime firstRoundStartTime;
     private LocalDateTime firstRoundEndTime;
+    private int secondRoundReadyCounter;
     private LocalDateTime secondRoundStartTime;
     private LocalDateTime secondRoundEndTime;
     private RoundResult firstRoundResult;

@@ -12,6 +12,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -31,7 +32,7 @@ public class GameController {
         template.convertAndSendToUser(gameStartDtos.get(1).myInfo().memberId(),GAME_START_DEST,gameStartDtos.get(1));
     }
 
-    @MessageMapping("/send/firstroundstart")
+    @MessageMapping("/firstroundstart")
     public void firstRoundStart(@Payload String gameRoomId) {
         List<String> memberIds = gameFirstRoundService.firstRoundStart(gameRoomId);
 
