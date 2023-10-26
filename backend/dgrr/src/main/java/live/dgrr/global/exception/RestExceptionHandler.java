@@ -12,4 +12,10 @@ public class RestExceptionHandler {
         ErrorCode errorCode = ex.getErrorCode();
         return new ResponseEntity<>(ErrorResponse.of(ex.getErrorCode()),errorCode.getHttpStatus());
     }
+
+    @ExceptionHandler(GeneralException.class)
+    protected ResponseEntity<ErrorResponse> handleRestException(GeneralException ex) {
+        ErrorCode errorCode = ex.getErrorCode();
+        return new ResponseEntity<>(ErrorResponse.of(ex.getErrorCode()),errorCode.getHttpStatus());
+    }
 }
