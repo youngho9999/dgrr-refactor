@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import ProgressBar from '@ramonak/react-progress-bar';
 import { IoHelpCircleOutline } from 'react-icons/io5';
 
@@ -8,7 +10,20 @@ interface RankProps {
 }
 
 const Rank = ({ rank, rating }: RankProps) => {
-  const nowRating = rating - 1400;
+  const [nowRating, setNowRating] = useState(0)
+
+  useEffect(() => {
+    setNowRating(rating - 1400)
+  }, [rating])
+
+  // ProgressBar 컴포넌트에 대한 기본 매개변수 설정
+  const progressBarProps = {
+    completed: nowRating,
+    maxCompleted: 400,
+    customLabel: rating.toString(),
+    width: '270px',
+    height: '25px',
+  };
 
   return (
     <div>
@@ -30,30 +45,18 @@ const Rank = ({ rank, rating }: RankProps) => {
       <div className='flex justify-center mt-[19px]'>
         {rank === 'Gold' ? (
           <ProgressBar
-            completed={nowRating}
-            maxCompleted={400}
-            customLabel={rating.toString()}
+           {...progressBarProps} // 기본 매개변수를 전달
             bgColor='#FCC858'
-            width='270px'
-            height='25px'
           />
         ) : rank === 'Sliver' ? (
           <ProgressBar
-            completed={nowRating}
-            maxCompleted={400}
-            customLabel={rating.toString()}
+            {...progressBarProps} // 기본 매개변수를 전달
             bgColor='#B8B8B8'
-            width='270px'
-            height='25px'
           />
         ) : (
           <ProgressBar
-            completed={nowRating}
-            maxCompleted={400}
-            customLabel={rating.toString()}
+           {...progressBarProps} // 기본 매개변수를 전달
             bgColor='#C4872F'
-            width='270px'
-            height='25px'
           />
         )}
       </div>
@@ -62,3 +65,6 @@ const Rank = ({ rank, rating }: RankProps) => {
 };
 
 export default Rank;
+
+// ProgressBar 컴포넌트를 사용할 때 경고를 숨깁니다.
+console.error = () => {};
