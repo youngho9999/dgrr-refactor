@@ -3,6 +3,7 @@ package live.dgrr.domain.game.controller;
 import live.dgrr.domain.game.GameStartDto;
 import live.dgrr.domain.game.entity.event.FirstRoundEndEvent;
 import live.dgrr.domain.game.entity.event.FirstRoundPreparedEvent;
+import live.dgrr.domain.game.entity.event.SecondRoundPreparedEvent;
 import live.dgrr.domain.game.service.GameFirstRoundService;
 import live.dgrr.domain.game.service.GameSecondRoundService;
 import live.dgrr.domain.watingroom.entity.GameStartEvent;
@@ -25,6 +26,7 @@ public class GameController {
 
     private static final String GAME_START_DEST = "/recv/game-start";
     private static final String FIRST_ROUND_START = "/recv/firstroundstart";
+    private static final String SECOND_ROUND_START = "/recv/secondroundstart";
     @EventListener
     public void gameStart(GameStartEvent event) {
         List<GameStartDto> gameStartDtos = gameFirstRoundService.gameStart(event.memberOneId(), event.memberTwoId());
@@ -54,4 +56,11 @@ public class GameController {
     public void secondRoundStart(@Payload String gameRoomId) {
         gameSecondRoundService.prepareSecondRoundStart(gameRoomId);
     }
+
+    @EventListener
+    public void secondRoundPrepared(SecondRoundPreparedEvent event) {
+        template.convertAndSendToUser(event.memberOneId(), SECOND_ROUND_START, "START");
+        template.convertAndSendToUser(event.memberTwoId(), SECOND_ROUND_START, "START");
+    }
+
 }
