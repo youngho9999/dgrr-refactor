@@ -14,10 +14,10 @@ public class GameRoom {
     private GameMember memberOne;
     private GameMember memberTwo;
     private GameStatus gameStatus;
-    private int firstRoundReadyCounter;
+    private int firstRoundPrepareCounter;
     private LocalDateTime firstRoundStartTime;
     private LocalDateTime firstRoundEndTime;
-    private int secondRoundReadyCounter;
+    private int secondRoundPrepareCounter;
     private LocalDateTime secondRoundStartTime;
     private LocalDateTime secondRoundEndTime;
     private RoundResult firstRoundResult;
@@ -28,6 +28,11 @@ public class GameRoom {
         this.memberOne = memberOne;
         this.memberTwo = memberTwo;
         this.gameStatus = gameStatus;
+    }
+
+    public int firstRoundPrepare() {
+        this.firstRoundPrepareCounter++;
+        return this.firstRoundPrepareCounter;
     }
 
     public void startFirstRound(LocalDateTime now) {
