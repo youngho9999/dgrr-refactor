@@ -4,6 +4,7 @@ import live.dgrr.domain.game.GameStartDto;
 import live.dgrr.domain.game.entity.event.FirstRoundEndEvent;
 import live.dgrr.domain.game.entity.event.FirstRoundPreparedEvent;
 import live.dgrr.domain.game.service.GameFirstRoundService;
+import live.dgrr.domain.game.service.GameSecondRoundService;
 import live.dgrr.domain.watingroom.entity.GameStartEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -19,6 +20,7 @@ import java.util.List;
 public class GameController {
 
     private final GameFirstRoundService gameFirstRoundService;
+    private final GameSecondRoundService gameSecondRoundService;
     private final SimpMessagingTemplate template;
 
     private static final String GAME_START_DEST = "/recv/game-start";
@@ -46,5 +48,10 @@ public class GameController {
     public void firstRoundEnd(FirstRoundEndEvent event) {
         template.convertAndSendToUser(event.memberOneId(), event.destination(), event.roundResult());
         template.convertAndSendToUser(event.memberTwoId(), event.destination(), event.roundResult());
+    }
+
+    @MessageMapping
+    public void secondRoundStart(@Payload String gameRoomId) {
+        gameSecondRoundService.prepareSecondRoundStart(gameRoomId);
     }
 }
