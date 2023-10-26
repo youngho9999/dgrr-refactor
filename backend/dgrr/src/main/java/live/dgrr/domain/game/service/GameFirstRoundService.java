@@ -102,6 +102,10 @@ public class GameFirstRoundService {
         applicationEventPublisher.publishEvent(new FirstRoundPreparedEvent(gameRoom.getMemberOne().memberId(), gameRoom.getMemberTwo().memberId()));
     }
 
+    /**
+     * 1 라운드 종료 메소드
+     * @param event 1라운드 종료 정보 담긴 이벤트
+     */
     @EventListener
     public void firstRoundOver(FirstRoundOverEvent event) {
         GameRoom gameRoom = gameRoomRepository.findById(event.gameRoomId())
