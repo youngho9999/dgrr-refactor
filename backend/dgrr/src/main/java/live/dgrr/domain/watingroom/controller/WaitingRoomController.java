@@ -28,7 +28,7 @@ public class WaitingRoomController {
     private final MemberService memberService;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<Integer> createWaitingRoom () {
         log.info("WaitingRoomController - createWaitingRoom");
         int roomId = waitingRoomService.createWaitingRoom();
