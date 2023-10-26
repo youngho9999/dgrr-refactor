@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Header from '@/components/elements/Header';
+import Rank from '@/components/elements/Rank';
 
 const MyProfile = () => {
   const [myInfo, setMyInfo] = useState({
@@ -13,12 +14,13 @@ const MyProfile = () => {
   });
 
   useEffect(() => {
-    setMyInfo({'nickname': '가나다라마바사아자차카타', 'description': '행복한 하루 보내길', 'profileImage': '/images/nongdam.jpg', 'rating': 1500, 'rank': 'Gold'})
+    setMyInfo({'nickname': '가나다라마바사아자차카타', 'description': '행복한 하루 보내길', 'profileImage': '/images/nongdam.jpg', 'rating': 1700, 'rank': 'Sliver'})
   }, [])
 
   return (
     <div>
       <Header headerType='PROFILE' />
+      {/* 내 정보 */}
       <div className='h-[220px] flex justify-center items-center'>
         <div>
           <div className='flex justify-center'>
@@ -32,6 +34,7 @@ const MyProfile = () => {
           </div>
         </div>
       </div>
+      <Rank rank={myInfo.rank} rating={myInfo.rating} />
     </div>
   )
 }

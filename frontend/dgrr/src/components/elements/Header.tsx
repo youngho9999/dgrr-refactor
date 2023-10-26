@@ -23,7 +23,6 @@ interface HeaderProps {
 }
 
 const Header = ({ headerType, roomCode, children }: HeaderProps) => {
-  const [informModal, setInformModal] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -40,7 +39,6 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
       try {
         // 숫자를 문자열로 변환 후 클립보드에 복사
         await navigator.clipboard.writeText(roomCode.toString());
-        setInformModal(true);
         console.log(`${roomCode} 복사 성공`);
       } catch (error) {
         console.log('복사 실패😥');
