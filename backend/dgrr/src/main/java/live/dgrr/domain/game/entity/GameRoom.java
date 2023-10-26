@@ -49,4 +49,8 @@ public class GameRoom {
         this.secondRoundPrepareCounter++;
         return this.secondRoundPrepareCounter;
     }
+
+    public void startSecondRound(LocalDateTime now) {
+        this.secondRoundStartTime = now;
+    }
 }
