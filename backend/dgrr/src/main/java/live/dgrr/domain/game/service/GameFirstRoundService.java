@@ -30,7 +30,6 @@ public class GameFirstRoundService {
      *  게임 시작 시 동작하는 메소드
      * @param memberOneId 멤버1아이디
      * @param memberTwoId 멤버2 아이디
-     * @return
      */
     public List<GameStartDto> gameStart(String memberOneId, String memberTwoId) {
         GameMember memberOne = new GameMember(memberOneId, memberOneId," ", "descript1", 1400, Rank.BRONZE);
@@ -57,9 +56,7 @@ public class GameFirstRoundService {
 
     /**
      * 1라운드 준비 신호
-     *
      * @param gameRoomId 게임 룸 아이디
-     * @return
      */
     public void prepareFirstRoundStart(String gameRoomId) {
         GameRoom gameRoom = gameRoomRepository.findById(gameRoomId).orElseThrow(() -> new RuntimeException());
@@ -75,9 +72,8 @@ public class GameFirstRoundService {
 
     /**
      * 1라운드 시작을 알리는 메소드
-     *
      * @param gameRoomId 게임 룸 아이디
-     * @return
+     * @param gameRoom 게임룸 객체
      */
     public void firstRoundStart(String gameRoomId, GameRoom gameRoom) {
         LocalDateTime now = LocalDateTime.now();
