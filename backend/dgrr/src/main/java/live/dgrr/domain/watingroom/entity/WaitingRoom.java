@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@RedisHash(value = "waitingroom")
+@RedisHash(value = "waitingroom", timeToLive = 600)
 public class WaitingRoom {
     @Id
     private int roomId;
