@@ -83,7 +83,7 @@ public class GameFirstRoundService {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                applicationEventPublisher.publishEvent(new FirstRoundOverEvent(gameRoomId,GameStatus.FIRST_ROUND));
+                applicationEventPublisher.publishEvent(new FirstRoundOverEvent(gameRoomId));
             }
         };
 
