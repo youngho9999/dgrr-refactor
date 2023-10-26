@@ -1,5 +1,6 @@
 'use client';
 
+import Swal from "sweetalert2";
 import React, { useState, useEffect } from 'react';
 import ProgressBar from '@ramonak/react-progress-bar';
 import { IoHelpCircleOutline } from 'react-icons/io5';
@@ -25,11 +26,24 @@ const Rank = ({ rank, rating }: RankProps) => {
     height: '25px',
   };
 
+  const showHelp = () => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "center",
+      showConfirmButton: false,
+      allowOutsideClick: true,
+    });
+
+    Toast.fire({
+      html: '<div style="color: red; font-size: 18px;">안녕</div>'
+    });
+  };
+
   return (
     <div>
       <div className='flex items-center mt-6 mb-4 ms-6'>
         <div className='text-lg font-semibold me-1'>내 티어</div>
-        <div className='inline-block'>
+        <div className='inline-block cursor-pointer' onClick={showHelp}>
           <IoHelpCircleOutline fontSize={'18px'} />
         </div>
       </div>
@@ -66,5 +80,5 @@ const Rank = ({ rank, rating }: RankProps) => {
 
 export default Rank;
 
-// ProgressBar 컴포넌트를 사용할 때 경고를 숨깁니다.
+// ProgressBar 컴포넌트를 사용할 때 나타나는 경고를 숨김
 console.error = () => {};
