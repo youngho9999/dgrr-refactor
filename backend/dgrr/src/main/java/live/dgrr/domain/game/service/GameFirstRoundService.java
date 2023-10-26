@@ -27,7 +27,7 @@ public class GameFirstRoundService {
 
     private final OpenviduService openviduService;
     private final GameRoomRepository gameRoomRepository;
-    private final ApplicationEventPublisher applicationEventPublisher;
+    private final ApplicationEventPublisher publisher;
 
     private static final long ROUND_TIME = 5000L;
 
@@ -91,7 +91,7 @@ public class GameFirstRoundService {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                applicationEventPublisher.publishEvent(new FirstRoundOverEvent(gameRoomId, RoundResult.NO_LAUGH));
+                publisher.publishEvent(new FirstRoundOverEvent(gameRoomId, RoundResult.NO_LAUGH));
             }
         };
 
@@ -99,7 +99,7 @@ public class GameFirstRoundService {
         gameRoomRepository.save(gameRoom);
         timer.schedule(timerTask,ROUND_TIME);
 
-        applicationEventPublisher.publishEvent(new FirstRoundPreparedEvent(gameRoom.getMemberOne().memberId(), gameRoom.getMemberTwo().memberId()));
+        publisher.publishEvent(new FirstRoundPreparedEvent(gameRoom.getMemberOne().memberId(), gameRoom.getMemberTwo().memberId()));
     }
 
     /**
@@ -127,7 +127,7 @@ public class GameFirstRoundService {
             destination = FIRST_ROUND_NO_LAUGH;
         }
 
-        applicationEventPublisher.publishEvent(new FirstRoundEndEvent(gameRoom.getMemberOne().memberId(),
+        publisher.publishEvent(new FirstRoundEndEvent(gameRoom.getMemberOne().memberId(),
                 gameRoom.getMemberTwo().memberId(), gameRoom.getFirstRoundResult(), destination));
     }
 
