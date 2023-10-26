@@ -2,3 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+
+body {
+  width: 360px;
+  margin: 0 auto; /* 가로 중앙 정렬을 위해 margin 속성을 사용 */
+  display: flex;
+  justify-content: center; /* 내용을 수평으로 중앙 정렬 */
+  align-items: center;
+}
