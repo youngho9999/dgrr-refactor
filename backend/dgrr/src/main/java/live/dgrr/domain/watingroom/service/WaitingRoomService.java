@@ -2,8 +2,10 @@ package live.dgrr.domain.watingroom.service;
 
 import live.dgrr.domain.member.entity.Member;
 import live.dgrr.domain.watingroom.dto.response.WaitingMemberInfoResponseDto;
+import live.dgrr.domain.watingroom.entity.MemberRoomMapping;
 import live.dgrr.domain.watingroom.entity.WaitingMember;
 import live.dgrr.domain.watingroom.entity.WaitingRoom;
+import live.dgrr.domain.watingroom.repository.MemberRoomMappingRepository;
 import live.dgrr.domain.watingroom.repository.WaitingRoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,7 @@ public class WaitingRoomService {
     private final int ROOM_MAX_NUM = 2;
 
     private final WaitingRoomRepository waitingRoomRepository;
+    private final MemberRoomMappingRepository memberRoomMappingRepository;
 
     public WaitingRoom findWaitingRoomById(int roomId) {
         return waitingRoomRepository.findById(roomId).orElseThrow(() -> new RuntimeException());
@@ -67,6 +70,7 @@ public class WaitingRoomService {
 
         waitingRoom.addMember(waitingMember);
         waitingRoomRepository.save(waitingRoom);
+        memberRoomMappingRepository.save(new MemberRoomMapping(waitingMember.waitingMemberId(),waitingRoom.getRoomId()));
     }
 
     private void checkWaitingRoomDuplicate(WaitingRoom waitingRoom, Long memberId) {
