@@ -64,7 +64,9 @@ public class GameFirstRoundService {
     public void prepareFirstRoundStart(String gameRoomId) {
         GameRoom gameRoom = gameRoomRepository.findById(gameRoomId).orElseThrow(() -> new RuntimeException());
         int prepareCounter = gameRoom.firstRoundPrepare();
+        gameRoomRepository.save(gameRoom);
 
+        //todo: 동시성 이슈 처리 필요
         //둘 모두 준비되었을때만 시작
         if(prepareCounter == 2) {
             firstRoundStart(gameRoomId, gameRoom);
@@ -80,6 +82,7 @@ public class GameFirstRoundService {
     public void firstRoundStart(String gameRoomId, GameRoom gameRoom) {
         LocalDateTime now = LocalDateTime.now();
 
+        //todo: timer 추후 변경 필요
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -87,9 +90,11 @@ public class GameFirstRoundService {
                 applicationEventPublisher.publishEvent(new RoundOverEvent(gameRoomId,GameStatus.FIRST_ROUND));
             }
         };
+
         gameRoom.startFirstRound(now);
         gameRoomRepository.save(gameRoom);
         timer.schedule(timerTask,ROUND_TIME);
+
         applicationEventPublisher.publishEvent(new FirstRoundPreparedEvent(gameRoom.getMemberOne().memberId(), gameRoom.getMemberTwo().memberId()));
     }
 
