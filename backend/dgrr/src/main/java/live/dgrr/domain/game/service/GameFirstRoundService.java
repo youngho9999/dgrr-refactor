@@ -4,13 +4,13 @@ import live.dgrr.domain.game.GameStartDto;
 import live.dgrr.domain.game.entity.GameMember;
 import live.dgrr.domain.game.entity.GameRoom;
 import live.dgrr.domain.game.entity.GameStatus;
-import live.dgrr.domain.game.entity.RoundOverEvent;
+import live.dgrr.domain.game.entity.event.FirstRoundPreparedEvent;
+import live.dgrr.domain.game.entity.event.RoundOverEvent;
 import live.dgrr.domain.game.repository.GameRoomRepository;
 import live.dgrr.domain.openvidu.OpenviduService;
 import live.dgrr.global.entity.Rank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -56,13 +56,28 @@ public class GameFirstRoundService {
     }
 
     /**
+     * 1라운드 준비 신호
+     *
+     * @param gameRoomId 게임 룸 아이디
+     * @return
+     */
+    public void prepareFirstRoundStart(String gameRoomId) {
+        GameRoom gameRoom = gameRoomRepository.findById(gameRoomId).orElseThrow(() -> new RuntimeException());
+        int prepareCounter = gameRoom.firstRoundPrepare();
+
+        //둘 모두 준비되었을때만 시작
+        if(prepareCounter == 2) {
+            firstRoundStart(gameRoomId, gameRoom);
+        }
+    }
+
+    /**
      * 1라운드 시작을 알리는 메소드
      *
      * @param gameRoomId 게임 룸 아이디
      * @return
      */
-    public List<String> firstRoundStart(String gameRoomId) {
-        GameRoom gameRoom = gameRoomRepository.findById(gameRoomId).orElseThrow(() -> new RuntimeException());
+    public void firstRoundStart(String gameRoomId, GameRoom gameRoom) {
         LocalDateTime now = LocalDateTime.now();
 
         Timer timer = new Timer();
@@ -72,10 +87,11 @@ public class GameFirstRoundService {
                 applicationEventPublisher.publishEvent(new RoundOverEvent(gameRoomId,GameStatus.FIRST_ROUND));
             }
         };
-//        gameRoom.startFirstRound(now);
-//        gameRoomRepository.save(gameRoom);
+        gameRoom.startFirstRound(now);
+        gameRoomRepository.save(gameRoom);
         timer.schedule(timerTask,ROUND_TIME);
-        return List.of("abc", "fbfb");
-//        return List.of(gameRoom.getMemberOne().memberId(), gameRoom.getMemberTwo().memberId());
+        applicationEventPublisher.publishEvent(new FirstRoundPreparedEvent(gameRoom.getMemberOne().memberId(), gameRoom.getMemberTwo().memberId()));
     }
+
+
 }
