@@ -5,7 +5,7 @@ import live.dgrr.domain.game.entity.GameMember;
 import live.dgrr.domain.game.entity.GameRoom;
 import live.dgrr.domain.game.entity.GameStatus;
 import live.dgrr.domain.game.entity.event.FirstRoundPreparedEvent;
-import live.dgrr.domain.game.entity.event.RoundOverEvent;
+import live.dgrr.domain.game.entity.event.FirstRoundOverEvent;
 import live.dgrr.domain.game.repository.GameRoomRepository;
 import live.dgrr.domain.openvidu.OpenviduService;
 import live.dgrr.global.entity.Rank;
@@ -83,7 +83,7 @@ public class GameFirstRoundService {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                applicationEventPublisher.publishEvent(new RoundOverEvent(gameRoomId,GameStatus.FIRST_ROUND));
+                applicationEventPublisher.publishEvent(new FirstRoundOverEvent(gameRoomId,GameStatus.FIRST_ROUND));
             }
         };
 
