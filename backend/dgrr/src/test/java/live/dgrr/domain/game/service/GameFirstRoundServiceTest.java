@@ -1,7 +1,7 @@
 package live.dgrr.domain.game.service;
 
 
-import live.dgrr.domain.game.dto.GameStartDto;
+import live.dgrr.domain.game.dto.GameStartResponse;
 import live.dgrr.domain.game.repository.GameRoomRepository;
 import live.dgrr.domain.openvidu.OpenviduService;
 import org.junit.jupiter.api.Test;
@@ -28,8 +28,8 @@ class GameFirstRoundServiceTest {
     void gameStartTest() {
         String memberOneId = "oneId";
         String memberTwoId = "twoId";
-        List<GameStartDto> gameStartDtos = gameFirstRoundService.gameStart(memberOneId, memberTwoId);
-        assertThat(gameStartDtos.get(0).myInfo().memberId()).isEqualTo(memberOneId);
-        assertThat(gameStartDtos.get(1).myInfo().memberId()).isEqualTo(memberTwoId);
+        List<GameStartResponse> gameStartResponses = gameFirstRoundService.gameStart(memberOneId, memberTwoId);
+        assertThat(gameStartResponses.get(0).myInfo().memberId()).isEqualTo(memberOneId);
+        assertThat(gameStartResponses.get(1).myInfo().memberId()).isEqualTo(memberTwoId);
     }
 }
