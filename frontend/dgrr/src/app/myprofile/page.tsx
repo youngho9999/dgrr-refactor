@@ -24,7 +24,11 @@ const MyProfile = () => {
       <div className='h-[220px] flex justify-center items-center'>
         <div>
           <div className='flex justify-center'>
-            <img src={myInfo.profileImage} alt='profileImage' className='w-[80px] aspect-square rounded-full' />
+            {myInfo.profileImage !== '' ? (
+              <img src={myInfo.profileImage} alt='profileImage' className='w-[80px] aspect-square rounded-full' />
+            ) : (
+              <img src='/images/default_profile_image.png' alt='profileImage' className='w-[80px] aspect-square rounded-full' />
+              )}
           </div>
           <div className='text-center mt-6 mb-3 text-lg font-semibold'>
             {myInfo.nickname}
