@@ -37,7 +37,6 @@ public class RankingService {
             for (ZSetOperations.TypedTuple<Long> result : results) {
                 String value = String.valueOf(result.getValue());
                 Double score = result.getScore();
-                System.out.println("Value: " + value + ", Score: " + score);
                 rankings.add(
                          RankingResponse.of(
                                 Long.valueOf(value),
