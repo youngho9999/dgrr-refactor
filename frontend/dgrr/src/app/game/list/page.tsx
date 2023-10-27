@@ -1,3 +1,4 @@
+"use client";
 import Header from "@/components/elements/Header";
 import Image from "next/image";
 import ex from "@/../public/images/logo_character.png";
@@ -5,6 +6,8 @@ import doorImg from "@/../public/images/door.svg";
 import keyImg from "@/../public/images/key.svg";
 import welcomeImg from "@/../public/images/welcome.svg";
 import Link from "next/link";
+import { FindRoomModal } from "./FindRoomModal";
+import { useState } from "react";
 
 const ListPage = () => {
   const gameList = [
@@ -12,17 +15,26 @@ const ListPage = () => {
     { value: "방 찾기", imgLink: keyImg, navLink: "" },
     { value: "랜덤 매칭", imgLink: welcomeImg, navLink: "game/loading" },
   ];
-
   const commonClass =
     "w-4/5 max-w-xs py-3 mx-auto space-y-3 bg-white rounded-lg border-2 border-black flex flex-col items-center hover:brightness-125";
+  const handleModal = () => {
+    setIsModal(!isModal);
+  };
+  const [isModal, setIsModal] = useState(false);
 
   return (
     <div className="bg-main-blue w-screen h-screen max-w-[500px]">
       <Header headerType="MAIN" />
+      {isModal && <FindRoomModal handleModal={handleModal} />}
+
       <div className="space-y-6">
         {gameList.map((item, index) =>
           index === 1 ? (
-            <div className={`${commonClass} cursor-pointer`} key={index}>
+            <div
+              className={`${commonClass} cursor-pointer`}
+              key={index}
+              onClick={handleModal}
+            >
               <Image
                 src={item.imgLink}
                 alt="이미지예시"

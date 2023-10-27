@@ -1,9 +1,16 @@
 "use client";
+import { FormEvent, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 
-export const FindRoomModal = () => {
+type FindModalProps = {
+  handleModal: () => void;
+};
+export const FindRoomModal = ({ handleModal }: FindModalProps) => {
+  const [roomNum, setRoomNum] = useState("");
+  const onChangeRoomNum = (e: FormEvent<HTMLInputElement>) => {
+    setRoomNum(e.currentTarget.value);
+  };
   const submitRoomNum = () => {};
-  const handleModal = () => {};
 
   return (
     <div className="z-10 bg-black/30 w-full h-full max-w-[500px] fixed left-0 top-0 flex justify-center items-center">
@@ -20,6 +27,7 @@ export const FindRoomModal = () => {
             <input
               className="bg-[#F4F4F6] w-full text-xs p-4 rounded-lg mb-3"
               placeholder="참여 코드를 입력해주세요."
+              onChange={onChangeRoomNum}
             />
           </label>
           <div className="grid place-items-center">
