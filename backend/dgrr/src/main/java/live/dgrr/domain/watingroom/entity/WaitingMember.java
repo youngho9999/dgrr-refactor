@@ -23,4 +23,8 @@ public class WaitingMember {
                 .isReady(isReady)
                 .build();
     }
+
+    public void toggleReady() {
+        this.isReady = !this.isReady;
+    }
 }

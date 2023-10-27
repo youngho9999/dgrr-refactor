@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -70,15 +71,32 @@ public class WaitingRoomService {
 
         waitingRoom.addMember(waitingMember);
         waitingRoomRepository.save(waitingRoom);
-        memberRoomMappingRepository.save(new MemberRoomMapping(waitingMember.waitingMemberId(),waitingRoom.getRoomId()));
+        memberRoomMappingRepository.save(new MemberRoomMapping(waitingMember.getWaitingMemberId(),waitingRoom.getRoomId()));
     }
 
     private void checkWaitingRoomDuplicate(WaitingRoom waitingRoom, Long memberId) {
         if (waitingRoom.getWaitingMemberList() != null && waitingRoom.getWaitingMemberList().stream()
-                .anyMatch(member -> member.waitingMemberId().equals(memberId))) {
+                .anyMatch(member -> member.getWaitingMemberId().equals(memberId))) {
             throw new RuntimeException("이미 대기실에 존재합니다.");
         }
     }
 
 
+    public WaitingMemberInfoResponseDto readyWaitingRoom(int roomId, Long memberId) {
+        WaitingRoom waitingRoom = findWaitingRoomById(roomId);
+        List<WaitingMember> waitingMembers = waitingRoom.getWaitingMemberList();
+        WaitingMember waitingMember = new WaitingMember();
+
+        for(int j = 0; j < waitingMembers.size(); j++) {
+            if(waitingMembers.get(j).getWaitingMemberId().equals(memberId)) {
+
+                waitingMember = waitingRoom.getWaitingMemberList().get(j);
+                waitingMember.toggleReady();
+                waitingRoomRepository.save(waitingRoom);
+            }
+        }
+
+        return WaitingMemberInfoResponseDto.of(roomId, waitingMember);
+
+    }
 }
