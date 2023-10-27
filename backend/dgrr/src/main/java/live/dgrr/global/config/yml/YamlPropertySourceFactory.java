@@ -24,7 +24,7 @@ public class YamlPropertySourceFactory implements PropertySourceFactory {
             return new PropertiesPropertySource(resource.getResource().getFilename(), properties);
         } catch (Exception e) {
             log.error("Configuration resource ({}) can't be loaded", resource.getResource().getURI());
-            throw new GeneralException(ErrorCode.FILE_NOT_FOUND);
+            throw new GeneralException(ErrorCode.FILE_NOT_FOUND, e);
         }
     }
 }
