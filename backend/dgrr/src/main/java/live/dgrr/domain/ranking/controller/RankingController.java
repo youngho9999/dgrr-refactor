@@ -1,7 +1,6 @@
 package live.dgrr.domain.ranking.controller;
 
 import live.dgrr.domain.ranking.dto.RankingMemberResponse;
-import live.dgrr.domain.ranking.dto.RankingRequest;
 import live.dgrr.domain.ranking.service.RankingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,18 +16,10 @@ public class RankingController {
 
     private final RankingService rankingService;
 
-    // ranking 추가
-    @PostMapping
-    public ResponseEntity<?> addRanking(@RequestBody RankingRequest request) {
-        boolean result = rankingService.addRanking(request.memberId(), request.score());
-        log.info(String.valueOf(request));
-        return new ResponseEntity(result, HttpStatus.OK);
-    }
-
     // member id 기준 ranking 조회
     @GetMapping("/member-id/{memberId}")
-    public ResponseEntity<?> getRankingByMemberId(@PathVariable String memberId) {
-        RankingMemberResponse response = rankingService.getRankingMember(Long.valueOf(memberId));
+    public ResponseEntity<RankingMemberResponse> getRankingByMemberId(@PathVariable Long memberId) {
+        RankingMemberResponse response = rankingService.getRankingMember(memberId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
