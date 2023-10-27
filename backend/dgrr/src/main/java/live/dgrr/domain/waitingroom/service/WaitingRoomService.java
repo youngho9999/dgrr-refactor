@@ -145,4 +145,23 @@ public class WaitingRoomService {
         }
 
     }
+
+    public WaitingMemberInfoResponseDto exitWaitingRoom(int roomId, Long memberId) {
+
+        WaitingRoom waitingRoom = findWaitingRoomById(roomId);
+        List<WaitingMember> waitingMembers = waitingRoom.getWaitingMemberList();
+        WaitingMember waitingMember = new WaitingMember();
+
+        for(int j = 0; j < waitingMembers.size(); j++) {
+            if(waitingMembers.get(j).getWaitingMemberId().equals(memberId)) {
+
+                waitingMember = waitingRoom.getWaitingMemberList().get(j);
+                waitingRoom.exitMember(j);
+                waitingRoomRepository.save(waitingRoom);
+            }
+        }
+
+        return WaitingMemberInfoResponseDto.of(roomId, waitingMember);
+
+    }
 }
