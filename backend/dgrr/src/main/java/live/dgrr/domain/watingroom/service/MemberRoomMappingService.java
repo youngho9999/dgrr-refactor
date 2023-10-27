@@ -16,7 +16,7 @@ public class MemberRoomMappingService {
     private final MemberRoomMappingRepository memberRoomMappingRepository;
 
     public MemberRoomMapping findRoomIdByMemberId(long memberId) {
-        return memberRoomMappingRepository.findById(memberId).orElseThrow(() -> new GeneralException(ErrorCode.MAPPING_NOT_FOUND));
+        return memberRoomMappingRepository.findById(memberId).orElseThrow(() -> new GeneralException(ErrorCode.MEMBER_ROOM_MAPPING_NOT_FOUND));
     }
 
 }
