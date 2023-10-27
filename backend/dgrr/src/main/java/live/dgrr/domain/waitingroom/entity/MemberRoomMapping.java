@@ -9,7 +9,7 @@ import org.springframework.data.redis.core.RedisHash;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@RedisHash(value = "memberroommapping", timeToLive = 600)
+@RedisHash(value = "member_room_mapping", timeToLive = 600)
 public class MemberRoomMapping {
     @Id
     private Long memberId;
