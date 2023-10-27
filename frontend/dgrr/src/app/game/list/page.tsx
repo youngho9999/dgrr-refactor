@@ -4,27 +4,43 @@ import ex from "@/../public/images/logo_character.png";
 import doorImg from "@/../public/images/door.svg";
 import keyImg from "@/../public/images/key.svg";
 import welcomeImg from "@/../public/images/welcome.svg";
+import Link from "next/link";
 
 const ListPage = () => {
   const gameList = [
-    { value: "방 만들기", imgLink: doorImg },
-    { value: "방 찾기", imgLink: keyImg },
-    { value: "랜덤 매칭", imgLink: welcomeImg },
+    { value: "방 만들기", imgLink: doorImg, navLink: "game/room" },
+    { value: "방 찾기", imgLink: keyImg, navLink: "" },
+    { value: "랜덤 매칭", imgLink: welcomeImg, navLink: "game/loading" },
   ];
+
+  const commonClass =
+    "w-4/5 max-w-xs py-3 mx-auto space-y-3 bg-white rounded-lg border-2 border-black flex flex-col items-center hover:brightness-125";
 
   return (
     <div className="bg-main-blue w-screen h-screen max-w-[500px]">
       <Header headerType="MAIN" />
       <div className="space-y-6">
-        {gameList.map((item, index) => (
-          <div
-            className="w-4/5 max-w-xs py-3 mx-auto bg-white rounded-lg border-2 border-black flex flex-col items-center"
-            key={index}
-          >
-            <Image src={item.imgLink} alt="이미지예시" className="w-20 h-20" />
-            <p className="font-bold text-base">{item.value}</p>
-          </div>
-        ))}
+        {gameList.map((item, index) =>
+          index === 1 ? (
+            <div className={`${commonClass} cursor-pointer`} key={index}>
+              <Image
+                src={item.imgLink}
+                alt="이미지예시"
+                className="w-20 h-20"
+              />
+              <p className="font-bold text-base">{item.value}</p>
+            </div>
+          ) : (
+            <Link href={item.navLink} className={commonClass} key={index}>
+              <Image
+                src={item.imgLink}
+                alt="이미지예시"
+                className="w-20 h-20"
+              />
+              <p className="font-bold text-base">{item.value}</p>
+            </Link>
+          )
+        )}
       </div>
     </div>
   );
