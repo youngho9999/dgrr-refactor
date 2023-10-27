@@ -1,4 +1,4 @@
-package live.dgrr.domain.game;
+package live.dgrr.domain.game.dto;
 
 import live.dgrr.domain.game.entity.GameMember;
 
