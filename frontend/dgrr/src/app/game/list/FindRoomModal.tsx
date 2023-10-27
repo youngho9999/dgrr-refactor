@@ -10,6 +10,7 @@ export const FindRoomModal = ({ handleModal }: FindModalProps) => {
   const onChangeRoomNum = (e: FormEvent<HTMLInputElement>) => {
     setRoomNum(e.currentTarget.value);
   };
+  // 나중에 방 참여 API 연결 예정
   const submitRoomNum = () => {};
 
   return (
