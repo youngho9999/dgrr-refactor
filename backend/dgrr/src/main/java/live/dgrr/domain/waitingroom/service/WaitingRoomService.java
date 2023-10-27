@@ -7,6 +7,8 @@ import live.dgrr.domain.waitingroom.entity.WaitingMember;
 import live.dgrr.domain.waitingroom.entity.WaitingRoom;
 import live.dgrr.domain.waitingroom.repository.MemberRoomMappingRepository;
 import live.dgrr.domain.waitingroom.repository.WaitingRoomRepository;
+import live.dgrr.global.exception.ErrorCode;
+import live.dgrr.global.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -65,13 +67,17 @@ public class WaitingRoomService {
     }
 
     private void saveToWaitingRoom(WaitingRoom waitingRoom, WaitingMember waitingMember) {
-        if (waitingRoom.getWaitingMemberList() !=null && waitingRoom.getWaitingMemberList().size() >= ROOM_MAX_NUM) {
+        if(checkMemberNumFull(waitingRoom)) {
             throw new RuntimeException("참여자 정원이 다 찼습니다.");
         }
 
         waitingRoom.addMember(waitingMember);
         waitingRoomRepository.save(waitingRoom);
         memberRoomMappingRepository.save(new MemberRoomMapping(waitingMember.getWaitingMemberId(),waitingRoom.getRoomId()));
+    }
+
+    private boolean checkMemberNumFull(WaitingRoom waitingRoom) {
+        return waitingRoom.getWaitingMemberList() != null && waitingRoom.getWaitingMemberList().size() >= ROOM_MAX_NUM;
     }
 
     private void checkWaitingRoomDuplicate(WaitingRoom waitingRoom, Long memberId) {
@@ -97,6 +103,24 @@ public class WaitingRoomService {
         }
 
         return WaitingMemberInfoResponseDto.of(roomId, waitingMember);
+
+    }
+
+    public void startWaitingRoom(int roomId, Long memberId) {
+        WaitingRoom waitingRoom = findWaitingRoomById(roomId);
+        List<WaitingMember> waitingMembers = waitingRoom.getWaitingMemberList();
+
+        //방장인지 확인
+        if(!waitingMembers.get(0).getWaitingMemberId().equals(memberId)) {
+            throw new GeneralException(ErrorCode.IS_NOT_ROOM_MANAGER);
+        }
+
+        //방 안에 2명인지 확인
+        if(!checkMemberNumFull(waitingRoom)) {
+            throw new GeneralException(ErrorCode.NOT_ENOUGH_MEMBERS_TO_START);
+        }
+
+        //모든 플레이어가 다 준비했는지 확인
 
     }
 }
