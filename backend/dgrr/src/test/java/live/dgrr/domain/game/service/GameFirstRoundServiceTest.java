@@ -1,10 +1,9 @@
 package live.dgrr.domain.game.service;
 
 
-import live.dgrr.domain.game.GameStartDto;
+import live.dgrr.domain.game.dto.GameStartDto;
 import live.dgrr.domain.game.repository.GameRoomRepository;
 import live.dgrr.domain.openvidu.OpenviduService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

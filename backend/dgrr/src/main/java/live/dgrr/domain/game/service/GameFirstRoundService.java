@@ -1,6 +1,6 @@
 package live.dgrr.domain.game.service;
 
-import live.dgrr.domain.game.GameStartDto;
+import live.dgrr.domain.game.dto.GameStartDto;
 import live.dgrr.domain.game.entity.GameMember;
 import live.dgrr.domain.game.entity.GameRoom;
 import live.dgrr.domain.game.entity.GameStatus;
