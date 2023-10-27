@@ -60,4 +60,14 @@ public class GameRoom {
         this.secondRoundEndTime = LocalDateTime.now();
         this.gameStatus = GameStatus.DONE;
     }
+
+    public GameResult judgeResult(String memberId) {
+
+        //두명 모두 안 웃은 경우 DRAW
+        if(firstRoundResult.equals(RoundResult.NO_LAUGH) && secondRoundResult.equals(RoundResult.NO_LAUGH)) {
+            return GameResult.DRAW;
+        }
+        //1명만 웃은 경우
+
+    }
 }
