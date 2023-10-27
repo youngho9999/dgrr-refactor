@@ -152,11 +152,11 @@ public class WaitingRoomService {
         List<WaitingMember> waitingMembers = waitingRoom.getWaitingMemberList();
         WaitingMember waitingMember = new WaitingMember();
 
-        for(int j = 0; j < waitingMembers.size(); j++) {
-            if(waitingMembers.get(j).getWaitingMemberId().equals(memberId)) {
+        for(int i = 0; i < waitingMembers.size(); i++) {
+            if(waitingMembers.get(i).getWaitingMemberId().equals(memberId)) {
 
-                waitingMember = waitingRoom.getWaitingMemberList().get(j);
-                waitingRoom.exitMember(j);
+                waitingMember = waitingRoom.getWaitingMemberList().get(i);
+                waitingRoom.exitMember(i);
                 waitingRoomRepository.save(waitingRoom);
             }
         }
