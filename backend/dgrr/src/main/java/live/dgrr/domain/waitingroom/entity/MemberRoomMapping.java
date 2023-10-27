@@ -1,4 +1,4 @@
-package live.dgrr.domain.watingroom.entity;
+package live.dgrr.domain.waitingroom.entity;
 
 import org.springframework.data.annotation.Id;
 import lombok.AllArgsConstructor;

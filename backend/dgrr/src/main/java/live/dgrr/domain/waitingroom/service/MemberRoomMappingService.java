@@ -1,7 +1,7 @@
-package live.dgrr.domain.watingroom.service;
+package live.dgrr.domain.waitingroom.service;
 
-import live.dgrr.domain.watingroom.entity.MemberRoomMapping;
-import live.dgrr.domain.watingroom.repository.MemberRoomMappingRepository;
+import live.dgrr.domain.waitingroom.entity.MemberRoomMapping;
+import live.dgrr.domain.waitingroom.repository.MemberRoomMappingRepository;
 import live.dgrr.global.exception.ErrorCode;
 import live.dgrr.global.exception.GeneralException;
 import lombok.RequiredArgsConstructor;

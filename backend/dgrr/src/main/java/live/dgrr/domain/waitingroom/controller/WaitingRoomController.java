@@ -1,11 +1,11 @@
-package live.dgrr.domain.watingroom.controller;
+package live.dgrr.domain.waitingroom.controller;
 
 import live.dgrr.domain.member.entity.Member;
 import live.dgrr.domain.member.service.MemberService;
-import live.dgrr.domain.watingroom.dto.response.WaitingMemberInfoResponseDto;
-import live.dgrr.domain.watingroom.entity.MemberRoomMapping;
-import live.dgrr.domain.watingroom.service.MemberRoomMappingService;
-import live.dgrr.domain.watingroom.service.WaitingRoomService;
+import live.dgrr.domain.waitingroom.dto.response.WaitingMemberInfoResponseDto;
+import live.dgrr.domain.waitingroom.entity.MemberRoomMapping;
+import live.dgrr.domain.waitingroom.service.MemberRoomMappingService;
+import live.dgrr.domain.waitingroom.service.WaitingRoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
