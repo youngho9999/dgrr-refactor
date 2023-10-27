@@ -37,7 +37,7 @@ public class WaitingRoom {
         this.isStart = true;
     }
 
-    public void exitMember(int j) {
-        this.waitingMemberList.remove(j);
+    public void exitMember(int index) {
+        this.waitingMemberList.remove(index);
     }
 }

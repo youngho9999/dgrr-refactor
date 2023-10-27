@@ -98,7 +98,6 @@ public class WaitingRoomService {
 
         for(int j = 0; j < waitingMembers.size(); j++) {
             if(waitingMembers.get(j).getWaitingMemberId().equals(memberId)) {
-
                 waitingMember = waitingRoom.getWaitingMemberList().get(j);
                 waitingMember.toggleReady();
                 waitingRoomRepository.save(waitingRoom);
