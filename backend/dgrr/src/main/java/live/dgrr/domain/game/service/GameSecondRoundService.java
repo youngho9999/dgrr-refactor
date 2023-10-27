@@ -24,6 +24,8 @@ public class GameSecondRoundService {
     private final ApplicationEventPublisher publisher;
 
     private static final long ROUND_TIME = 5000L;
+    private static final String SECOND_ROUND_LAUGH = "/recv/secondroundend-laugh";
+    private static final String SECOND_ROUND_NO_LAUGH = "/recv/secondroundend-no-laugh";
 
     /**
      * 2라운드 준비 신호
@@ -65,27 +67,27 @@ public class GameSecondRoundService {
      * @param event 2라운드 종료 정보 담긴 이벤트
      */
     @EventListener
-    public void firstRoundOver(SecondRoundOverEvent event) {
+    public void secondRoundOver(SecondRoundOverEvent event) {
         GameRoom gameRoom = gameRoomRepository.findById(event.gameRoomId())
                 .orElseThrow(() -> new GameException(ErrorCode.GAME_ROOM_NOT_FOUND));
 
         //이미 웃어서 라운드 종료 된경우
-        if(gameRoom.getGameStatus().equals(GameStatus.SECOND_ROUND)) {
+        if(gameRoom.getGameStatus().equals(GameStatus.DONE)) {
             return;
         }
 
-        gameRoom.finishFirstRound(event.roundResult());
+        gameRoom.finishSecondRound(event.roundResult());
         gameRoomRepository.save(gameRoom);
 
         String destination;
         if(event.roundResult().equals(RoundResult.LAUGH)) {
-            destination = FIRST_ROUND_LAUGH;
+            destination = SECOND_ROUND_LAUGH;
         }
         else {
-            destination = FIRST_ROUND_NO_LAUGH;
+            destination = SECOND_ROUND_NO_LAUGH;
         }
 
-        publisher.publishEvent(new FirstRoundEndEvent(gameRoom.getMemberOne().memberId(),
+        publisher.publishEvent(new SecondRoundEndEvent(gameRoom.getMemberOne().memberId(),
                 gameRoom.getMemberTwo().memberId(), gameRoom.getFirstRoundResult(), destination));
     }
 }
