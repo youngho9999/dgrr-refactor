@@ -1,6 +1,6 @@
 'use client';
 
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 import React, { useState, useEffect } from 'react';
 import ProgressBar from '@ramonak/react-progress-bar';
 import { IoHelpCircleOutline } from 'react-icons/io5';
@@ -11,11 +11,11 @@ interface RankProps {
 }
 
 const Rank = ({ rank, rating }: RankProps) => {
-  const [nowRating, setNowRating] = useState(0)
+  const [nowRating, setNowRating] = useState(0);
 
   useEffect(() => {
-    setNowRating(rating - 1400)
-  }, [rating])
+    setNowRating(rating - 1400);
+  }, [rating]);
 
   // ProgressBar 컴포넌트에 대한 기본 매개변수 설정
   const progressBarProps = {
@@ -29,13 +29,42 @@ const Rank = ({ rank, rating }: RankProps) => {
   const showHelp = () => {
     const Toast = Swal.mixin({
       toast: true,
-      position: "center",
+      position: 'center',
+      width: 350,
       showConfirmButton: false,
       allowOutsideClick: true,
+      showCloseButton: true,
+      customClass: {
+        closeButton: 'custom-close-button' // 사용자 정의 클래스를 closeButton에 지정
+      }
     });
 
     Toast.fire({
-      html: '<div style="color: red; font-size: 18px;">안녕</div>'
+      html: `
+      <div>
+        <div class="rank-item" style="margin-top: 18px">
+          <img class="rank-image" src="/images/Gold.png" />
+          <div class="rank-text">
+            <div class="rank-title">골드 Gold</div>
+            <div style="font-size: 12px">1800 ~</div>
+          </div>
+        </div>
+        <div class="rank-item" style="margin: 11px 0px">
+          <img class="rank-image" src="/images/Sliver.png" />
+          <div class="rank-text">
+            <div class="rank-title">실버 Sliver</div>
+            <div style="font-size: 12px">1600 ~</div>
+          </div>
+        </div>
+        <div class="rank-item">
+          <img class="rank-image" src="/images/Bronze.png" />
+          <div class="rank-text">
+            <div class="rank-title">브론즈 Bronze</div>
+            <div style="font-size: 12px">1400 ~</div>
+          </div>
+        </div>
+      </div>
+    `,
     });
   };
 
@@ -59,7 +88,7 @@ const Rank = ({ rank, rating }: RankProps) => {
       <div className='flex justify-center mt-[19px]'>
         {rank === 'Gold' ? (
           <ProgressBar
-           {...progressBarProps} // 기본 매개변수를 전달
+            {...progressBarProps} // 기본 매개변수를 전달
             bgColor='#FCC858'
           />
         ) : rank === 'Sliver' ? (
@@ -69,7 +98,7 @@ const Rank = ({ rank, rating }: RankProps) => {
           />
         ) : (
           <ProgressBar
-           {...progressBarProps} // 기본 매개변수를 전달
+            {...progressBarProps} // 기본 매개변수를 전달
             bgColor='#C4872F'
           />
         )}
