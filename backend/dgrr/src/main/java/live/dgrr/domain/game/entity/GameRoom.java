@@ -37,5 +37,20 @@ public class GameRoom {
 
     public void startFirstRound(LocalDateTime now) {
         this.firstRoundStartTime = now;
+        this.gameStatus = GameStatus.FIRST_ROUND;
+    }
+
+    public void finishFirstRound(RoundResult roundResult) {
+        this.firstRoundResult = roundResult;
+        this.firstRoundEndTime = LocalDateTime.now();
+    }
+
+    public int secondRoundPrepare() {
+        this.secondRoundPrepareCounter++;
+        return this.secondRoundPrepareCounter;
+    }
+
+    public void startSecondRound(LocalDateTime now) {
+        this.secondRoundStartTime = now;
     }
 }

@@ -4,13 +4,18 @@ import live.dgrr.domain.game.GameStartDto;
 import live.dgrr.domain.game.entity.GameMember;
 import live.dgrr.domain.game.entity.GameRoom;
 import live.dgrr.domain.game.entity.GameStatus;
+import live.dgrr.domain.game.entity.RoundResult;
+import live.dgrr.domain.game.entity.event.FirstRoundEndEvent;
 import live.dgrr.domain.game.entity.event.FirstRoundPreparedEvent;
-import live.dgrr.domain.game.entity.event.RoundOverEvent;
+import live.dgrr.domain.game.entity.event.FirstRoundOverEvent;
 import live.dgrr.domain.game.repository.GameRoomRepository;
 import live.dgrr.domain.openvidu.OpenviduService;
 import live.dgrr.global.entity.Rank;
+import live.dgrr.global.exception.ErrorCode;
+import live.dgrr.global.exception.GameException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,9 +27,12 @@ public class GameFirstRoundService {
 
     private final OpenviduService openviduService;
     private final GameRoomRepository gameRoomRepository;
-    private final ApplicationEventPublisher applicationEventPublisher;
+    private final ApplicationEventPublisher publisher;
 
     private static final long ROUND_TIME = 5000L;
+
+    private static final String FIRST_ROUND_LAUGH = "/recv/firstroundend-laugh";
+    private static final String FIRST_ROUND_NO_LAUGH = "/recv/firstroundend-no-laugh";
 
     /**
      *  게임 시작 시 동작하는 메소드
@@ -83,7 +91,7 @@ public class GameFirstRoundService {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                applicationEventPublisher.publishEvent(new RoundOverEvent(gameRoomId,GameStatus.FIRST_ROUND));
+                publisher.publishEvent(new FirstRoundOverEvent(gameRoomId, RoundResult.NO_LAUGH));
             }
         };
 
@@ -91,7 +99,36 @@ public class GameFirstRoundService {
         gameRoomRepository.save(gameRoom);
         timer.schedule(timerTask,ROUND_TIME);
 
-        applicationEventPublisher.publishEvent(new FirstRoundPreparedEvent(gameRoom.getMemberOne().memberId(), gameRoom.getMemberTwo().memberId()));
+        publisher.publishEvent(new FirstRoundPreparedEvent(gameRoom.getMemberOne().memberId(), gameRoom.getMemberTwo().memberId()));
+    }
+
+    /**
+     * 1 라운드 종료 메소드
+     * @param event 1라운드 종료 정보 담긴 이벤트
+     */
+    @EventListener
+    public void firstRoundOver(FirstRoundOverEvent event) {
+        GameRoom gameRoom = gameRoomRepository.findById(event.gameRoomId())
+                .orElseThrow(() -> new GameException(ErrorCode.GAME_ROOM_NOT_FOUND));
+
+        //이미 웃어서 라운드 종료 된경우
+        if(gameRoom.getGameStatus().equals(GameStatus.SECOND_ROUND)) {
+            return;
+        }
+
+        gameRoom.finishFirstRound(event.roundResult());
+        gameRoomRepository.save(gameRoom);
+
+        String destination;
+        if(event.roundResult().equals(RoundResult.LAUGH)) {
+            destination = FIRST_ROUND_LAUGH;
+        }
+        else {
+            destination = FIRST_ROUND_NO_LAUGH;
+        }
+
+        publisher.publishEvent(new FirstRoundEndEvent(gameRoom.getMemberOne().memberId(),
+                gameRoom.getMemberTwo().memberId(), gameRoom.getFirstRoundResult(), destination));
     }
 
 
