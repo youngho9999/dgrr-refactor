@@ -1,14 +1,20 @@
 package live.dgrr.domain.watingroom.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public record WaitingMember (
-        Long waitingMemberId,
-        String nickname,
-        String profileImage,
-        boolean isReady
-) {
+public class WaitingMember {
+    private Long waitingMemberId;
+    private String nickname;
+    private String profileImage;
+    private boolean isReady;
+
     public static WaitingMember of(Long waitingMemberId, String nickname, String profileImage, boolean isReady) {
         return WaitingMember.builder()
                 .waitingMemberId(waitingMemberId)
@@ -16,6 +22,5 @@ public record WaitingMember (
                 .profileImage(profileImage)
                 .isReady(isReady)
                 .build();
-
     }
 }
