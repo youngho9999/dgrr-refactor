@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Header from '@/components/elements/Header';
 import Rank from '@/components/elements/Rank';
 import { IoChevronForwardOutline } from 'react-icons/io5';
+import RecentRecordItem from '@/components/elements/RecentRecordItem';
 
 const MyProfile = () => {
   // Back에서 정보를 이 형태로 보내줌
@@ -21,13 +22,13 @@ const MyProfile = () => {
     },
     gameDetailList: [
       {
-        gameDetailId: 1,
-        gameRoomId: 123456,
+        gameDetailId: 0,
+        gameRoomId: 0,
         gameResult: '',
         gameType: '',
-        gameTime: 30,
-        holdingTime: 30,
-        laughAmount: 415,
+        gameTime: 0,
+        holdingTime: 0,
+        laughAmount: 0,
         highlightImage: '',
         opponentNickname: '',
         opponentProfileImage: '',
@@ -51,58 +52,58 @@ const MyProfile = () => {
         rank: 'BRONZE',
       },
       gameDetailList: [
-        // {
-        //   gameDetailId: 1,
-        //   gameRoomId: 123456,
-        //   gameResult: 'WIN',
-        //   gameType: 'RANDOM',
-        //   gameTime: 30,
-        //   holdingTime: 30,
-        //   laughAmount: 415,
-        //   highlightImage: 'highlight_image_sample',
-        //   opponentNickname: 'opponent_nickname_sample',
-        //   opponentProfileImage: 'opponent_profileimage',
-        //   opponentDescription: 'opponent_description_sample',
-        // },
-        // {
-        //   gameDetailId: 2,
-        //   gameRoomId: 123456,
-        //   gameResult: 'WIN',
-        //   gameType: 'RANDOM',
-        //   gameTime: 30,
-        //   holdingTime: 30,
-        //   laughAmount: 415,
-        //   highlightImage: 'highlight_image_sample',
-        //   opponentNickname: 'opponent_nickname_sample',
-        //   opponentProfileImage: 'opponent_profileimage',
-        //   opponentDescription: 'opponent_description_sample',
-        // },
-        // {
-        //   gameDetailId: 3,
-        //   gameRoomId: 123456,
-        //   gameResult: 'WIN',
-        //   gameType: 'RANDOM',
-        //   gameTime: 30,
-        //   holdingTime: 30,
-        //   laughAmount: 415,
-        //   highlightImage: 'highlight_image_sample',
-        //   opponentNickname: 'opponent_nickname_sample',
-        //   opponentProfileImage: 'opponent_profileimage',
-        //   opponentDescription: 'opponent_description_sample',
-        // },
-        // {
-        //   gameDetailId: 4,
-        //   gameRoomId: 123456,
-        //   gameResult: 'WIN',
-        //   gameType: 'RANDOM',
-        //   gameTime: 30,
-        //   holdingTime: 30,
-        //   laughAmount: 415,
-        //   highlightImage: 'highlight_image_sample',
-        //   opponentNickname: 'opponent_nickname_sample',
-        //   opponentProfileImage: 'opponent_profileimage',
-        //   opponentDescription: 'opponent_description_sample',
-        // },
+        {
+          gameDetailId: 1,
+          gameRoomId: 123456,
+          gameResult: 'WIN',
+          gameType: 'RANDOM',
+          gameTime: 30,
+          holdingTime: 30,
+          laughAmount: 415,
+          highlightImage: 'highlight_image_sample',
+          opponentNickname: '보라돌이',
+          opponentProfileImage: 'opponent_profileimage',
+          opponentDescription: 'opponent_description_sample',
+        },
+        {
+          gameDetailId: 2,
+          gameRoomId: 123456,
+          gameResult: 'WIN',
+          gameType: 'RANDOM',
+          gameTime: 30,
+          holdingTime: 30,
+          laughAmount: 415,
+          highlightImage: 'highlight_image_sample',
+          opponentNickname: '뚜비',
+          opponentProfileImage: 'opponent_profileimage',
+          opponentDescription: 'opponent_description_sample',
+        },
+        {
+          gameDetailId: 3,
+          gameRoomId: 123456,
+          gameResult: 'WIN',
+          gameType: 'RANDOM',
+          gameTime: 30,
+          holdingTime: 30,
+          laughAmount: 415,
+          highlightImage: 'highlight_image_sample',
+          opponentNickname: '나나',
+          opponentProfileImage: 'opponent_profileimage',
+          opponentDescription: 'opponent_description_sample',
+        },
+        {
+          gameDetailId: 4,
+          gameRoomId: 123456,
+          gameResult: 'WIN',
+          gameType: 'RANDOM',
+          gameTime: 30,
+          holdingTime: 30,
+          laughAmount: 415,
+          highlightImage: 'highlight_image_sample',
+          opponentNickname: '뽀',
+          opponentProfileImage: 'opponent_profileimage',
+          opponentDescription: 'opponent_description_sample',
+        },
       ],
     });
   }, []);
@@ -139,8 +140,8 @@ const MyProfile = () => {
       {/* 내 티어 */}
       <Rank rank={myInfo.ranking.rank} rating={myInfo.ranking.score} />
       {/* 최근 전적 */}
-      <div className='h-[220px] py-6'>
-        <div className='flex justify-between items-center px-6 '>
+      <div className='h-[220px] p-6'>
+        <div className='flex justify-between items-center mb-4'>
           <div className='text-lg font-semibold'>최근 전적</div>
           {/* 전적이 아직 하나도 없다면 더 보기 버튼 생기지 않음 */}
           {myInfo.gameDetailList.length !== 0 ? (
@@ -153,10 +154,25 @@ const MyProfile = () => {
           ) : null}
         </div>
         {myInfo.gameDetailList.length !== 0 ? (
-          <div></div>
+          <div>
+            {/* 전적이 3개를 초과하면 3개만 보이도록 함 */}
+            {myInfo.gameDetailList.length > 3 ? (
+              <div>
+                {myInfo.gameDetailList.slice(0, 3).map((item, index) => (
+                  <RecentRecordItem item={item} key={index} />
+                ))}
+              </div>
+            ) : (
+              <div>
+                {myInfo.gameDetailList.map((item, index) => (
+                  <RecentRecordItem item={item} key={index} />
+                ))}
+              </div>
+            )}
+          </div>
         ) : (
           <div className='w-full h-full flex justify-center items-center'>
-            <div className='align-middle'>전적이 없습니다🧐</div>
+            <div className='text-lg text-[#868E96]'>전적이 없습니다🧐</div>
           </div>
         )}
       </div>
