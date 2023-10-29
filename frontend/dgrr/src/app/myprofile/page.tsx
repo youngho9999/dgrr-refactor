@@ -139,12 +139,12 @@ const MyProfile = () => {
       {/* 내 티어 */}
       <Rank rank={myInfo.ranking.rank} rating={myInfo.ranking.score} />
       {/* 최근 전적 */}
-      <div className='mt-16 mb-4 ms-6'>
-        <div className='flex justify-between items-center'>
-          <div className='text-lg font-semibold me-1'>최근 전적</div>
+      <div className='h-[220px] py-6'>
+        <div className='flex justify-between items-center px-6 '>
+          <div className='text-lg font-semibold'>최근 전적</div>
           {/* 전적이 아직 하나도 없다면 더 보기 버튼 생기지 않음 */}
           {myInfo.gameDetailList.length !== 0 ? (
-            <div className='flex items-center me-6 cursor-pointer'>
+            <div className='flex items-center cursor-pointer'>
               <div className='font-bold text-sm me-1'>더 보기</div>
               <div className='inline-block'>
                 <IoChevronForwardOutline />
@@ -152,6 +152,13 @@ const MyProfile = () => {
             </div>
           ) : null}
         </div>
+        {myInfo.gameDetailList.length !== 0 ? (
+          <div></div>
+        ) : (
+          <div className='w-full h-full flex justify-center items-center'>
+            <div className='align-middle'>전적이 없습니다🧐</div>
+          </div>
+        )}
       </div>
     </div>
   );
