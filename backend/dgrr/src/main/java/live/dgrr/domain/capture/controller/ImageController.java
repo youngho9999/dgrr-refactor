@@ -1,5 +1,6 @@
 package live.dgrr.domain.capture.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import live.dgrr.domain.capture.service.ImageProcessingService;
 import org.json.simple.parser.ParseException;
 import org.springframework.messaging.MessageHeaders;
@@ -16,7 +17,7 @@ public class ImageController {
     }
 
     @MessageMapping("/capture-image")
-    public void receiveImageDataFromPythonClient(@Payload String img)throws ParseException {
+    public void receiveImageDataFromPythonClient(@Payload String img) throws JsonProcessingException {
         imageProcessingService.processingCaptureImage(img);
     }
 }

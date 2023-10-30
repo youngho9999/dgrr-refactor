@@ -1,26 +1,28 @@
 package live.dgrr.domain.capture.entity;
 
 import lombok.*;
+import org.springframework.messaging.handler.annotation.Header;
 
 @Getter
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
+@ToString
 public class ImageResult {
 
-    private final boolean success;
+    private boolean success;
     private String emotion;
     private double probability;
     private double smileProbability;
     private String encodedImage;
-    private StompHeader stompHeader;
+    private Header header;
 
-    public String printField() {
-        return "success : " + success +
-                ", emotion : " + emotion +
-                ", probability : " + probability +
-                ", smileProbability : " + smileProbability +
-                ", encodedImage : " + (encodedImage == null ? "null, " : encodedImage.substring(0, Math.min(40, encodedImage.length()))) +
-                stompHeader.toString() +
-                "}";
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @ToString
+    public static class Header {
+        private int round;
+        private String gameSessionId;
     }
+
 }
