@@ -1,8 +1,7 @@
 package live.dgrr.domain.game.service;
 
-import live.dgrr.domain.game.entity.GameRoom;
-import live.dgrr.domain.game.entity.GameStatus;
-import live.dgrr.domain.game.entity.RoundResult;
+import live.dgrr.domain.game.dto.GameResultResponse;
+import live.dgrr.domain.game.entity.*;
 import live.dgrr.domain.game.entity.event.*;
 import live.dgrr.domain.game.repository.GameRoomRepository;
 import live.dgrr.global.exception.ErrorCode;
@@ -89,5 +88,20 @@ public class GameSecondRoundService {
 
         publisher.publishEvent(new SecondRoundEndEvent(gameRoom.getMemberOne().memberId(),
                 gameRoom.getMemberTwo().memberId(), gameRoom.getFirstRoundResult(), destination));
+    }
+
+    public GameResultResponse gameResult(String memberId, String gameRoomId) {
+        GameRoom gameRoom = gameRoomRepository.findById(gameRoomId)
+                .orElseThrow(() -> new GameException(ErrorCode.GAME_ROOM_NOT_FOUND));
+
+        GameResult gameResult = gameRoom.judgeResult(memberId);
+        GameMember myInfo = gameRoom.getMyInfo(memberId);
+        GameMember enemyInfo = gameRoom.getEnemyInfo(memberId);
+
+        return GameResultResponse.builder()
+                .gameResult(gameResult)
+                .myInfo(myInfo)
+                .enemyInfo(enemyInfo)
+                .
     }
 }
