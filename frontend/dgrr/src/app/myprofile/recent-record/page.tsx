@@ -111,14 +111,14 @@ const RecentRecord = () => {
       <Header headerType='OTHER'>최근 전적</Header>
       <div className='px-6 pt-2'>
         {myInfo.gameDetailList.map((item, index) => (
-          <div>
+          <div key={index}>
             {item.gameResult !== 'DRAW' ? (
               <div className='cursor-pointer'>
-                <RecentRecordItem item={item} key={index} />
+                <RecentRecordItem item={item} />
               </div>
             ) : (
               <div>
-                <RecentRecordItem item={item} key={index} />
+                <RecentRecordItem item={item} />
               </div>
             )}
           </div>
