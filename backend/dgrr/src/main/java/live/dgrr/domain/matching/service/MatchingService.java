@@ -17,6 +17,7 @@ public class MatchingService {
     private final ApplicationEventPublisher publisher;
 
     public void matchRandom(String memberId) {
+        //TODO: 트랜잭션 처리 및 동시성 처리
         log.info("MatchingService - matchRandom : isMemberSetEmpty : {}", matchingRepository.isMemberSetEmpty());
 
         if(!matchingRepository.isMemberSetEmpty() && !matchingRepository.isFirstMember(memberId)) {
