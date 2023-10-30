@@ -123,8 +123,8 @@ public class GameSecondRoundService {
         GameRoom gameRoom = gameRoomRepository.findById(gameRoomId)
                 .orElseThrow(() -> new GameException(ErrorCode.GAME_ROOM_NOT_FOUND));
 
-        GameMember myInfo = gameRoom.getMyInfo(memberId);
-        GameMember enemyInfo = gameRoom.getEnemyInfo(memberId);
+        GameMember myInfo = gameRoom.getEnemyInfo(memberId);
+        GameMember enemyInfo = gameRoom.getMyInfo(memberId);
         //todo: rating 시스템 적용
         int afterRating = myInfo.rating() + 20;
         Rank afterRank = RankCalculator.calculateRank(afterRating);
