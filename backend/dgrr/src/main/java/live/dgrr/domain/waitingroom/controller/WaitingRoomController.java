@@ -4,6 +4,7 @@ import live.dgrr.domain.member.entity.Member;
 import live.dgrr.domain.member.service.MemberService;
 import live.dgrr.domain.waitingroom.dto.response.WaitingMemberInfoResponseDto;
 import live.dgrr.domain.waitingroom.entity.MemberRoomMapping;
+import live.dgrr.domain.waitingroom.entity.WaitingMember;
 import live.dgrr.domain.waitingroom.service.MemberRoomMappingService;
 import live.dgrr.domain.waitingroom.service.WaitingRoomService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ public class WaitingRoomController {
     private final MemberRoomMappingService memberRoomMappingService;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
+
     @PostMapping
     public ResponseEntity<Integer> createWaitingRoom () {
         log.info("WaitingRoomController - createWaitingRoom");
@@ -46,7 +48,7 @@ public class WaitingRoomController {
         waitingRoomService.findWaitingRoomById(roomId)
                 .getWaitingMemberList()
                 .stream()
-                .map(waitingMember -> String.valueOf(waitingMember.getWaitingMemberId()))
+                .map(WaitingMember::getWaitingMemberId)
                 .forEach(userId -> simpMessagingTemplate.convertAndSendToUser(userId, "/recv/room-enter", waitingMemberInfoDto));
     }
 
@@ -55,12 +57,12 @@ public class WaitingRoomController {
         log.info("WaitingRoomController - exitWaitingRoom by : {}", principal.getName());
 
         MemberRoomMapping memberRoomMapping = memberRoomMappingService.findRoomIdByMemberId(Long.parseLong(principal.getName()));
-        WaitingMemberInfoResponseDto waitingMemberInfoDto = waitingRoomService.exitWaitingRoom(memberRoomMapping.getRoomId(), Long.valueOf(principal.getName()));
+        WaitingMemberInfoResponseDto waitingMemberInfoDto = waitingRoomService.exitWaitingRoom(memberRoomMapping.getRoomId(), principal.getName());
 
         waitingRoomService.findWaitingRoomById(waitingMemberInfoDto.roomId())
                 .getWaitingMemberList()
                 .stream()
-                .map(waitingMember -> String.valueOf(waitingMember.getWaitingMemberId()))
+                .map(WaitingMember::getWaitingMemberId)
                 .forEach(userId -> simpMessagingTemplate.convertAndSendToUser(userId, "/recv/room-exit", waitingMemberInfoDto));
     }
 
@@ -69,12 +71,12 @@ public class WaitingRoomController {
         log.info("WaitingRoomController - readyWaitingRoom by : {}", principal.getName());
 
         MemberRoomMapping memberRoomMapping = memberRoomMappingService.findRoomIdByMemberId(Long.parseLong(principal.getName()));
-        WaitingMemberInfoResponseDto waitingMemberInfoDto = waitingRoomService.readyWaitingRoom(memberRoomMapping.getRoomId(),Long.parseLong(principal.getName()));
+        WaitingMemberInfoResponseDto waitingMemberInfoDto = waitingRoomService.readyWaitingRoom(memberRoomMapping.getRoomId(),principal.getName());
 
         waitingRoomService.findWaitingRoomById(waitingMemberInfoDto.roomId())
                 .getWaitingMemberList()
                 .stream()
-                .map(waitingMember -> String.valueOf(waitingMember.getWaitingMemberId()))
+                .map(WaitingMember::getWaitingMemberId)
                 .forEach(userId -> simpMessagingTemplate.convertAndSendToUser(userId, "/recv/room-ready", waitingMemberInfoDto));
     }
 
@@ -83,7 +85,7 @@ public class WaitingRoomController {
         log.info("WaitingRoomController - startWaitingRoom by : {}", principal.getName());
 
         MemberRoomMapping memberRoomMapping = memberRoomMappingService.findRoomIdByMemberId(Long.parseLong(principal.getName()));
-        waitingRoomService.startWaitingRoom(memberRoomMapping.getRoomId(),Long.parseLong(principal.getName()));
+        waitingRoomService.startWaitingRoom(memberRoomMapping.getRoomId(),principal.getName());
 
     }
 }

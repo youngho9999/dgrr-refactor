@@ -57,10 +57,10 @@ public class WaitingRoomService {
         WaitingRoom waitingRoom = findWaitingRoomById(roomId);
 
         //해당 방에 중복된 사람이 있는지 확인
-        checkWaitingRoomDuplicate(waitingRoom, member.getMemberId());
+        checkWaitingRoomDuplicate(waitingRoom, String.valueOf(member.getMemberId()));
 
         //사용자 생성
-        WaitingMember waitingMember = WaitingMember.of(member.getMemberId(), member.getNickname(), member.getProfileImage(), false);
+        WaitingMember waitingMember = WaitingMember.of(String.valueOf(member.getMemberId()), member.getNickname(), member.getProfileImage(), false);
 
         //방 참여
         saveToWaitingRoom(waitingRoom, waitingMember);
@@ -83,7 +83,7 @@ public class WaitingRoomService {
         return waitingRoom.getWaitingMemberList() != null && waitingRoom.getWaitingMemberList().size() >= ROOM_MAX_NUM;
     }
 
-    private void checkWaitingRoomDuplicate(WaitingRoom waitingRoom, Long memberId) {
+    private void checkWaitingRoomDuplicate(WaitingRoom waitingRoom, String memberId) {
         if (waitingRoom.getWaitingMemberList() != null && waitingRoom.getWaitingMemberList().stream()
                 .anyMatch(member -> member.getWaitingMemberId().equals(memberId))) {
             throw new GeneralException(ErrorCode.MEMBER_ALREADY_EXIST);
@@ -91,7 +91,7 @@ public class WaitingRoomService {
     }
 
 
-    public WaitingMemberInfoResponseDto readyWaitingRoom(int roomId, Long memberId) {
+    public WaitingMemberInfoResponseDto readyWaitingRoom(int roomId, String memberId) {
         WaitingRoom waitingRoom = findWaitingRoomById(roomId);
         List<WaitingMember> waitingMembers = waitingRoom.getWaitingMemberList();
         WaitingMember waitingMember = new WaitingMember();
@@ -108,21 +108,21 @@ public class WaitingRoomService {
 
     }
 
-    public void startWaitingRoom(int roomId, Long memberId) {
+    public void startWaitingRoom(int roomId, String memberId) {
         WaitingRoom waitingRoom = findWaitingRoomById(roomId);
         List<WaitingMember> waitingMembers = waitingRoom.getWaitingMemberList();
 
         checkGameStart(waitingRoom, waitingMembers, memberId);
 
         //게임 시작 로직
-        log.info("WaitingRoomService - gameStart-member1: {}, member2: {}", waitingMembers.get(0).getWaitingMemberId().toString(), waitingMembers.get(1).getWaitingMemberId().toString());
+        log.info("WaitingRoomService - gameStart-member1: {}, member2: {}", waitingMembers.get(0).getWaitingMemberId(), waitingMembers.get(1).getWaitingMemberId());
         waitingRoom.gameStart();
         waitingRoomRepository.save(waitingRoom);
-        publisher.publishEvent(new GameStartEvent(waitingMembers.get(0).getWaitingMemberId().toString(), waitingMembers.get(1).getWaitingMemberId().toString()));
+        publisher.publishEvent(new GameStartEvent(waitingMembers.get(0).getWaitingMemberId(), waitingMembers.get(1).getWaitingMemberId()));
 
     }
 
-    private void checkGameStart(WaitingRoom waitingRoom, List<WaitingMember> waitingMembers, Long memberId) {
+    private void checkGameStart(WaitingRoom waitingRoom, List<WaitingMember> waitingMembers, String memberId) {
         //방장인지 확인
         if(!waitingMembers.get(0).getWaitingMemberId().equals(memberId)) {
             throw new GeneralException(ErrorCode.IS_NOT_ROOM_MANAGER);
@@ -145,7 +145,7 @@ public class WaitingRoomService {
 
     }
 
-    public WaitingMemberInfoResponseDto exitWaitingRoom(int roomId, Long memberId) {
+    public WaitingMemberInfoResponseDto exitWaitingRoom(int roomId, String memberId) {
 
         WaitingRoom waitingRoom = findWaitingRoomById(roomId);
         List<WaitingMember> waitingMembers = waitingRoom.getWaitingMemberList();
