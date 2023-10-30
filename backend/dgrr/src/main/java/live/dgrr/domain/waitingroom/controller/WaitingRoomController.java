@@ -67,23 +67,24 @@ public class WaitingRoomController {
 
     @MessageMapping("/room-ready")
     public void readyWaitingRoom (Principal principal) {
-        log.info("WaitingRoomController - readyWaitingRoom");
-        //TODO: mebmerId 추후 수정, 방 참여자에게 전부 메세지 보내기
-        Long memberId = 1L;
-        MemberRoomMapping memberRoomMapping = memberRoomMappingService.findRoomIdByMemberId(memberId);
+        log.info("WaitingRoomController - readyWaitingRoom by : {}", principal.getName());
 
-        WaitingMemberInfoResponseDto waitingMemberInfoDto = waitingRoomService.readyWaitingRoom(memberRoomMapping.getRoomId(),memberId);
-        simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/recv/room-ready", waitingMemberInfoDto);
+        MemberRoomMapping memberRoomMapping = memberRoomMappingService.findRoomIdByMemberId(Long.parseLong(principal.getName()));
+        WaitingMemberInfoResponseDto waitingMemberInfoDto = waitingRoomService.readyWaitingRoom(memberRoomMapping.getRoomId(),Long.parseLong(principal.getName()));
+
+        waitingRoomService.findWaitingRoomById(waitingMemberInfoDto.roomId())
+                .getWaitingMemberList()
+                .stream()
+                .map(waitingMember -> String.valueOf(waitingMember.getWaitingMemberId()))
+                .forEach(userId -> simpMessagingTemplate.convertAndSendToUser(userId, "/recv/room-ready", waitingMemberInfoDto));
     }
 
     @MessageMapping("/room-start")
     public void startWaitingRoom (Principal principal) {
-        log.info("WaitingRoomController - startWaitingRoom by {} : ", principal.getName());
-        //TODO: mebmerId 추후 수정, 방 참여자에게 전부 메세지 보내기
-        Long memberId = 1L;
-        MemberRoomMapping memberRoomMapping = memberRoomMappingService.findRoomIdByMemberId(memberId);
+        log.info("WaitingRoomController - startWaitingRoom by : {}", principal.getName());
 
-        waitingRoomService.startWaitingRoom(memberRoomMapping.getRoomId(),memberId);
+        MemberRoomMapping memberRoomMapping = memberRoomMappingService.findRoomIdByMemberId(Long.parseLong(principal.getName()));
+        waitingRoomService.startWaitingRoom(memberRoomMapping.getRoomId(),Long.parseLong(principal.getName()));
 
     }
 }
