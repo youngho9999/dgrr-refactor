@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Header from '@/components/elements/Header';
+import Link from "next/link";
 import Rank from '@/components/elements/Rank';
 import { IoChevronForwardOutline } from 'react-icons/io5';
 import RecentRecordItem from '@/components/elements/RecentRecordItem';
@@ -146,7 +147,9 @@ const MyProfile = () => {
           {/* 전적이 아직 하나도 없다면 더 보기 버튼 생기지 않음 */}
           {myInfo.gameDetailList.length !== 0 ? (
             <div className='flex cursor-pointer gap-x-[3px]'>
+              <Link href='/myprofile/recent-record'>
               <div className='text-sm font-bold inline-block'>더 보기</div>
+              </Link>
               <div className='inline-block'>
                 <IoChevronForwardOutline fontSize={'18px'} />
               </div>
