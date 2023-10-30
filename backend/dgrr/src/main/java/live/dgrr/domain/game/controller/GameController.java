@@ -83,6 +83,6 @@ public class GameController {
     @MessageMapping("/game-leave")
     public void leaveGame(Principal principal, @Payload String gameRoomId) {
         GameResultResponse result = gameSecondRoundService.leaveGame(principal.getName(), gameRoomId);
-        template.convertAndSendToUser(result.enemyInfo().memberId(),ENEMY_LEAVE_GAME,result);
+        template.convertAndSendToUser(result.myInfo().memberId(),ENEMY_LEAVE_GAME,result);
     }
 }
