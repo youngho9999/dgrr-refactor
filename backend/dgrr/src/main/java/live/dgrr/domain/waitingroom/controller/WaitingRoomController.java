@@ -41,7 +41,7 @@ public class WaitingRoomController {
     public void enterWaitingRoom (Principal principal, @Payload int roomId) {
         log.info("WaitingRoomController - enterWaitingRoom by : {}, roomId : {}", principal.getName(), roomId);
 
-        Member member = memberService.findMemberById(Long.valueOf(principal.getName()));
+        Member member = memberService.findMemberById(Long.parseLong(principal.getName()));
         WaitingMemberInfoResponseDto waitingMemberInfoDto = waitingRoomService.enterWaitingRoom(roomId, member);
 
         waitingRoomService.findWaitingRoomById(roomId)
@@ -53,15 +53,16 @@ public class WaitingRoomController {
 
     @MessageMapping("/room-exit")
     public void exitWaitingRoom (Principal principal) {
-        log.info("WaitingRoomController - exitWaitingRoom");
-        //TODO: mebmerId 추후 수정
-        Long memberId = 1L;
-        MemberRoomMapping memberRoomMapping = memberRoomMappingService.findRoomIdByMemberId(memberId);
+        log.info("WaitingRoomController - exitWaitingRoom by : {}", principal.getName());
 
-        WaitingMemberInfoResponseDto waitingMemberInfoDto = waitingRoomService.exitWaitingRoom(memberRoomMapping.getRoomId(), memberId);
+        MemberRoomMapping memberRoomMapping = memberRoomMappingService.findRoomIdByMemberId(Long.parseLong(principal.getName()));
+        WaitingMemberInfoResponseDto waitingMemberInfoDto = waitingRoomService.exitWaitingRoom(memberRoomMapping.getRoomId(), Long.valueOf(principal.getName()));
 
-//      TODO: 방 참여자에게 메세지 보내기 (받은사람은 무조건 방장)
-        simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/recv/room-exit", waitingMemberInfoDto);
+        waitingRoomService.findWaitingRoomById(waitingMemberInfoDto.roomId())
+                .getWaitingMemberList()
+                .stream()
+                .map(waitingMember -> String.valueOf(waitingMember.getWaitingMemberId()))
+                .forEach(userId -> simpMessagingTemplate.convertAndSendToUser(userId, "/recv/room-exit", waitingMemberInfoDto));
     }
 
     @MessageMapping("/room-ready")
