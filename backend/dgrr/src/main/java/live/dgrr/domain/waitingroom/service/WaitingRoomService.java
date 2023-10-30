@@ -30,7 +30,7 @@ public class WaitingRoomService {
     private final ApplicationEventPublisher publisher;
 
     public WaitingRoom findWaitingRoomById(int roomId) {
-        return waitingRoomRepository.findById(roomId).orElseThrow(() -> new RuntimeException());
+        return waitingRoomRepository.findById(roomId).orElseThrow(() -> new GeneralException(ErrorCode.WAITING_ROOM_NOT_FOUND));
     }
 
     public int createWaitingRoom() {
@@ -71,7 +71,7 @@ public class WaitingRoomService {
 
     private void saveToWaitingRoom(WaitingRoom waitingRoom, WaitingMember waitingMember) {
         if(checkMemberFull(waitingRoom)) {
-            throw new RuntimeException("참여자 정원이 다 찼습니다.");
+            throw new GeneralException(ErrorCode.MAX_MEMBER_ALREADY_EXIST);
         }
 
         waitingRoom.addMember(waitingMember);
@@ -86,7 +86,7 @@ public class WaitingRoomService {
     private void checkWaitingRoomDuplicate(WaitingRoom waitingRoom, Long memberId) {
         if (waitingRoom.getWaitingMemberList() != null && waitingRoom.getWaitingMemberList().stream()
                 .anyMatch(member -> member.getWaitingMemberId().equals(memberId))) {
-            throw new RuntimeException("이미 대기실에 존재합니다.");
+            throw new GeneralException(ErrorCode.MEMBER_ALREADY_EXIST);
         }
     }
 
