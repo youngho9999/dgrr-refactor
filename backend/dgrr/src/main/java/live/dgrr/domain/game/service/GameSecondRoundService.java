@@ -7,6 +7,7 @@ import live.dgrr.domain.game.repository.GameRoomRepository;
 import live.dgrr.global.entity.Rank;
 import live.dgrr.global.exception.ErrorCode;
 import live.dgrr.global.exception.GameException;
+import live.dgrr.global.util.EloCalculator;
 import live.dgrr.global.util.RankCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -105,8 +106,7 @@ public class GameSecondRoundService {
         GameMember myInfo = gameRoom.getMyInfo(memberId);
         GameMember enemyInfo = gameRoom.getEnemyInfo(memberId);
         //todo: highlightImage 가져오는 로직 필요
-        //todo: rating 시스템 적용
-        int afterRating = myInfo.rating() + 20;
+        int afterRating = EloCalculator.calculateRating(myInfo.rating(), enemyInfo.rating(), gameResult);
         Rank afterRank = RankCalculator.calculateRank(afterRating);
 
         return GameResultResponse.builder()
@@ -131,8 +131,7 @@ public class GameSecondRoundService {
 
         GameMember myInfo = gameRoom.getEnemyInfo(memberId);
         GameMember enemyInfo = gameRoom.getMyInfo(memberId);
-        //todo: rating 시스템 적용
-        int afterRating = myInfo.rating() + 20;
+        int afterRating = EloCalculator.calculateRating(myInfo.rating(), enemyInfo.rating(), GameResult.WIN);
         Rank afterRank = RankCalculator.calculateRank(afterRating);
 
         return GameResultResponse.builder()
