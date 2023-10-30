@@ -39,4 +39,8 @@ public class MatchingRepository {
         redisTemplate.opsForZSet().remove(WAITING_MEMBERS_KEY, memberId);
         return memberId;
     }
+
+    public void removeMember(String memberId) {
+        redisTemplate.opsForZSet().remove(WAITING_MEMBERS_KEY, memberId);
+    }
 }

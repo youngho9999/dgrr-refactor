@@ -18,7 +18,11 @@ public class MatchingController {
     @MessageMapping("/matching")
     public void randomMatching(Principal principal) {
         matchingService.matchRandom(principal.getName());
+    }
 
+    @MessageMapping("/matching-cancel")
+    public void matchingCancel(Principal principal) {
+        matchingService.matchingCancel(principal.getName());
     }
 
 }

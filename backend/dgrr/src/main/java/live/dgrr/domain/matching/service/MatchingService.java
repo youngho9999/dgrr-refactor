@@ -28,4 +28,8 @@ public class MatchingService {
         }
 
     }
+
+    public void matchingCancel(String memberId) {
+        matchingRepository.removeMember(memberId);
+    }
 }
