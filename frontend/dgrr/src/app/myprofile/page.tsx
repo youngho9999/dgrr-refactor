@@ -146,14 +146,14 @@ const MyProfile = () => {
           <div className='text-lg font-semibold'>최근 전적</div>
           {/* 전적이 아직 하나도 없다면 더 보기 버튼 생기지 않음 */}
           {myInfo.gameDetailList.length !== 0 ? (
-            <div className='flex cursor-pointer gap-x-[3px]'>
-              <Link href='/myprofile/recent-record'>
-              <div className='text-sm font-bold inline-block'>더 보기</div>
-              </Link>
-              <div className='inline-block'>
-                <IoChevronForwardOutline fontSize={'18px'} />
+            <Link href='/myprofile/recent-record'>
+              <div className='flex cursor-pointer gap-x-[3px]'>
+                <div className='text-sm font-bold inline-block'>더 보기</div>
+                <div className='inline-block'>
+                  <IoChevronForwardOutline fontSize={'18px'} />
+                </div>
               </div>
-            </div>
+            </Link>
           ) : null}
         </div>
         {myInfo.gameDetailList.length !== 0 ? (
@@ -162,13 +162,13 @@ const MyProfile = () => {
             {myInfo.gameDetailList.length > 3 ? (
               <div>
                 {myInfo.gameDetailList.slice(0, 3).map((item, index) => (
-                  <RecentRecordItem pageType='PROFILE' item={item} key={index} />
+                  <RecentRecordItem item={item} key={index} />
                 ))}
               </div>
             ) : (
               <div>
                 {myInfo.gameDetailList.map((item, index) => (
-                  <RecentRecordItem pageType='PROFILE' item={item} key={index} />
+                  <RecentRecordItem item={item} key={index} />
                 ))}
               </div>
             )}
