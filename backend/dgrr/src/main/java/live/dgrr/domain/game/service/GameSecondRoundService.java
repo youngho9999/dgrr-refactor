@@ -119,6 +119,12 @@ public class GameSecondRoundService {
                 .build();
     }
 
+    /**
+     * 상대방 탈주시 실행 메소드
+     * @param memberId
+     * @param gameRoomId
+     * @return
+     */
     public GameResultResponse leaveGame(String memberId, String gameRoomId) {
         GameRoom gameRoom = gameRoomRepository.findById(gameRoomId)
                 .orElseThrow(() -> new GameException(ErrorCode.GAME_ROOM_NOT_FOUND));
