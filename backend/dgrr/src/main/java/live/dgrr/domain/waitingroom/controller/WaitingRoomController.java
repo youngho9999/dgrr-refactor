@@ -39,22 +39,16 @@ public class WaitingRoomController {
 
     @MessageMapping("/room-enter")
     public void enterWaitingRoom (Principal principal, @Payload int roomId) {
-        log.info("WaitingRoomController - enterWaitingRoom roomId : {}", roomId);
+        log.info("WaitingRoomController - enterWaitingRoom by : {}, roomId : {}", principal.getName(), roomId);
 
-        //TODO: mebmerId 추후 수정
-        Long memberId = 1L;
-        Member member = memberService.findMemberById(memberId);
+        Member member = memberService.findMemberById(Long.valueOf(principal.getName()));
         WaitingMemberInfoResponseDto waitingMemberInfoDto = waitingRoomService.enterWaitingRoom(roomId, member);
 
-//      TODO: 경로 수정 시 주석 해제 (방 참여자에게 전부 메세지 보냄)
-
-//        waitingRoomService.findWaitingRoomById(roomId)
-//                .getWaitingMemberList()
-//                .stream()
-//                .map(waitingMember -> String.valueOf(waitingMember.waitingMemberId()))
-//                .forEach(userId -> simpMessagingTemplate.convertAndSendToUser(userId, "/recv/room-enter", waitingMemberInfoDto));
-
-        simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/recv/room-enter", waitingMemberInfoDto);
+        waitingRoomService.findWaitingRoomById(roomId)
+                .getWaitingMemberList()
+                .stream()
+                .map(waitingMember -> String.valueOf(waitingMember.getWaitingMemberId()))
+                .forEach(userId -> simpMessagingTemplate.convertAndSendToUser(userId, "/recv/room-enter", waitingMemberInfoDto));
     }
 
     @MessageMapping("/room-exit")
