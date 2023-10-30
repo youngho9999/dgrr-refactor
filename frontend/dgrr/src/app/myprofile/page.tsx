@@ -162,13 +162,13 @@ const MyProfile = () => {
             {myInfo.gameDetailList.length > 3 ? (
               <div>
                 {myInfo.gameDetailList.slice(0, 3).map((item, index) => (
-                  <RecentRecordItem item={item} key={index} />
+                  <RecentRecordItem pageType='PROFILE' item={item} key={index} />
                 ))}
               </div>
             ) : (
               <div>
                 {myInfo.gameDetailList.map((item, index) => (
-                  <RecentRecordItem item={item} key={index} />
+                  <RecentRecordItem pageType='PROFILE' item={item} key={index} />
                 ))}
               </div>
             )}
