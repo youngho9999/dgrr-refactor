@@ -69,7 +69,7 @@ const Rank = ({ rank, rating }: RankProps) => {
   };
 
   return (
-    <div className='h-[220px] py-6'>
+    <div className='h-[220px] py-6 my-2'>
       {/* <div className='flex items-center mt-6 mb-4 ps-6'> */}
       <div className='flex items-center pb-4'>
         <div className='text-lg font-semibold ps-6 me-1'>내 티어</div>

@@ -60,10 +60,10 @@ const MyProfile = () => {
           gameTime: 30,
           holdingTime: 30,
           laughAmount: 415,
-          highlightImage: 'highlight_image_sample',
+          highlightImage: '/images/sample_image1.png',
           opponentNickname: '보라돌이',
           opponentProfileImage: '/images/sample_image1.png',
-          opponentDescription: 'opponent_description_sample',
+          opponentDescription: '2023-10-30',
         },
         {
           gameDetailId: 2,
@@ -73,10 +73,10 @@ const MyProfile = () => {
           gameTime: 30,
           holdingTime: 30,
           laughAmount: 415,
-          highlightImage: 'highlight_image_sample',
+          highlightImage: '',
           opponentNickname: '뚜비',
           opponentProfileImage: '/images/sample_image2.png',
-          opponentDescription: 'opponent_description_sample',
+          opponentDescription: '2023-10-29',
         },
         {
           gameDetailId: 3,
@@ -86,10 +86,10 @@ const MyProfile = () => {
           gameTime: 30,
           holdingTime: 30,
           laughAmount: 415,
-          highlightImage: 'highlight_image_sample',
+          highlightImage: '/images/sample_image3.png',
           opponentNickname: '나나',
           opponentProfileImage: '/images/sample_image3.png',
-          opponentDescription: 'opponent_description_sample',
+          opponentDescription: '2023-10-28',
         },
         {
           gameDetailId: 4,
@@ -99,10 +99,10 @@ const MyProfile = () => {
           gameTime: 30,
           holdingTime: 30,
           laughAmount: 415,
-          highlightImage: 'highlight_image_sample',
+          highlightImage: '/images/sample_image4.pnge',
           opponentNickname: '뽀',
           opponentProfileImage: '/images/sample_image4.png',
-          opponentDescription: 'opponent_description_sample',
+          opponentDescription: '2023-10-27',
         },
       ],
     });
@@ -145,10 +145,10 @@ const MyProfile = () => {
           <div className='text-lg font-semibold'>최근 전적</div>
           {/* 전적이 아직 하나도 없다면 더 보기 버튼 생기지 않음 */}
           {myInfo.gameDetailList.length !== 0 ? (
-            <div className='flex items-center cursor-pointer'>
-              <div className='font-bold text-sm me-1'>더 보기</div>
+            <div className='flex cursor-pointer gap-x-[3px]'>
+              <div className='text-sm font-bold inline-block'>더 보기</div>
               <div className='inline-block'>
-                <IoChevronForwardOutline />
+                <IoChevronForwardOutline fontSize={'18px'} />
               </div>
             </div>
           ) : null}
