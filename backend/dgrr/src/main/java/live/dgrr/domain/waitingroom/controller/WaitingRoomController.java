@@ -33,8 +33,7 @@ public class WaitingRoomController {
     @PostMapping
     public ResponseEntity<Integer> createWaitingRoom () {
         log.info("WaitingRoomController - createWaitingRoom");
-        int roomId = waitingRoomService.createWaitingRoom();
-        return new ResponseEntity<>(roomId, HttpStatus.OK);
+        return new ResponseEntity<>(waitingRoomService.createWaitingRoom(), HttpStatus.OK);
     }
 
     @MessageMapping("/room-enter")
