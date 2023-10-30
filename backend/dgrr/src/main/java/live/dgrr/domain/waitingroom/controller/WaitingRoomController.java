@@ -31,6 +31,9 @@ public class WaitingRoomController {
     private final MemberRoomMappingService memberRoomMappingService;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
+    private static final String WAITING_ROOM_ENTER = "/recv/room-enter";
+    private static final String WAITING_ROOM_EXIT = "/recv/room-exit";
+    private static final String WAITING_ROOM_READY = "/recv/room-ready";
 
     @PostMapping
     public ResponseEntity<Integer> createWaitingRoom () {
@@ -49,7 +52,7 @@ public class WaitingRoomController {
                 .getWaitingMemberList()
                 .stream()
                 .map(WaitingMember::getWaitingMemberId)
-                .forEach(userId -> simpMessagingTemplate.convertAndSendToUser(userId, "/recv/room-enter", waitingMemberInfoDto));
+                .forEach(userId -> simpMessagingTemplate.convertAndSendToUser(userId, WAITING_ROOM_ENTER, waitingMemberInfoDto));
     }
 
     @MessageMapping("/room-exit")
@@ -63,7 +66,7 @@ public class WaitingRoomController {
                 .getWaitingMemberList()
                 .stream()
                 .map(WaitingMember::getWaitingMemberId)
-                .forEach(userId -> simpMessagingTemplate.convertAndSendToUser(userId, "/recv/room-exit", waitingMemberInfoDto));
+                .forEach(userId -> simpMessagingTemplate.convertAndSendToUser(userId, WAITING_ROOM_EXIT, waitingMemberInfoDto));
     }
 
     @MessageMapping("/room-ready")
@@ -77,7 +80,7 @@ public class WaitingRoomController {
                 .getWaitingMemberList()
                 .stream()
                 .map(WaitingMember::getWaitingMemberId)
-                .forEach(userId -> simpMessagingTemplate.convertAndSendToUser(userId, "/recv/room-ready", waitingMemberInfoDto));
+                .forEach(userId -> simpMessagingTemplate.convertAndSendToUser(userId, WAITING_ROOM_READY, waitingMemberInfoDto));
     }
 
     @MessageMapping("/room-start")
