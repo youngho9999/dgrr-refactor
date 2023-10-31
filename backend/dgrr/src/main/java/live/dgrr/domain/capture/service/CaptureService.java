@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class CaptureProcessingService {
+public class CaptureService {
     private final ApplicationEventPublisher publisher;
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -36,7 +36,7 @@ public class CaptureProcessingService {
 
             return captureResult;
         } catch (JsonProcessingException e) {
-            throw new GameException(ErrorCode.IMAGE_PROCESSING_ERROR);
+            throw new GameException(ErrorCode.IMAGE_PROCESSING_ERROR, e);
         }
     }
 
