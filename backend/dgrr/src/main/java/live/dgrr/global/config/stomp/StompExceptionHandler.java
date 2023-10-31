@@ -1,5 +1,8 @@
 package live.dgrr.global.config.stomp;
 
+import live.dgrr.global.exception.ErrorCode;
+import live.dgrr.global.exception.ErrorResponse;
+import live.dgrr.global.exception.GameException;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -7,10 +10,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class StompExceptionHandler  {
 
-    @MessageExceptionHandler(RuntimeException.class)
+    @MessageExceptionHandler(GameException.class)
     @SendToUser("/recv/errors")
-    public String handleException(RuntimeException e) {
-        System.out.println("e is back");
-        return "Error";
+    public ErrorResponse handleException(GameException ex) {
+        ErrorCode errorCode = ex.getErrorCode();
+        return ErrorResponse.of(ex.getErrorCode());
     }
 }
