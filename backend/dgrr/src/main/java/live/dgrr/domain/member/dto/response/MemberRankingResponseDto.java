@@ -1,6 +1,6 @@
 package live.dgrr.domain.member.dto.response;
 
-import live.dgrr.global.entity.Rank;
+import live.dgrr.global.entity.Tier;
 import lombok.Builder;
 
 @Builder
@@ -9,10 +9,10 @@ public record MemberRankingResponseDto(
         Integer season,
         Double rating,
         Long rank,
-        Rank tier
+        Tier tier
 
 ) {
-    public static MemberRankingResponseDto of(Integer season, Double rating, Long rank, Rank tier) {
+    public static MemberRankingResponseDto of(Integer season, Double rating, Long rank, Tier tier) {
         return MemberRankingResponseDto.builder()
                 .season(season)
                 .rating(rating)
