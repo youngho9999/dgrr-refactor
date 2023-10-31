@@ -45,7 +45,7 @@ public class GameSecondRoundService {
         }
     }
 
-    private void secondRoundStart(String gameRoomId, GameRoom gameRoom) {
+    public void secondRoundStart(String gameRoomId, GameRoom gameRoom) {
         LocalDateTime now = LocalDateTime.now();
 
         //todo: timer 추후 변경 필요
