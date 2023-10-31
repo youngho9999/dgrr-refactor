@@ -11,11 +11,14 @@ import live.dgrr.domain.game.service.GameSecondRoundService;
 import live.dgrr.domain.waitingroom.entity.GameStartEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.SocketException;
 import java.security.Principal;
 import java.util.List;
 
@@ -84,5 +87,11 @@ public class GameController {
     public void leaveGame(Principal principal, @Payload String gameRoomId) {
         GameResultResponse result = gameSecondRoundService.leaveGame(principal.getName(), gameRoomId);
         template.convertAndSendToUser(result.myInfo().memberId(),ENEMY_LEAVE_GAME,result);
+    }
+
+    @MessageMapping("/error")
+    public void error(Principal principal, @Payload String content) {
+        System.out.println("시작" + principal.getName());
+        throw new RuntimeException();
     }
 }
