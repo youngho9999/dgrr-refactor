@@ -13,7 +13,6 @@ public class StompExceptionHandler  {
     @MessageExceptionHandler(GameException.class)
     @SendToUser("/recv/errors")
     public ErrorResponse handleException(GameException ex) {
-        ErrorCode errorCode = ex.getErrorCode();
         return ErrorResponse.of(ex.getErrorCode());
     }
 }
