@@ -1,6 +1,5 @@
 package live.dgrr.domain.capture.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import live.dgrr.domain.capture.entity.CaptureResult;
 import live.dgrr.domain.capture.service.CaptureProcessingService;
 import live.dgrr.domain.game.entity.GameRoom;
