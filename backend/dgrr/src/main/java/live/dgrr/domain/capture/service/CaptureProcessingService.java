@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CaptureProcessingService {
     private final ApplicationEventPublisher publisher;
-    private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public static final int FIRST_ROUND = 1;
     public static final int SECOND_ROUND = 2;
