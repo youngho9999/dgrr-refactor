@@ -1,10 +1,8 @@
 package live.dgrr.domain.game.service;
 
 
-import live.dgrr.domain.game.entity.GameMember;
-import live.dgrr.domain.game.entity.GameRoom;
-import live.dgrr.domain.game.entity.GameStatus;
-import live.dgrr.domain.game.entity.RoundResult;
+import live.dgrr.domain.game.dto.GameResultResponse;
+import live.dgrr.domain.game.entity.*;
 import live.dgrr.domain.game.entity.event.*;
 import live.dgrr.domain.game.repository.GameRoomRepository;
 import live.dgrr.global.entity.Rank;
@@ -108,5 +106,27 @@ class GameSecondRoundServiceTest {
 
         assertThat(event.memberOneId()).isEqualTo(memberOneId);
         assertThat(event.roundResult()).isEqualTo(RoundResult.NO_LAUGH);
+    }
+
+    @Test
+    void 둘다_안웃은경우_게임_결과() {
+        //given
+        String gameRoomId = "id";
+        String memberOneId = "M1";
+        String memberTwoId = "M2";
+        doAnswer(invocation -> {
+            GameMember memberOne = new GameMember(memberOneId, "Player1", "jpg", "This is description", 1400, Rank.SILVER);
+            GameMember memberTwo = new GameMember(memberTwoId, "Player2", "jpg", "This is description", 1400, Rank.SILVER);
+            GameRoom gameRoom = new GameRoom(gameRoomId, memberOne, memberTwo, GameStatus.FIRST_ROUND);
+            gameRoom.finishFirstRound(RoundResult.NO_LAUGH);
+            gameRoom.finishSecondRound(RoundResult.NO_LAUGH);
+            return Optional.of(gameRoom);
+        }).when(gameRoomRepository).findById(gameRoomId);
+        //when
+
+        GameResultResponse result = gameSecondRoundService.gameResult(memberOneId, gameRoomId);
+
+        //then
+        assertThat(result.gameResult()).isEqualTo(GameResult.DRAW);
     }
 }
