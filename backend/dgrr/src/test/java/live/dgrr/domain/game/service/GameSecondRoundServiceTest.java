@@ -102,7 +102,7 @@ class GameSecondRoundServiceTest {
     }
 
     @Test
-    void 둘다_안웃은경우_게임_결과() {
+    void 둘다_안웃은경우_게임결과() {
         //given
         mockGameRoom(RoundResult.NO_LAUGH, RoundResult.NO_LAUGH);
         //when
@@ -111,6 +111,30 @@ class GameSecondRoundServiceTest {
 
         //then
         assertThat(result.gameResult()).isEqualTo(GameResult.DRAW);
+    }
+
+    @Test
+    void 일라운드만_웃은경우_멤버원_게임결과() {
+        //given
+        mockGameRoom(RoundResult.LAUGH, RoundResult.NO_LAUGH);
+        //when
+
+        GameResultResponse result = gameSecondRoundService.gameResult(memberOneId, gameRoomId);
+
+        //then
+        assertThat(result.gameResult()).isEqualTo(GameResult.WIN);
+    }
+
+    @Test
+    void 일라운드만_웃은경우_멤버투_게임결과() {
+        //given
+        mockGameRoom(RoundResult.LAUGH, RoundResult.NO_LAUGH);
+        //when
+
+        GameResultResponse result = gameSecondRoundService.gameResult(memberTwoId, gameRoomId);
+
+        //then
+        assertThat(result.gameResult()).isEqualTo(GameResult.LOSE);
     }
 
     private void mockGameRoom(RoundResult firstRoundResult, RoundResult secondRoundResult) {
