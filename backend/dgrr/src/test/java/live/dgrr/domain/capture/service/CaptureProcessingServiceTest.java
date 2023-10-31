@@ -1,7 +1,5 @@
 package live.dgrr.domain.capture.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import live.dgrr.domain.capture.entity.CaptureResult;
 import live.dgrr.domain.game.entity.event.FirstRoundOverEvent;
 import live.dgrr.domain.game.entity.event.SecondRoundOverEvent;
