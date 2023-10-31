@@ -8,7 +8,7 @@ import live.dgrr.domain.member.dto.response.MemberRankingResponseDto;
 import live.dgrr.domain.member.dto.response.MemberResponseDto;
 import live.dgrr.domain.member.entity.Member;
 import live.dgrr.domain.member.repository.MemberRepository;
-import live.dgrr.global.util.RankCalculator;
+import live.dgrr.global.util.TierCalculator;
 import live.dgrr.domain.ranking.repository.RankingRepository;
 import live.dgrr.global.exception.ErrorCode;
 import live.dgrr.global.exception.GeneralException;
@@ -39,7 +39,7 @@ public class MemberService {
                 rankingRepository.getcurentSeason(),
                 rankingRepository.getScoreByMemberId(Long.valueOf(memberId)),
                 rankingRepository.getRankByMemberId(Long.valueOf(memberId)),
-                RankCalculator.calculateRank((int) rankingRepository.getScoreByMemberId(Long.valueOf(memberId)).doubleValue())
+                TierCalculator.calculateRank((int) rankingRepository.getScoreByMemberId(Long.valueOf(memberId)).doubleValue())
         );
         List<GameHistory> gameHistoryList = gameHistoryRepository.findTop3ByMember_MemberIdOrderByCreatedAtAsc(Long.parseLong(memberId));
 

@@ -2,11 +2,11 @@ package live.dgrr.global.util;
 
 import live.dgrr.global.entity.Tier;
 
-public class RankCalculator {
+public class TierCalculator {
 
 
 
-    private RankCalculator() {
+    private TierCalculator() {
     }
 
     private static final int GOLD_THRESHOLD =1600;

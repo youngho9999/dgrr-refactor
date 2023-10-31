@@ -8,7 +8,7 @@ import live.dgrr.global.entity.Tier;
 import live.dgrr.global.exception.ErrorCode;
 import live.dgrr.global.exception.GameException;
 import live.dgrr.global.util.EloCalculator;
-import live.dgrr.global.util.RankCalculator;
+import live.dgrr.global.util.TierCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
@@ -107,7 +107,7 @@ public class GameSecondRoundService {
         GameMember enemyInfo = gameRoom.getEnemyInfo(memberId);
         //todo: highlightImage 가져오는 로직 필요
         int afterRating = EloCalculator.calculateRating(myInfo.rating(), enemyInfo.rating(), gameResult);
-        Tier afterTier = RankCalculator.calculateRank(afterRating);
+        Tier afterTier = TierCalculator.calculateRank(afterRating);
 
         return GameResultResponse.builder()
                 .gameResult(gameResult)
@@ -132,7 +132,7 @@ public class GameSecondRoundService {
         GameMember myInfo = gameRoom.getEnemyInfo(memberId);
         GameMember enemyInfo = gameRoom.getMyInfo(memberId);
         int afterRating = EloCalculator.calculateRating(myInfo.rating(), enemyInfo.rating(), GameResult.WIN);
-        Tier afterTier = RankCalculator.calculateRank(afterRating);
+        Tier afterTier = TierCalculator.calculateRank(afterRating);
 
         return GameResultResponse.builder()
                 .gameResult(GameResult.WIN)
