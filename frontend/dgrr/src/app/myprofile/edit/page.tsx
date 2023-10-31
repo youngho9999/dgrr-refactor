@@ -2,6 +2,7 @@
 
 import DataInput from '@/components/elements/DataInput';
 import Header from '@/components/elements/Header';
+import ImageInput from '@/components/elements/ImageInput';
 import { ChangeEvent, useEffect, useState } from 'react';
 
 const Edit = () => {
@@ -59,9 +60,8 @@ const Edit = () => {
     <div>
       <Header headerType='OTHER'>프로필 수정</Header>
       <div>
-        <DataInput inputType='NICKNAME' pageType='SIGNUP' onChange={handleNicknameChange} />
+        <ImageInput myProfileImage={sampleData.member.profileImage} />
         <DataInput inputType='NICKNAME' pageType='PROFILE_EDIT' onChange={handleNicknameChange} value={nowNickname} />
-        <DataInput inputType='DESCRIPTION' pageType='SIGNUP' onChange={handleDescirptChange} />
         <DataInput inputType='DESCRIPTION' pageType='PROFILE_EDIT' onChange={handleDescirptChange} value={nowDescription} />
       </div>
     </div>
