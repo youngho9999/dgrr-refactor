@@ -85,4 +85,28 @@ class GameSecondRoundServiceTest {
         assertThat(event.roundResult()).isEqualTo(RoundResult.LAUGH);
     }
 
+    @Test
+    void 안웃은경우_이라운드_종료() {
+
+        //given
+        String gameRoomId = "id";
+        String memberOneId = "M1";
+        String memberTwoId = "M2";
+        doAnswer(invocation -> {
+            GameMember memberOne = new GameMember(memberOneId, "Player1", "jpg", "This is description", 1500, Rank.SILVER);
+            GameMember memberTwo = new GameMember(memberTwoId, "Player2", "jpg", "This is description", 1200, Rank.BRONZE);
+            GameRoom gameRoom = new GameRoom(gameRoomId, memberOne, memberTwo, GameStatus.FIRST_ROUND);
+            return Optional.of(gameRoom);
+        }).when(gameRoomRepository).findById(gameRoomId);
+
+        //when
+        gameSecondRoundService.secondRoundOver(new SecondRoundOverEvent(gameRoomId, RoundResult.NO_LAUGH));
+
+        //then
+        verify(publisher).publishEvent(secondRoundEndEventCaptor.capture());
+        SecondRoundEndEvent event = secondRoundEndEventCaptor.getValue();
+
+        assertThat(event.memberOneId()).isEqualTo(memberOneId);
+        assertThat(event.roundResult()).isEqualTo(RoundResult.NO_LAUGH);
+    }
 }

@@ -90,7 +90,7 @@ public class GameSecondRoundService {
         }
 
         publisher.publishEvent(new SecondRoundEndEvent(gameRoom.getMemberOne().memberId(),
-                gameRoom.getMemberTwo().memberId(), gameRoom.getFirstRoundResult(), destination));
+                gameRoom.getMemberTwo().memberId(), gameRoom.getSecondRoundResult(), destination));
     }
 
     /**
