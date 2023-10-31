@@ -15,10 +15,12 @@ public class RankingRepository {
 
     private final RedisTemplate<String, Long> redisTemplate;
     private final String key;
+    private final int CURRENT_SEASON;
 
     public RankingRepository(RedisTemplate<String, Long> redisTemplate, RankingConfig rankingConfig) {
         this.redisTemplate = redisTemplate;
         this.key = rankingConfig.getKey() + rankingConfig.getSeason();
+        this.CURRENT_SEASON = rankingConfig.getSeason();
     }
 
     public boolean addRanking(Long memberId, double score) {
@@ -61,5 +63,9 @@ public class RankingRepository {
         }
         rank += 1;
         return rank;
+    }
+
+    public int getcurentSeason() {
+        return CURRENT_SEASON;
     }
 }
