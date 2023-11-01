@@ -4,6 +4,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import Header from '@/components/elements/Header';
 import ImageInput from '@/components/elements/ImageInput';
 import DataInput from '@/components/elements/DataInput';
+import Swal from 'sweetalert2';
 
 const Edit = () => {
   // 나중에 삭제할 더미 데이터
@@ -55,6 +56,27 @@ const Edit = () => {
     console.log('Save');
   };
 
+  const openWithdrawModal = () => {
+    Swal.fire({
+      width: 400,
+      title: '정말 탈퇴하시겠습니까?',
+      text: '기록과 사진이 모두 삭제됩니다😥',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#469FF6',
+      cancelButtonColor: '#E83F57',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소',
+    }).then((result) => {
+      // 나중에 token 삭제하는 API 넣어야 함
+      // 확인 버튼 누르면 회원 탈퇴되고, 로그인 전 화면으로 이동함
+      if (result.isConfirmed) {
+        const newPathname = '/';
+        window.location.href = newPathname;
+      }
+    });
+  };
+
   useEffect(() => {
     console.log(sampleData);
     setNowNickName(sampleData.member.nickname);
@@ -82,14 +104,19 @@ const Edit = () => {
       <div className='px-6'>
         <div
           onClick={handleSaveButton}
-          className='bg-main-blue rounded-lg w-full max-w-xs p-4 hover:brightness-110'>
-          <div className='text-white text-center text-base font-bold uppercase leading-none'>저장</div>
+          className='bg-main-blue rounded-lg w-full max-w-xs p-4 hover:brightness-110'
+        >
+          <div className='text-white text-center text-base font-bold uppercase leading-none'>
+            저장
+          </div>
         </div>
       </div>
-      <div className='absolute bottom-0'>
-
+      <div
+        onClick={openWithdrawModal}
+        className='flex justify-center mt-40 mb-3 text-xs font-semibold cursor-pointer hover:text-[#E83F57]'
+      >
+        회원 탈퇴
       </div>
-      <div className='flex justify-center mt-40 mb-3 text-xs font-semibold cursor-pointer hover:text-[#E83F57]'>회원 탈퇴</div>
     </div>
   );
 };
