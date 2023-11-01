@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GameHistoryRepository extends JpaRepository<GameHistory,Long> {
     List<GameHistory> findTop3ByMember_MemberIdOrderByCreatedAtAsc(Long memberId);
@@ -13,5 +14,5 @@ public interface GameHistoryRepository extends JpaRepository<GameHistory,Long> {
             "FROM GameHistory gh " +
             "WHERE gh.gameRoomId = :gameRoomId " +
             "AND gh.member.memberId != :memberId")
-    GameHistory findByMember_OpponentMemberIdForGameHistory(String gameRoomId, Long memberId);
+    Optional<GameHistory> findByMember_OpponentMemberIdForGameHistory(String gameRoomId, Long memberId);
 }

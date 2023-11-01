@@ -68,7 +68,8 @@ public class MemberService {
     }
 
     private Member getOpponentMemberForGameHistory(GameHistory gameHistory) {
-        GameHistory opponentGameHistory = gameHistoryRepository.findByMember_OpponentMemberIdForGameHistory(gameHistory.getGameRoomId(), gameHistory.getMember().getMemberId());
+        GameHistory opponentGameHistory = gameHistoryRepository.findByMember_OpponentMemberIdForGameHistory(gameHistory.getGameRoomId(), gameHistory.getMember().getMemberId())
+                .orElseThrow(() -> new GeneralException(ErrorCode.OPPONENT_MEMBER_NOT_FOUND));
         return findMemberById(opponentGameHistory.getMember().getMemberId());
     }
 }
