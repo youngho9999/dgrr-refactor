@@ -84,10 +84,4 @@ public class GameController {
         GameResultResponse result = gameSecondRoundService.leaveGame(principal.getName(), gameRoomId);
         template.convertAndSendToUser(result.myInfo().memberId(),ENEMY_LEAVE_GAME,result);
     }
-
-    @MessageMapping("/error")
-    public void error(Principal principal, @Payload String content) {
-        System.out.println("시작" + principal.getName());
-        throw new RuntimeException();
-    }
 }
