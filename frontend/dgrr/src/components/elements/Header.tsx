@@ -72,10 +72,12 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
               <IoChevronBackOutline fontSize={'27px'} />
             </div>
             <div className="inline-block text-lg font-semibold">마이 프로필</div>
-          </div>
-          <div className="me-4 hover:text-main-blue">
-            <IoPencilSharp fontSize={'25px'} />
-          </div>
+            </div>
+            <Link href='/myprofile/edit'>
+              <div className="me-4 hover:text-main-blue">
+                <IoPencilSharp fontSize={'25px'} />
+              </div>
+            </Link>
         </div>
       ) : headerType === 'WAITING' ? (
         <div className="bg-black h-[60px] top-0 right-0 gap-2 pe-4 flex justify-end items-center">
