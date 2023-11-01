@@ -1,5 +1,6 @@
 package live.dgrr.domain.member.controller;
 
+import jakarta.validation.Valid;
 import live.dgrr.domain.gamehistory.dto.response.GameHistoryWithOpponentInfoResponse;
 import live.dgrr.domain.member.dto.request.MemberRequest;
 import live.dgrr.domain.member.dto.response.MemberInfoResponse;
@@ -38,7 +39,7 @@ public class MemberController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> updateMember(Principal principal, @RequestBody MemberRequest memberRequest) {
+    public ResponseEntity<Void> updateMember(Principal principal, @Valid @RequestBody MemberRequest memberRequest) {
         log.info("MemberController - updateMember");
         //TODO: memberId 수정 필요
         String memberId = "1";

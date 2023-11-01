@@ -75,23 +75,16 @@ public class MemberService {
     public void updateByMember(String memberId, MemberRequest memberRequest) {
         //TODO: checkRequestValidation 함수에 닉네임 체크로직도 추가
         Member member = findMemberById(Long.parseLong(memberId));
-        checkRequestValidation(member.getNickname(), memberRequest.nickname(), memberRequest.description());
+
+        if(!member.getNickname().equals(memberRequest.nickname())) {
+            checkNickname(memberRequest.nickname());
+        }
+
         member.updateMember(memberRequest.nickname(),memberRequest.profileImage(),memberRequest.description());
     }
 
-    private void checkRequestValidation(String memberNickname, String nickname, String description) {
-        if(!memberNickname.equals(nickname)) {
-            checkNickname(nickname);
-        }
-
-        checkDescription(description);
-    }
 
     private void checkNickname(String nickname) {
-        if (nickname.isEmpty() || nickname.length() > MAX_NICKNAME_LENGTH) {
-            throw new GeneralException(ErrorCode.NICKNAME_LENGTH_INVALID);
-        }
-
         if (isDuplicateNickname(nickname)) {
             throw new GeneralException(ErrorCode.NICKNAME_ALREADY_EXIST);
         }
@@ -104,9 +97,4 @@ public class MemberService {
         return true;
     }
 
-    private void checkDescription(String description) {
-        if (description.length() > MAX_DESCRIPTION_LENGTH) {
-            throw new GeneralException(ErrorCode.DESCRIPTION_LENGTH_INVALID);
-        }
-    }
 }
