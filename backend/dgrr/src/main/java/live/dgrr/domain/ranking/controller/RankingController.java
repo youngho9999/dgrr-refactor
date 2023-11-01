@@ -23,9 +23,4 @@ public class RankingController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Boolean> addRating() {
-        Long memberId = 1L;
-        return new ResponseEntity<>(rankingService.addRanking(memberId, 2000), HttpStatus.OK);
-    }
 }
