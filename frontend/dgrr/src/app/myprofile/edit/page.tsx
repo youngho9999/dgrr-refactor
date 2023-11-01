@@ -112,7 +112,7 @@ const Edit = () => {
           onClick={handleSaveButton}
           className="bg-main-blue rounded-lg w-full max-w-xs p-4 hover:brightness-110"
         >
-          <div className="text-white text-center text-base font-bold uppercase leading-none">
+          <div className="text-white text-center text-base font-bold cursor-pointer uppercase leading-none">
             저장
           </div>
         </div>
