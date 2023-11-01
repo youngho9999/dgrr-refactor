@@ -2,10 +2,10 @@ package live.dgrr.domain.member.service;
 
 import live.dgrr.domain.gamehistory.entity.GameHistory;
 import live.dgrr.domain.gamehistory.repository.GameHistoryRepository;
-import live.dgrr.domain.gamehistory.dto.response.GameHistoryWithOpponentInfoResponseDto;
-import live.dgrr.domain.member.dto.response.MemberInfoResponseDto;
-import live.dgrr.domain.ranking.dto.response.MemberRankingResponseDto;
-import live.dgrr.domain.member.dto.response.MemberResponseDto;
+import live.dgrr.domain.gamehistory.dto.response.GameHistoryWithOpponentInfoResponse;
+import live.dgrr.domain.member.dto.response.MemberInfoResponse;
+import live.dgrr.domain.ranking.dto.response.MemberRankingInfoResponse;
+import live.dgrr.domain.member.dto.response.MemberResponse;
 import live.dgrr.domain.member.entity.Member;
 import live.dgrr.domain.member.repository.MemberRepository;
 import live.dgrr.global.util.TierCalculator;
@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,11 +31,11 @@ public class MemberService {
     }
 
     @Transactional(readOnly=true)
-    public MemberInfoResponseDto getMyInfo(String memberId) {
+    public MemberInfoResponse getMyInfo(String memberId) {
         Member member = findMemberById(Long.parseLong(memberId));
-        MemberResponseDto memberDto = MemberResponseDto.of(member.getMemberId(), member.getNickname(), member.getProfileImage(), member.getDescription());
+        MemberResponse memberDto = MemberResponse.of(member.getMemberId(), member.getNickname(), member.getProfileImage(), member.getDescription());
 
-        MemberRankingResponseDto ranking = MemberRankingResponseDto.of(
+        MemberRankingInfoResponse ranking = MemberRankingInfoResponse.of(
                 rankingRepository.getcurentSeason(),
                 rankingRepository.getScoreByMemberId(Long.valueOf(memberId)),
                 rankingRepository.getRankByMemberId(Long.valueOf(memberId)),
@@ -44,14 +43,14 @@ public class MemberService {
         );
         List<GameHistory> gameHistoryList = gameHistoryRepository.findTop3ByMember_MemberIdOrderByCreatedAtDesc(Long.parseLong(memberId));
 
-        return MemberInfoResponseDto.of(memberDto, ranking, changeGameHistoryDto(gameHistoryList));
+        return MemberInfoResponse.of(memberDto, ranking, changeGameHistoryDto(gameHistoryList));
     }
 
-    private List<GameHistoryWithOpponentInfoResponseDto> changeGameHistoryDto(List<GameHistory> gameHistoryList) {
+    private List<GameHistoryWithOpponentInfoResponse> changeGameHistoryDto(List<GameHistory> gameHistoryList) {
         return gameHistoryList.stream()
                 .map(gameHistory -> {
                     Member opponentMember = getOpponentMemberForGameHistory(gameHistory);
-                    return GameHistoryWithOpponentInfoResponseDto.of(gameHistory, opponentMember);
+                    return GameHistoryWithOpponentInfoResponse.of(gameHistory, opponentMember);
                 })
                 .collect(Collectors.toList());
     }

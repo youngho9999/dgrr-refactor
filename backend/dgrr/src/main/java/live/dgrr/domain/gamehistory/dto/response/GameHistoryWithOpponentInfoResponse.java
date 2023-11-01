@@ -9,7 +9,7 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 @Builder
-public record GameHistoryWithOpponentInfoResponseDto(
+public record GameHistoryWithOpponentInfoResponse(
         Long gameHistoryId,
         GameResult gameResult,
         GameType gameType,
@@ -22,9 +22,9 @@ public record GameHistoryWithOpponentInfoResponseDto(
         String opponentDescription
 
 ) {
-    public static GameHistoryWithOpponentInfoResponseDto of(GameHistory gameHistory, Member member
+    public static GameHistoryWithOpponentInfoResponse of(GameHistory gameHistory, Member member
                                                             ) {
-       return GameHistoryWithOpponentInfoResponseDto.builder()
+       return GameHistoryWithOpponentInfoResponse.builder()
                .gameHistoryId(gameHistory.getGameHistoryId())
                .gameResult(gameHistory.getGameResult())
                .gameType(gameHistory.getGameType())

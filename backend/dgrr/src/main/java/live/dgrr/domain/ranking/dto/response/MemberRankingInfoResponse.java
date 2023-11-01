@@ -4,7 +4,7 @@ import live.dgrr.global.entity.Tier;
 import lombok.Builder;
 
 @Builder
-public record MemberRankingResponseDto(
+public record MemberRankingInfoResponse(
         //시즌, 레이팅, 랭크(등수), 티어
         Integer season,
         Double rating,
@@ -12,8 +12,8 @@ public record MemberRankingResponseDto(
         Tier tier
 
 ) {
-    public static MemberRankingResponseDto of(Integer season, Double rating, Long rank, Tier tier) {
-        return MemberRankingResponseDto.builder()
+    public static MemberRankingInfoResponse of(Integer season, Double rating, Long rank, Tier tier) {
+        return MemberRankingInfoResponse.builder()
                 .season(season)
                 .rating(rating)
                 .rank(rank)
