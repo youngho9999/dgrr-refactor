@@ -9,11 +9,20 @@ interface ImageInputProps {
 
 const ImageInput = ({ myProfileImage }: ImageInputProps) => {
   const [nowProfileImage, setNowProfileImage] = useState(myProfileImage);
+
+  // 프로필 이미지 업로드해서 변경하는 코드
   const changeProfileImage = (event: any) => {
-    const file = event.target.files
-    console.log(file)
-    setNowProfileImage(file)
-  }
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      if (event && event.target && typeof event.target.result === 'string') {
+        setNowProfileImage(event.target.result);
+      }
+    };
+
+    if (event && event.target && event.target.files && event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  };
 
   return (
     <div className='px-6 py-8'>
@@ -29,7 +38,14 @@ const ImageInput = ({ myProfileImage }: ImageInputProps) => {
         >
           <IoCamera fontSize={'17px'} />
         </label>
-        <input type='file' id='fileInput' style={{ display: 'none' }} accept='img/*' onChange={changeProfileImage} />
+        {/* display를 none으로 함으로써, 원래 파일 업로드 버튼을 없앰 */}
+        <input
+          type='file'
+          id='fileInput'
+          style={{ display: 'none' }}
+          accept='img/*'
+          onChange={changeProfileImage}
+        />
       </div>
     </div>
   );
