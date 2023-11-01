@@ -1,7 +1,6 @@
 "use client";
 import Header from "@/components/elements/Header";
 import Image from "next/image";
-import ex from "@/../public/images/logo_character.png";
 import doorImg from "@/../public/images/door.svg";
 import keyImg from "@/../public/images/key.svg";
 import welcomeImg from "@/../public/images/welcome.svg";
