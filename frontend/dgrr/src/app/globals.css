@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
   margin: 0 auto; /* 가로 중앙 정렬을 위해 margin 속성을 사용 */
   display: flex;
@@ -11,7 +10,7 @@ body {
 }
 
 .rank-item {
-  background-color: #E7E0EC;
+  background-color: #e7e0ec;
   padding: 8px 15px;
   border-radius: 10px;
   display: flex;

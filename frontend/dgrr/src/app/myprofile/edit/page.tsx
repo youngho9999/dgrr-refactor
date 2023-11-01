@@ -33,11 +33,11 @@ const Edit = () => {
         opponentDescription: '2023-10-30',
       },
     ],
-  }
+  };
 
-  const [nowNickname, setNowNickName] = useState('')
-  const [nowDescription, setNowDescription] = useState('')
-  
+  const [nowNickname, setNowNickName] = useState('');
+  const [nowDescription, setNowDescription] = useState('');
+
   // 닉네임 입력값 반영
   const handleNicknameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNowNickName(event.target.value);
@@ -49,23 +49,32 @@ const Edit = () => {
   };
 
   useEffect(() => {
-    console.log(sampleData)
-    setNowNickName(sampleData.member.nickname)
-    setNowDescription(sampleData.member.description)
+    console.log(sampleData);
+    setNowNickName(sampleData.member.nickname);
+    setNowDescription(sampleData.member.description);
   }, []);
-
 
   return (
     <div>
-      <Header headerType='OTHER'>프로필 수정</Header>
+      <Header headerType="OTHER">프로필 수정</Header>
       <div>
-        <DataInput inputType='NICKNAME' pageType='SIGNUP' onChange={handleNicknameChange} />
-        <DataInput inputType='NICKNAME' pageType='PROFILE_EDIT' onChange={handleNicknameChange} value={nowNickname} />
-        <DataInput inputType='DESCRIPTION' pageType='SIGNUP' onChange={handleDescirptChange} />
-        <DataInput inputType='DESCRIPTION' pageType='PROFILE_EDIT' onChange={handleDescirptChange} value={nowDescription} />
+        <DataInput inputType="NICKNAME" pageType="SIGNUP" onChange={handleNicknameChange} />
+        <DataInput
+          inputType="NICKNAME"
+          pageType="PROFILE_EDIT"
+          onChange={handleNicknameChange}
+          value={nowNickname}
+        />
+        <DataInput inputType="DESCRIPTION" pageType="SIGNUP" onChange={handleDescirptChange} />
+        <DataInput
+          inputType="DESCRIPTION"
+          pageType="PROFILE_EDIT"
+          onChange={handleDescirptChange}
+          value={nowDescription}
+        />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Edit;
