@@ -14,6 +14,7 @@ public record GameHistoryWithOpponentInfoResponseDto(
         GameResult gameResult,
         GameType gameType,
         Integer holdingTime,
+        Integer ratingChange,
         String highlightImage,
         LocalDateTime createdAt,
         String opponentNickname,
@@ -28,6 +29,7 @@ public record GameHistoryWithOpponentInfoResponseDto(
                .gameResult(gameHistory.getGameResult())
                .gameType(gameHistory.getGameType())
                .holdingTime(gameHistory.getHoldingTime())
+               .ratingChange(gameHistory.getRatingChange())
                .highlightImage(gameHistory.getHighlightImage())
                .createdAt(gameHistory.getCreatedAt())
                .opponentNickname(member.getNickname())

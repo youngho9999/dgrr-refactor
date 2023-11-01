@@ -28,6 +28,7 @@ public class GameHistory extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private GameType gameType; //RANDOM, PRIVATE
     private Long gameTime;
+    private Integer ratingChange; //해당 게임으로 반영되는 점수
     private Integer holdingTime;
     private String highlightImage;
 
