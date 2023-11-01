@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { IoCamera } from 'react-icons/io5';
 
 interface ImageInputProps {

@@ -1,9 +1,9 @@
 'use client';
 
-import DataInput from '@/components/elements/DataInput';
+import { ChangeEvent, useEffect, useState } from 'react';
 import Header from '@/components/elements/Header';
 import ImageInput from '@/components/elements/ImageInput';
-import { ChangeEvent, useEffect, useState } from 'react';
+import DataInput from '@/components/elements/DataInput';
 
 const Edit = () => {
   // 나중에 삭제할 더미 데이터
@@ -34,11 +34,11 @@ const Edit = () => {
         opponentDescription: '2023-10-30',
       },
     ],
-  }
+  };
 
-  const [nowNickname, setNowNickName] = useState('')
-  const [nowDescription, setNowDescription] = useState('')
-  
+  const [nowNickname, setNowNickName] = useState('');
+  const [nowDescription, setNowDescription] = useState('');
+
   // 닉네임 입력값 반영
   const handleNicknameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNowNickName(event.target.value);
@@ -49,23 +49,49 @@ const Edit = () => {
     setNowDescription(event.target.value);
   };
 
-  useEffect(() => {
-    console.log(sampleData)
-    setNowNickName(sampleData.member.nickname)
-    setNowDescription(sampleData.member.description)
-  }, []);
+  // 저장 버튼 눌렀을 때 작동하는 함수
+  // (나중에 API 연결)
+  const handleSaveButton = () => {
+    console.log('Save');
+  };
 
+  useEffect(() => {
+    console.log(sampleData);
+    setNowNickName(sampleData.member.nickname);
+    setNowDescription(sampleData.member.description);
+  }, []);
 
   return (
     <div>
       <Header headerType='OTHER'>프로필 수정</Header>
       <div>
         <ImageInput myProfileImage={sampleData.member.profileImage} />
-        <DataInput inputType='NICKNAME' pageType='PROFILE_EDIT' onChange={handleNicknameChange} value={nowNickname} />
-        <DataInput inputType='DESCRIPTION' pageType='PROFILE_EDIT' onChange={handleDescirptChange} value={nowDescription} />
+        <DataInput
+          inputType='NICKNAME'
+          pageType='PROFILE_EDIT'
+          onChange={handleNicknameChange}
+          value={nowNickname}
+        />
+        <DataInput
+          inputType='DESCRIPTION'
+          pageType='PROFILE_EDIT'
+          onChange={handleDescirptChange}
+          value={nowDescription}
+        />
       </div>
+      <div className='px-6'>
+        <div
+          onClick={handleSaveButton}
+          className='bg-main-blue rounded-lg w-full max-w-xs p-4 hover:brightness-110'>
+          <div className='text-white text-center text-base font-bold uppercase leading-none'>저장</div>
+        </div>
+      </div>
+      <div className='absolute bottom-0'>
+
+      </div>
+      <div className='flex justify-center mt-40 mb-3 text-xs font-semibold cursor-pointer hover:text-[#E83F57]'>회원 탈퇴</div>
     </div>
-  )
-}
+  );
+};
 
 export default Edit;
