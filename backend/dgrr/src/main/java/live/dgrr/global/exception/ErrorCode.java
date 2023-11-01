@@ -22,7 +22,10 @@ public enum ErrorCode {
     MAX_MEMBER_ALREADY_EXIST(HttpStatus.CONFLICT, "Max Member Already Exist"), //대기 방 참여자 정원이 다 찬 경우
     IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "Image Not Found"), // 이미지를 찾을 수 없을 때
     IMAGE_PROCESSING_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Error Processing Image"), // 이미지 처리 중 오류났을 때
-    OPPONENT_MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "Opponent Member Not Found");
+    OPPONENT_MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "Opponent Member Not Found"),
+    DESCRIPTION_LENGTH_INVALID(HttpStatus.BAD_REQUEST,"Description Length Invalid"),
+    NICKNAME_LENGTH_INVALID(HttpStatus.BAD_REQUEST,"Nickname Length Invalid"),
+    NICKNAME_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "Nickname Already Exist");
     private final HttpStatus httpStatus;
     private final String message;
 }
