@@ -40,3 +40,12 @@ body {
   top: 0px; /* 원하는 위치로 조정 */
   right: 0px; /* 원하는 위치로 조정 */
 }
+
+.custom-confirm-button {
+  width: 100px;
+}
+
+.custom-cancle-button {
+  margin-left: 20px;
+  width: 100px;
+}

@@ -67,10 +67,15 @@ const Edit = () => {
       cancelButtonColor: '#E83F57',
       confirmButtonText: '확인',
       cancelButtonText: '취소',
+      customClass: {
+        confirmButton: 'custom-confirm-button',
+        cancelButton: 'custom-cancle-button',
+      },
     }).then((result) => {
       // 나중에 token 삭제하는 API 넣어야 함
       // 확인 버튼 누르면 회원 탈퇴되고, 로그인 전 화면으로 이동함
       if (result.isConfirmed) {
+        console.log('Withdraw DGRR')
         const newPathname = '/';
         window.location.href = newPathname;
       }
