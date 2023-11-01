@@ -23,7 +23,9 @@ public class GameHistory extends BaseEntity {
     @JoinColumn(name = "memberId")
     private Member member;
     private String gameRoomId;
+    @Enumerated(EnumType.STRING)
     private GameResult gameResult; //WIN, LOSE, DRAW
+    @Enumerated(EnumType.STRING)
     private GameType gameType; //RANDOM, PRIVATE
     private Long gameTime;
     private Integer holdingTime;
