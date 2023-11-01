@@ -42,28 +42,18 @@ public class MemberService {
                 rankingRepository.getRankByMemberId(Long.valueOf(memberId)),
                 TierCalculator.calculateRank((int) rankingRepository.getScoreByMemberId(Long.valueOf(memberId)).doubleValue())
         );
-        List<GameHistory> gameHistoryList = gameHistoryRepository.findTop3ByMember_MemberIdOrderByCreatedAtAsc(Long.parseLong(memberId));
+        List<GameHistory> gameHistoryList = gameHistoryRepository.findTop3ByMember_MemberIdOrderByCreatedAtDesc(Long.parseLong(memberId));
 
         return MemberInfoResponseDto.of(memberDto, ranking, changeGameHistoryDto(gameHistoryList));
     }
 
     private List<GameHistoryWithOpponentInfoResponseDto> changeGameHistoryDto(List<GameHistory> gameHistoryList) {
-//        List<GameHistoryWithOpponentInfoResponseDto> responseDtoList = new ArrayList<>();
-//
-//        for (GameHistory gameHistory : gameHistoryList) {
-//            Member opponentMember = getOpponentMemberForGameHistory(gameHistory);
-//            GameHistoryWithOpponentInfoResponseDto responseDto = GameHistoryWithOpponentInfoResponseDto.of(gameHistory, opponentMember);
-//            responseDtoList.add(responseDto);
-//        }
-//        return responseDtoList;
-
         return gameHistoryList.stream()
                 .map(gameHistory -> {
                     Member opponentMember = getOpponentMemberForGameHistory(gameHistory);
                     return GameHistoryWithOpponentInfoResponseDto.of(gameHistory, opponentMember);
                 })
                 .collect(Collectors.toList());
-
     }
 
     private Member getOpponentMemberForGameHistory(GameHistory gameHistory) {
