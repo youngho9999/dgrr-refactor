@@ -1,6 +1,6 @@
 package live.dgrr.domain.ranking.repository;
 
-import live.dgrr.domain.ranking.dto.RankingResponse;
+import live.dgrr.domain.ranking.dto.response.RankingResponse;
 import live.dgrr.global.config.redis.RankingConfig;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;

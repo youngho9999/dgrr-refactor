@@ -2,9 +2,9 @@ package live.dgrr.domain.member.service;
 
 import live.dgrr.domain.gamehistory.entity.GameHistory;
 import live.dgrr.domain.gamehistory.repository.GameHistoryRepository;
-import live.dgrr.domain.member.dto.response.GameHistoryWithOpponentInfoResponseDto;
+import live.dgrr.domain.gamehistory.dto.response.GameHistoryWithOpponentInfoResponseDto;
 import live.dgrr.domain.member.dto.response.MemberInfoResponseDto;
-import live.dgrr.domain.member.dto.response.MemberRankingResponseDto;
+import live.dgrr.domain.ranking.dto.response.MemberRankingResponseDto;
 import live.dgrr.domain.member.dto.response.MemberResponseDto;
 import live.dgrr.domain.member.entity.Member;
 import live.dgrr.domain.member.repository.MemberRepository;

@@ -1,4 +1,4 @@
-package live.dgrr.domain.member.dto.response;
+package live.dgrr.domain.gamehistory.dto.response;
 
 import live.dgrr.domain.game.entity.GameResult;
 import live.dgrr.domain.game.entity.event.GameType;

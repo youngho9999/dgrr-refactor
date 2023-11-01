@@ -1,4 +1,4 @@
-package live.dgrr.domain.member.dto.response;
+package live.dgrr.domain.ranking.dto.response;
 
 import live.dgrr.global.entity.Tier;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package live.dgrr.domain.ranking.dto;
+package live.dgrr.domain.ranking.dto.request;
 
 import lombok.Builder;
 

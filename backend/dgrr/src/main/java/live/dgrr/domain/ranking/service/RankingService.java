@@ -1,7 +1,7 @@
 package live.dgrr.domain.ranking.service;
 
-import live.dgrr.domain.ranking.dto.RankingMemberResponse;
-import live.dgrr.domain.ranking.dto.RankingResponse;
+import live.dgrr.domain.ranking.dto.response.RankingMemberResponse;
+import live.dgrr.domain.ranking.dto.response.RankingResponse;
 import live.dgrr.domain.ranking.repository.RankingRepository;
 import live.dgrr.global.config.redis.RankingConfig;
 import lombok.extern.slf4j.Slf4j;

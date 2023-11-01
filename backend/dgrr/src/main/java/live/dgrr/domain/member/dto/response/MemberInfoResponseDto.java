@@ -1,5 +1,7 @@
 package live.dgrr.domain.member.dto.response;
 
+import live.dgrr.domain.gamehistory.dto.response.GameHistoryWithOpponentInfoResponseDto;
+import live.dgrr.domain.ranking.dto.response.MemberRankingResponseDto;
 import lombok.Builder;
 
 import java.util.List;
