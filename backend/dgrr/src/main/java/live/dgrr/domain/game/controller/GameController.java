@@ -11,14 +11,10 @@ import live.dgrr.domain.game.service.GameSecondRoundService;
 import live.dgrr.domain.waitingroom.entity.GameStartEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
-import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.net.SocketException;
 import java.security.Principal;
 import java.util.List;
 
