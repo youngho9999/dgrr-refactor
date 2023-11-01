@@ -37,9 +37,9 @@ public class MemberService {
 
         MemberRankingInfoResponse ranking = MemberRankingInfoResponse.of(
                 rankingRepository.getcurentSeason(),
-                rankingRepository.getScoreByMemberId(Long.valueOf(memberId)),
+                rankingRepository.getRatingByMemberId(Long.valueOf(memberId)),
                 rankingRepository.getRankByMemberId(Long.valueOf(memberId)),
-                TierCalculator.calculateRank((int) rankingRepository.getScoreByMemberId(Long.valueOf(memberId)).doubleValue())
+                TierCalculator.calculateRank((int) rankingRepository.getRatingByMemberId(Long.valueOf(memberId)).doubleValue())
         );
         List<GameHistory> gameHistoryList = gameHistoryRepository.findTop3ByMember_MemberIdOrderByCreatedAtDesc(Long.parseLong(memberId));
 
