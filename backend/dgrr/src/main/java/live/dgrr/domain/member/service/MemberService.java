@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -47,23 +48,21 @@ public class MemberService {
     }
 
     private List<GameHistoryWithOpponentInfoResponseDto> changeGameHistoryDto(List<GameHistory> gameHistoryList) {
-        List<GameHistoryWithOpponentInfoResponseDto> responseDtoList = new ArrayList<>();
+//        List<GameHistoryWithOpponentInfoResponseDto> responseDtoList = new ArrayList<>();
+//
+//        for (GameHistory gameHistory : gameHistoryList) {
+//            Member opponentMember = getOpponentMemberForGameHistory(gameHistory);
+//            GameHistoryWithOpponentInfoResponseDto responseDto = GameHistoryWithOpponentInfoResponseDto.of(gameHistory, opponentMember);
+//            responseDtoList.add(responseDto);
+//        }
+//        return responseDtoList;
 
-        for (GameHistory gameHistory : gameHistoryList) {
-            Member opponentMember = getOpponentMemberForGameHistory(gameHistory);
-            GameHistoryWithOpponentInfoResponseDto responseDto = GameHistoryWithOpponentInfoResponseDto.of(
-                    gameHistory.getGameHistoryId(),
-                    gameHistory.getGameResult(),
-                    gameHistory.getGameType(),
-                    gameHistory.getHoldingTime(),
-                    gameHistory.getHighlightImage(),
-                    gameHistory.getCreatedAt(),
-                    opponentMember.getNickname(),
-                    opponentMember.getProfileImage(),
-                    opponentMember.getDescription());
-            responseDtoList.add(responseDto);
-        }
-        return responseDtoList;
+        return gameHistoryList.stream()
+                .map(gameHistory -> {
+                    Member opponentMember = getOpponentMemberForGameHistory(gameHistory);
+                    return GameHistoryWithOpponentInfoResponseDto.of(gameHistory, opponentMember);
+                })
+                .collect(Collectors.toList());
 
     }
 
