@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 type ButtonProps = {
   value: string;
@@ -7,7 +7,7 @@ type ButtonProps = {
 };
 
 export const LinkButton = ({ value, small = false, moveLink }: ButtonProps) => {
-  const size = small ? "w-20" : "w-4/5";
+  const size = small ? 'w-20' : 'w-4/5';
   return (
     <Link
       href={moveLink}

@@ -35,8 +35,8 @@ const Rank = ({ rank, rating }: RankProps) => {
       allowOutsideClick: true,
       showCloseButton: true,
       customClass: {
-        closeButton: 'custom-close-button' // 사용자 정의 클래스를 closeButton에 지정
-      }
+        closeButton: 'custom-close-button', // 사용자 정의 클래스를 closeButton에 지정
+      },
     });
 
     Toast.fire({
@@ -69,38 +69,38 @@ const Rank = ({ rank, rating }: RankProps) => {
   };
 
   return (
-    <div className='h-[220px] py-6 my-2'>
+    <div className="h-[220px] py-6 my-2">
       {/* <div className='flex items-center mt-6 mb-4 ps-6'> */}
-      <div className='flex items-center pb-4'>
-        <div className='text-lg font-semibold ps-6 me-1'>내 티어</div>
-        <div className='inline-block cursor-pointer' onClick={showHelp}>
+      <div className="flex items-center pb-4">
+        <div className="text-lg font-semibold ps-6 me-1">내 티어</div>
+        <div className="inline-block cursor-pointer" onClick={showHelp}>
           <IoHelpCircleOutline fontSize={'18px'} />
         </div>
       </div>
-      <div className='flex justify-center'>
+      <div className="flex justify-center">
         {rank === 'Gold' ? (
-          <img src='/images/Gold.png' alt='Gold' className='w-[80px] aspect-square' />
+          <img src="/images/Gold.png" alt="Gold" className="w-[80px] aspect-square" />
         ) : rank === 'Sliver' ? (
-          <img src='/images/Sliver.png' alt='Sliver' className='w-[80px] aspect-square' />
+          <img src="/images/Sliver.png" alt="Sliver" className="w-[80px] aspect-square" />
         ) : (
-          <img src='/images/Bronze.png' alt='Bronze' className='w-[80px] aspect-square' />
+          <img src="/images/Bronze.png" alt="Bronze" className="w-[80px] aspect-square" />
         )}
       </div>
-      <div className='flex justify-center mt-[19px]'>
+      <div className="flex justify-center mt-[19px]">
         {rank === 'Gold' ? (
           <ProgressBar
             {...progressBarProps} // 기본 매개변수를 전달
-            bgColor='#FCC858'
+            bgColor="#FCC858"
           />
         ) : rank === 'Sliver' ? (
           <ProgressBar
             {...progressBarProps} // 기본 매개변수를 전달
-            bgColor='#B8B8B8'
+            bgColor="#B8B8B8"
           />
         ) : (
           <ProgressBar
             {...progressBarProps} // 기본 매개변수를 전달
-            bgColor='#C4872F'
+            bgColor="#C4872F"
           />
         )}
       </div>

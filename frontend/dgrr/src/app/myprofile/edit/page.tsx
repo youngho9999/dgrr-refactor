@@ -59,7 +59,8 @@ const Edit = () => {
   const openWithdrawModal = () => {
     Swal.fire({
       width: 400,
-      title: '정말 탈퇴하시겠습니까?',
+      title: `데구르르에서
+      탈퇴하시겠습니까?`,
       text: '기록과 사진이 모두 삭제됩니다😥',
       icon: 'warning',
       showCancelButton: true,
@@ -75,7 +76,7 @@ const Edit = () => {
       // 나중에 token 삭제하는 API 넣어야 함
       // 확인 버튼 누르면 회원 탈퇴되고, 로그인 전 화면으로 이동함
       if (result.isConfirmed) {
-        console.log('Withdraw DGRR')
+        console.log('Withdraw DGRR');
         const newPathname = '/';
         window.location.href = newPathname;
       }
@@ -90,35 +91,35 @@ const Edit = () => {
 
   return (
     <div>
-      <Header headerType='OTHER'>프로필 수정</Header>
+      <Header headerType="OTHER">프로필 수정</Header>
       <div>
         <ImageInput myProfileImage={sampleData.member.profileImage} />
         <DataInput
-          inputType='NICKNAME'
-          pageType='PROFILE_EDIT'
+          inputType="NICKNAME"
+          pageType="PROFILE_EDIT"
           onChange={handleNicknameChange}
           value={nowNickname}
         />
         <DataInput
-          inputType='DESCRIPTION'
-          pageType='PROFILE_EDIT'
+          inputType="DESCRIPTION"
+          pageType="PROFILE_EDIT"
           onChange={handleDescirptChange}
           value={nowDescription}
         />
       </div>
-      <div className='px-6'>
+      <div className="px-6">
         <div
           onClick={handleSaveButton}
-          className='bg-main-blue rounded-lg w-full max-w-xs p-4 hover:brightness-110'
+          className="bg-main-blue rounded-lg w-full max-w-xs p-4 hover:brightness-110"
         >
-          <div className='text-white text-center text-base font-bold uppercase leading-none'>
+          <div className="text-white text-center text-base font-bold uppercase leading-none">
             저장
           </div>
         </div>
       </div>
       <div
         onClick={openWithdrawModal}
-        className='flex justify-center mt-40 mb-3 text-xs font-semibold cursor-pointer hover:text-[#E83F57]'
+        className="flex justify-center mt-40 mb-3 text-xs font-semibold cursor-pointer hover:text-[#E83F57]"
       >
         회원 탈퇴
       </div>
