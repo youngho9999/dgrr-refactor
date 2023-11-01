@@ -1,4 +1,4 @@
-import {IoCloseOutline} from "react-icons/io5"
+import { IoCloseOutline } from "react-icons/io5";
 
 export const ExplainModal = ({ onClose }: { onClose: () => void }) => {
   const modalInClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -6,12 +6,20 @@ export const ExplainModal = ({ onClose }: { onClose: () => void }) => {
   };
 
   return (
-    <div className="z-10 bg-black/30 w-full h-full max-w-[500px] fixed top-0 flex justify-center items-center" onClick={onClose}>
-      <div className="w-4/5 h-fit max-h-[600px] overflow-scroll bg-white rounded-lg border-2 border-black px-4 pb-4" onClick={modalInClick}>
+    <div
+      className="z-10 bg-black/30 w-full h-full max-w-[500px] fixed top-0 flex justify-center items-center"
+      onClick={onClose}
+    >
+      <div
+        className="w-4/5 h-fit max-h-[600px] overflow-scroll bg-white rounded-lg border-2 border-black px-4 pb-4 overflow-x-hidden"
+        onClick={modalInClick}
+      >
         <div className="flex justify-between sticky top-0 bg-white pt-4">
           <p className="w-8"></p>
           <p className="font-bold text-2xl">게임 설명</p>
-          <IoCloseOutline onClick={onClose} fontSize={'32px'} />
+          <button>
+            <IoCloseOutline onClick={onClose} fontSize={"32px"} />
+          </button>
         </div>
         <div className="mt-3">
           <p>안녕하세요! 저희는 1:1 실시간 웃음 참기 서비스 데구르르 입니다.</p>
