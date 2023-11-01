@@ -49,6 +49,7 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
 
   return (
     // MAIN : 메인 화면에서의 헤더(랭킹 버튼, 마이 프로필 버튼)
+    // GAMESTART : 게임 시작에서의 헤더(뒤로 가기 버튼)
     // PROFILE : 마이 프로필에서의 헤더(뒤로 가기 버튼, 수정하기 버튼)
     // WAITING : 대기실에서의 헤더(클립보드 복사 버튼, 나가기 버튼)
     // GAME : 게임 화면에서의 헤더(시간, 나가기 버튼)
