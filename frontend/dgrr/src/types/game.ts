@@ -7,7 +7,7 @@ export interface IGameConfig {
   success: string;
 
   // 게임 정보
-  turn: "first" | "second";
+  turn: "FIRST" | "SECOND";
   startTime: string;
   gameSessionId: string;
   openViduToken: string;
