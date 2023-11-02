@@ -23,6 +23,8 @@ public enum ErrorCode {
     IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "Image Not Found"), // 이미지를 찾을 수 없을 때
     IMAGE_PROCESSING_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Error Processing Image"), // 이미지 처리 중 오류났을 때
     OPPONENT_MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "Opponent Member Not Found"),
+    OPENVIDU_SESSION_ERROR(HttpStatus.BAD_REQUEST, "Openvidu Session Create Error"),
+    OPENVIDU_CONNECTION_ERROR(HttpStatus.BAD_REQUEST, "Openvidu Connection Create Error"),
     VALIDATION_DESCRIPTION_LENGTH_INVALID(HttpStatus.BAD_REQUEST,"Validation Description Length Invalid"),
     VALIDATION_NICKNAME_LENGTH_INVALID(HttpStatus.BAD_REQUEST,"Validation Nickname Length Invalid"),
     NICKNAME_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "Nickname Already Exist"),
