@@ -28,6 +28,10 @@ const Result = () => {
 
   const clickOneMore = () => {
     console.log('One More Time')
+  
+  }
+  const clickGoToMain = () => {
+    console.log('Go To Main')
   }
 
   useEffect(() => {
@@ -63,20 +67,28 @@ const Result = () => {
             <div>LOSE</div>
           )}
         </div>
-        <div className='mt-16'>
+        <div className='mt-9'>
           <Rank pageType='GAMERESULT' rating={gameResult.afterRating} tier={gameResult.afterTier} />
         </div>
         <div>
-          <div className='flex gap-2'>
-            <img className='w-10 aspect-square rounded-full items-center' src={gameResult.enemyInfo.profileImage} alt='상대방 프로필 사진' />
+          <div className='flex items-center ms-1 mt-9 mb-7 gap-x-2'>
+            <div>
+              <img className='w-10 aspect-square rounded-full' src={gameResult.enemyInfo.profileImage} alt='상대방 프로필 사진' />
+            </div>
             <div className='inline-block'>
-              <div className='h-[16px]'>{gameResult.enemyInfo.nickname}</div>
-              <div className='h-[16px]'>{gameResult.enemyInfo.description}</div>
+              <div className='text-[15px] font-bold'>상대방 닉네임</div>
+              <div className='text-sm'>{gameResult.enemyInfo.nickname}</div>
             </div>
           </div>
         </div>
-        <FuncButton clickEvent={clickOneMore} value='한 판 더?'></FuncButton>
-        <FuncButton clickEvent={clickOneMore} value='한 판 더?'></FuncButton>
+        <div className='space-y-3'>
+          <div className='flex justify-center'>
+            <FuncButton clickEvent={clickOneMore} value='한 판 더?' />
+          </div>
+          <div className='flex justify-center'>
+            <FuncButton clickEvent={clickGoToMain} value='메인으로' />
+          </div>
+        </div>
       </div>
     </div>
   );
