@@ -45,14 +45,13 @@ const RecentRecordItem = ({ item }: RecentRecordItemProps) => {
           />
           <div className="text-[14px] inline-block">{item.opponentNickname}</div>
         </div>
-        <div className="flex items-center gap-x-2">
+        <div className="flex items-center">
           {item.gameResult !== 'DRAW' ? (
             <div>
               <IoImageOutline fontSize={'24px'} />
             </div>
           ) : null}
-          {/* 반드시!!!! 필수적으로!!!! 날짜로 변경해야 함 */}
-          <div className="text-sm inline-block">{useTimeStamp(item.createdAt)}</div>
+          <div className="text-sm inline-block w-[69px] text-right">{useTimeStamp(item.createdAt)}</div>
         </div>
       </div>
     </div>
