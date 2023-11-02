@@ -7,7 +7,7 @@ const { MATCHING_URI, GAME_URI, IMAGE_DATA_URI, STATUS_URI, END_URI, RESULT_URI 
 
 export const connectStomp = (headers: StompHeaders) => {
   const client = new Client({
-    brokerURL: process.env.REACT_APP_BROKER_URL,
+    brokerURL: process.env.NEXT_PUBLIC_BROKER_URL,
     connectHeaders: {
       ...headers,
     },
