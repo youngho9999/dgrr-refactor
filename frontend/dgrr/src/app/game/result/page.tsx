@@ -27,12 +27,14 @@ const Result = () => {
   });
 
   const clickOneMore = () => {
-    console.log('One More Time')
-  
-  }
+    console.log('One More Time');
+  };
+
   const clickGoToMain = () => {
-    console.log('Go To Main')
-  }
+    console.log('Go To Main');
+    const newPathname = '/main';
+    window.location.href = newPathname;
+  };
 
   useEffect(() => {
     setGameResult({
@@ -44,7 +46,7 @@ const Result = () => {
         tier: 'Gold',
       },
       enemyInfo: {
-        nickname: '가나다라마바사아자차카타',
+        nickname: '가나다라마바',
         profileImage: '/images/sample_image2.png',
         description: 'An avid player from Busan.',
         rating: 1550,
@@ -56,37 +58,37 @@ const Result = () => {
       afterTier: 'Gold',
     });
   }, []);
-  
+
   return (
     <div className="flex justify-center items-center bg-main-blue w-screen h-screen max-w-[360px]">
       <div className="bg-white w-11/12 h-[522px] rounded-[12px] p-5">
-        <div className='text-[40px] font-bold text-center'>
-          {gameResult.gameResult === 'WIN' ? (
-            <div>WIN</div>
-          ) : (
-            <div>LOSE</div>
-          )}
+        <div className="text-[40px] font-bold text-center">
+          {gameResult.gameResult === 'WIN' ? <div>WIN</div> : <div>LOSE</div>}
         </div>
-        <div className='mt-9'>
-          <Rank pageType='GAMERESULT' rating={gameResult.afterRating} tier={gameResult.afterTier} />
+        <div className="mt-9">
+          <Rank pageType="GAMERESULT" rating={gameResult.afterRating} tier={gameResult.afterTier} />
         </div>
         <div>
-          <div className='flex items-center ms-1 mt-9 mb-7 gap-x-2'>
+          <div className="flex items-center ms-[6px] mt-9 mb-7 gap-x-2">
             <div>
-              <img className='w-10 aspect-square rounded-full' src={gameResult.enemyInfo.profileImage} alt='상대방 프로필 사진' />
+              <img
+                className="w-10 aspect-square rounded-full"
+                src={gameResult.enemyInfo.profileImage}
+                alt="상대방 프로필 사진"
+              />
             </div>
-            <div className='inline-block'>
-              <div className='text-[15px] font-bold'>상대방 닉네임</div>
-              <div className='text-sm'>{gameResult.enemyInfo.nickname}</div>
+            <div className="inline-block">
+              <div className="text-[15px] font-bold">{gameResult.enemyInfo.nickname}</div>
+              <div className="text-sm">{gameResult.enemyInfo.description}</div>
             </div>
           </div>
         </div>
-        <div className='space-y-3'>
-          <div className='flex justify-center'>
-            <FuncButton clickEvent={clickOneMore} value='한 판 더?' />
+        <div className="space-y-3">
+          <div className="flex justify-center">
+            <FuncButton clickEvent={clickOneMore} value="한 판 더?" />
           </div>
-          <div className='flex justify-center'>
-            <FuncButton clickEvent={clickGoToMain} value='메인으로' />
+          <div className="flex justify-center">
+            <FuncButton clickEvent={clickGoToMain} value="메인으로" />
           </div>
         </div>
       </div>
