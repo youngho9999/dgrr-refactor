@@ -48,14 +48,6 @@ const Result = () => {
       afterTier: 'Gold',
     });
   }, []);
-
-  const progressBarProps = {
-    completed: gameResult.afterRating - 1400,
-    maxCompleted: 400,
-    customLabel: gameResult.afterRating.toString(),
-    width: '270px',
-    height: '25px',
-  };
   
   return (
     <div className="flex justify-center items-center bg-main-blue w-screen h-screen max-w-[360px]">
@@ -67,7 +59,7 @@ const Result = () => {
             <div>LOSE</div>
           )}
         </div>
-        <div>
+        <div className='mt-16'>
           <Rank pageType='GAMERESULT' rating={gameResult.afterRating} tier={gameResult.afterTier} />
         </div>
       </div>
