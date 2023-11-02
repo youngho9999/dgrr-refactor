@@ -26,6 +26,18 @@ export const connectStomp = (headers: StompHeaders) => {
   });
 };
 
+export const gameSubscribe = (client: Client, destination: string) => {
+  console.log('경로 확인: ', destination)
+  console.log('client 확인: ', client)
+  console.log('client 연결 확인: ', client.connected)
+  
+  client.subscribe(destination, (message) => {
+    console.log('구독하고있나?:', message)
+    console.log(message.body)
+  })
+}
+
+
 export const getGameConfig = (client: Client) => {
   return new Promise<IGameConfig>((resolve) => {
     console.log(GAME_URI, '를 구독합니다. ');
