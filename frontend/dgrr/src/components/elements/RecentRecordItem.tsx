@@ -4,13 +4,12 @@ import { IoImageOutline } from 'react-icons/io5';
 
 interface RecentRecordItemProps {
   item: {
-    gameDetailId: number;
-    gameRoomId: number;
+    gameHistoryId: number;
     gameResult: string;
     gameType: string;
     gameTime: number;
     holdingTime: number;
-    laughAmount: number;
+    ratingChange: number;
     highlightImage: string;
     opponentNickname: string;
     opponentProfileImage: string;
