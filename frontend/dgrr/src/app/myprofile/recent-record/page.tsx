@@ -123,12 +123,12 @@ const RecentRecord = () => {
 
   return (
     <div>
-      <Header headerType='OTHER'>최근 전적</Header>
-      <div className='px-6 pt-2'>
+      <Header headerType="OTHER">최근 전적</Header>
+      <div className="px-6 pt-2">
         {myInfo.gameDetailList.map((item, index) => (
           <div key={index}>
             {item.gameResult !== 'DRAW' ? (
-              <div onClick={() => openModal(index)} className='cursor-pointer'>
+              <div onClick={() => openModal(index)} className="cursor-pointer">
                 <RecentRecordItem item={item} />
               </div>
             ) : (

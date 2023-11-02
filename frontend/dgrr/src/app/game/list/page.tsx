@@ -10,12 +10,12 @@ import { useState } from "react";
 
 const ListPage = () => {
   const gameList = [
-    { value: "방 만들기", imgLink: doorImg, navLink: "game/room" },
-    { value: "방 찾기", imgLink: keyImg, navLink: "" },
-    { value: "랜덤 매칭", imgLink: welcomeImg, navLink: "game/loading" },
+    { value: '방 만들기', imgLink: doorImg, navLink: 'game/room' },
+    { value: '방 찾기', imgLink: keyImg, navLink: '' },
+    { value: '랜덤 매칭', imgLink: welcomeImg, navLink: 'game/loading' },
   ];
   const commonClass =
-    "w-4/5 max-w-xs py-3 mx-auto space-y-3 bg-white rounded-lg border-2 border-black flex flex-col items-center hover:brightness-125";
+    'w-4/5 max-w-xs py-3 mx-auto space-y-3 bg-white rounded-lg border-2 border-black flex flex-col items-center hover:brightness-125';
   const handleModal = () => {
     setIsModal(!isModal);
   };
@@ -23,31 +23,19 @@ const ListPage = () => {
 
   return (
     <div className="bg-main-blue w-screen h-screen max-w-[500px]">
-      <Header headerType="OTHER" />
+      <Header headerType="GAMESTART" />
       {isModal && <FindRoomModal handleModal={handleModal} />}
 
       <div className="space-y-6">
         {gameList.map((item, index) =>
           index === 1 ? (
-            <div
-              className={`${commonClass} cursor-pointer`}
-              key={index}
-              onClick={handleModal}
-            >
-              <Image
-                src={item.imgLink}
-                alt="이미지예시"
-                className="w-20 h-20"
-              />
+            <div className={`${commonClass} cursor-pointer`} key={index} onClick={handleModal}>
+              <Image src={item.imgLink} alt="이미지예시" className="w-20 h-20" />
               <p className="font-bold text-base">{item.value}</p>
             </div>
           ) : (
             <Link href={item.navLink} className={commonClass} key={index}>
-              <Image
-                src={item.imgLink}
-                alt="이미지예시"
-                className="w-20 h-20"
-              />
+              <Image src={item.imgLink} alt="이미지예시" className="w-20 h-20" />
               <p className="font-bold text-base">{item.value}</p>
             </Link>
           )

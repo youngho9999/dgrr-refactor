@@ -1,12 +1,12 @@
-"use client";
-import { FormEvent, useState } from "react";
-import { IoCloseOutline } from "react-icons/io5";
+'use client';
+import { FormEvent, useState } from 'react';
+import { IoCloseOutline } from 'react-icons/io5';
 
 type FindModalProps = {
   handleModal: () => void;
 };
 export const FindRoomModal = ({ handleModal }: FindModalProps) => {
-  const [roomNum, setRoomNum] = useState("");
+  const [roomNum, setRoomNum] = useState('');
   const onChangeRoomNum = (e: FormEvent<HTMLInputElement>) => {
     setRoomNum(e.currentTarget.value);
   };
@@ -32,9 +32,7 @@ export const FindRoomModal = ({ handleModal }: FindModalProps) => {
             />
           </label>
           <div className="grid place-items-center">
-            <button className="bg-main-blue text-white rounded-lg py-2 px-4 w-fit">
-              확인
-            </button>
+            <button className="bg-main-blue text-white rounded-lg py-2 px-4 w-fit">확인</button>
           </div>
         </form>
       </div>

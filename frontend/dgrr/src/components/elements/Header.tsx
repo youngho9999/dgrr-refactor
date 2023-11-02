@@ -13,7 +13,7 @@ import {
   IoPencilSharp,
 } from 'react-icons/io5';
 
-export type headerType = 'MAIN' | 'PROFILE' | 'WAITING' | 'GAME' | 'OTHER';
+export type headerType = 'MAIN' | 'GAMESTART' | 'PROFILE' | 'WAITING' | 'GAME' | 'OTHER';
 
 interface HeaderProps {
   headerType: headerType;
@@ -31,7 +31,7 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
   const handleMoveBack = () => {
     router.back();
     history.pushState({}, '', pathname);
-    console.log('Go Back')
+    console.log('Go Back');
   };
 
   // 코드 복사
@@ -49,6 +49,7 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
 
   return (
     // MAIN : 메인 화면에서의 헤더(랭킹 버튼, 마이 프로필 버튼)
+    // GAMESTART : 게임 시작에서의 헤더(뒤로 가기 버튼)
     // PROFILE : 마이 프로필에서의 헤더(뒤로 가기 버튼, 수정하기 버튼)
     // WAITING : 대기실에서의 헤더(클립보드 복사 버튼, 나가기 버튼)
     // GAME : 게임 화면에서의 헤더(시간, 나가기 버튼)
@@ -65,6 +66,14 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
             </Link>
           </div>
         </div>
+      ) : headerType === 'GAMESTART' ? (
+        <div className='h-[60px] top-0 right-0 flex items-center'>
+          <div className='flex gap-2 ms-2'>
+            <div onClick={handleMoveBack} className='cursor-pointer hover:text-white'>
+              <IoChevronBackOutline fontSize={'27px'} />
+            </div>
+          </div>
+        </div>
       ) : headerType === 'PROFILE' ? (
         <div className='h-[60px] top-0 right-0 flex justify-between items-center'>
           <div className='flex gap-2 ms-2'>
@@ -72,10 +81,12 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
               <IoChevronBackOutline fontSize={'27px'} />
             </div>
             <div className='inline-block text-lg font-semibold'>마이 프로필</div>
-          </div>
-          <div className='me-4 hover:text-main-blue'>
-            <IoPencilSharp fontSize={'25px'} />
-          </div>
+            </div>
+            <Link href='/myprofile/edit'>
+              <div className='me-4 hover:text-main-blue'>
+                <IoPencilSharp fontSize={'25px'} />
+              </div>
+            </Link>
         </div>
       ) : headerType === 'WAITING' ? (
         <div className='bg-black h-[60px] top-0 right-0 gap-2 pe-4 flex justify-end items-center'>
