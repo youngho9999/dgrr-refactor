@@ -73,7 +73,6 @@ public class MemberService {
 
     @Transactional
     public void updateByMember(String memberId, MemberRequest memberRequest) {
-        //TODO: checkRequestValidation 함수에 닉네임 체크로직도 추가
         Member member = findMemberById(Long.parseLong(memberId));
 
         if(!member.getNickname().equals(memberRequest.nickname())) {
