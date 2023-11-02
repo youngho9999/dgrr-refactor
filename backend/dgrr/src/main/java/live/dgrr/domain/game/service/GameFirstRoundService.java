@@ -14,13 +14,13 @@ import live.dgrr.global.entity.Tier;
 import live.dgrr.global.exception.ErrorCode;
 import live.dgrr.global.exception.GameException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -33,7 +33,8 @@ public class GameFirstRoundService {
     private final ApplicationEventPublisher publisher;
     private final TaskScheduler taskScheduler;
 
-    private static final long ROUND_TIME = 5L;
+    @Value("${game.round.time}")
+    private long ROUND_TIME;
 
     private static final String FIRST_ROUND_LAUGH = "/recv/firstroundend-laugh";
     private static final String FIRST_ROUND_NO_LAUGH = "/recv/firstroundend-no-laugh";
@@ -90,8 +91,6 @@ public class GameFirstRoundService {
      */
     public Instant firstRoundStart(String gameRoomId, GameRoom gameRoom) {
         Instant now = Instant.now();
-        System.out.println("시작시간: " + now);
-        //todo: timer 추후 변경 필요
 
         taskScheduler.schedule(() -> {
             publisher.publishEvent(new FirstRoundOverEvent(gameRoomId, RoundResult.NO_LAUGH));
