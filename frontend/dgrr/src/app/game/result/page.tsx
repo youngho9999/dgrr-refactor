@@ -68,7 +68,7 @@ const Result = () => {
           )}
         </div>
         <div>
-          
+          <Rank pageType='GAMERESULT' rating={gameResult.afterRating} tier={gameResult.afterTier} />
         </div>
       </div>
     </div>
