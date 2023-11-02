@@ -10,7 +10,7 @@ const useTimeStamp = (timestamp: string | number) => {
     // 경과한 시간 계산 (1초 = 1000)
     const timeOut = Math.floor((new Date().getTime() - new Date(timestamp).getTime()) / 1000);
 
-    if (timeOut < 60) {
+    if (timeOut < 60 * 5) {
       setTimeAgo(`방금 전`);
     } else if (timeOut < 60 * 60) {
       const minutes = Math.floor(timeOut / 60);

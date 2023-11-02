@@ -25,6 +25,7 @@ const MyProfile = () => {
     gameHistoryList: [
       {
         gameHistoryId: 0,
+        gameRoomId: 0,
         gameResult: '',
         gameType: '',
         gameTime: 0,
@@ -61,19 +62,21 @@ const MyProfile = () => {
       gameHistoryList: [
         {
           gameHistoryId: 1,
+          gameRoomId: 123456,
           gameResult: 'WIN',
           gameType: 'RANDOM',
           gameTime: 30,
           holdingTime: 30,
           ratingChange: 415,
           highlightImage: '/images/sample_image1.png',
-          createdAt: '2023-11-01T14:53:23',
+          createdAt: '2023-11-01T10:53:23',
           opponentNickname: '보라돌이',
           opponentProfileImage: '/images/sample_image1.png',
           opponentDescription: '2023-10-30',
         },
         {
           gameHistoryId: 2,
+          gameRoomId: 123456,
           gameResult: 'DRAW',
           gameType: 'RANDOM',
           gameTime: 30,
@@ -87,6 +90,7 @@ const MyProfile = () => {
         },
         {
           gameHistoryId: 3,
+          gameRoomId: 123456,
           gameResult: 'LOSE',
           gameType: 'RANDOM',
           gameTime: 30,
@@ -100,6 +104,7 @@ const MyProfile = () => {
         },
         {
           gameHistoryId: 4,
+          gameRoomId: 123456,
           gameResult: 'WIN',
           gameType: 'RANDOM',
           gameTime: 30,
