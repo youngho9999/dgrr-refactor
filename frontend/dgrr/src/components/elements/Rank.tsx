@@ -120,7 +120,7 @@ const Rank = ({ pageType, tier, rating }: RankProps) => {
               <img src="/images/Bronze.png" alt="Bronze" className="w-[90px] aspect-square" />
             )}
           </div>
-          <div className="flex justify-center mt-[19px]">
+          <div className="flex justify-center mt-[25px]">
             {tier === 'Gold' ? (
               <ProgressBar
                 {...progressBarProps} // 기본 매개변수를 전달
