@@ -92,7 +92,7 @@ const RecentRecord = () => {
           holdingTime: 30,
           ratingChange: 415,
           highlightImage: '',
-          createdAt: 'Thu Sep 15 2023 05:46:15 GMT+0900 (한국 표준시)',
+          createdAt: 'Thu Sep 01 2023 05:46:15 GMT+0900 (한국 표준시)',
           opponentNickname: '뚜비',
           opponentProfileImage: '/images/sample_image2.png',
           opponentDescription: '2023-10-29',

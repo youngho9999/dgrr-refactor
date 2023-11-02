@@ -1,16 +1,19 @@
 'use client';
 
 import { IoImageOutline } from 'react-icons/io5';
+import useTimeStamp from '@/hooks/useTimeStamp';
 
 interface RecentRecordItemProps {
   item: {
     gameHistoryId: number;
+    gameRoomId: number,
     gameResult: string;
     gameType: string;
     gameTime: number;
     holdingTime: number;
     ratingChange: number;
     highlightImage: string;
+    createdAt: string,
     opponentNickname: string;
     opponentProfileImage: string;
     opponentDescription: string;
@@ -49,7 +52,7 @@ const RecentRecordItem = ({ item }: RecentRecordItemProps) => {
             </div>
           ) : null}
           {/* 반드시!!!! 필수적으로!!!! 날짜로 변경해야 함 */}
-          <div className="text-sm inline-block">{item.opponentDescription}</div>
+          <div className="text-sm inline-block">{useTimeStamp(item.createdAt)}</div>
         </div>
       </div>
     </div>
