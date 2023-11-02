@@ -34,19 +34,19 @@ export const stompConfig = {
     // 게임 결과 정보
     RESULT_URI: '/user/recv/game-result',
     // 1라운드 시작 정보
-    FIRST_ROUND_GO_URI: 'user/recv/firstroundstart',
+    FIRST_ROUND_GO_URI: '/user/recv/firstroundstart',
     // 1라운드 시간초과 정보
-    FIRST_ROUND_NO_LAUGH_URI: 'user/recv/firstroundend-no-laugh',
+    FIRST_ROUND_NO_LAUGH_URI: '/user/recv/firstroundend-no-laugh',
     // 1라운드 웃음 정보
-    FIRST_ROUND_LAUGH_URI: 'user/recv/firstroundend-laugh',
+    FIRST_ROUND_LAUGH_URI: '/user/recv/firstroundend-laugh',
     // 2라운드 시작 정보
-    SECOND_ROUND_GO_URI: 'user/recv/secondroundstart',
+    SECOND_ROUND_GO_URI: '/user/recv/secondroundstart',
     // 2라운드 시간초과 정보
-    SECOND_ROUND_NO_LAUGH_URI: 'user/recv/secondroundend-no-laugh',
+    SECOND_ROUND_NO_LAUGH_URI: '/user/recv/secondroundend-no-laugh',
     // 2라운드 웃음 정보
-    SECOND_ROUND_LAUGH_URI: 'user/recv/secondroundend-laugh',
+    SECOND_ROUND_LAUGH_URI: '/user/recv/secondroundend-laugh',
     // 에러 처리
-    ERROR_URL: 'user/recv/errors',
+    ERROR_URL: '/user/recv/errors',
   },
   CAPTURE_INTERVAL: 500,
 };
