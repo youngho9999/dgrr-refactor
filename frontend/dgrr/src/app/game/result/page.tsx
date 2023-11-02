@@ -1,5 +1,7 @@
 'use client';
 
+import Rank from '@/components/elements/Rank';
+import ProgressBar from '@ramonak/react-progress-bar';
 import { useEffect, useState } from 'react';
 
 const Result = () => {
@@ -41,15 +43,34 @@ const Result = () => {
         tier: 'Gold',
       },
       highlightImage: 'https://example.com/images/player2.jpg', //비겼을 경우 null
-      gameResult: 'WIN',
+      gameResult: 'LOSE',
       afterRating: 1600,
       afterTier: 'Gold',
     });
   }, []);
 
+  const progressBarProps = {
+    completed: gameResult.afterRating - 1400,
+    maxCompleted: 400,
+    customLabel: gameResult.afterRating.toString(),
+    width: '270px',
+    height: '25px',
+  };
+  
   return (
     <div className="flex justify-center items-center bg-main-blue w-screen h-screen max-w-[360px]">
-      <div className="bg-white w-11/12 h-[522px] rounded-[12px]"></div>
+      <div className="bg-white w-11/12 h-[522px] rounded-[12px] p-5">
+        <div className='text-[40px] font-bold text-center'>
+          {gameResult.gameResult === 'WIN' ? (
+            <div>WIN</div>
+          ) : (
+            <div>LOSE</div>
+          )}
+        </div>
+        <div>
+          
+        </div>
+      </div>
     </div>
   );
 };
