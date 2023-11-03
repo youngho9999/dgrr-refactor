@@ -2,14 +2,7 @@ export type itemType = 'MY' | 'ALL';
 
 interface RankingItemProps {
   itemType: itemType;
-  memberRank?: {
-    nickname: string,
-    rankingId: number,
-    memberId: number,
-    season: number,
-    score: number,
-  };
-  item: {
+  item?: {
     nickname: string,
     profileImage: string,
     rankingId: number,
@@ -19,11 +12,13 @@ interface RankingItemProps {
   }, 
 }
 
-const RankingItem = ({itemType}: RankingItemProps) => {
+const RankingItem = ({itemType, item}: RankingItemProps) => {
   return (
-    <div className='h-[80px]'>
+    <div>
       {itemType === 'MY' ? (
-        <div>{ }</div>
+        <div>
+          <div className='flex justify-center items-center bg-main-blue rounded-l-lg text-lg font-semibold'></div>
+        </div>
       ) : (
         <div></div>
       )}

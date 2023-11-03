@@ -8,6 +8,7 @@ const Ranking = () => {
   const [rankingData, setRankingData] = useState({
     memberRank: {
       nickname: '',
+      profileImage: '',
       rankingId: 0,
       memberId: 0,
       season: 0,
@@ -38,6 +39,7 @@ const Ranking = () => {
       {
         memberRank: {
           nickname: 'myNickname',
+          profileImage: '/images/nongdam.jpg',
           rankingId: 1,
           memberId: 1,
           season: 1,
