@@ -33,8 +33,7 @@ public class GameFirstRoundService {
     private final ApplicationEventPublisher publisher;
     private final TaskScheduler taskScheduler;
 
-    @Value("${game.round.time}")
-    private long ROUND_TIME;
+    private long ROUND_TIME = 30L;
 
     private static final String FIRST_ROUND_LAUGH = "/recv/firstroundend-laugh";
     private static final String FIRST_ROUND_NO_LAUGH = "/recv/firstroundend-no-laugh";
