@@ -23,7 +23,7 @@ const ListPage = () => {
   const [isModal, setIsModal] = useState(false);
 
   return (
-    <div className="bg-main-blue w-screen h-screen max-w-[360px] min-h-[565px]">
+    <div className="bg-main-blue w-screen h-screen max-w-[500px] min-h-[565px]">
       <Header headerType="GAMESTART" />
       {isModal && <FindRoomModal handleModal={handleModal} />}
 
