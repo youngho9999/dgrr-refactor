@@ -25,6 +25,8 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class GameFirstRoundTimerTest {
 
+    int ROUND_TIME = 30;
+
     @Mock
     TaskScheduler taskScheduler;
     @Mock
@@ -62,13 +64,6 @@ public class GameFirstRoundTimerTest {
     }
     @Test
     void 첫라운드_타이머() {
-        gameFirstRoundService.firstRoundStart(gameRoomId, gameRoom);
-        //then
-        verify(taskScheduler).schedule(runnableCaptor.capture(), instantCaptor.capture());
-    }
-
-    @Test
-    void 첫라운드_출력확인() {
         Instant startTime = gameFirstRoundService.firstRoundStart(gameRoomId, gameRoom);
 
         //then
@@ -82,6 +77,6 @@ public class GameFirstRoundTimerTest {
         Instant scheduledInstant = instantCaptor.getValue();
 
         Duration duration = Duration.between(startTime, scheduledInstant);
-        assertThat(duration).isEqualTo(Duration.ofSeconds(5));
+        assertThat(duration).isEqualTo(Duration.ofSeconds(ROUND_TIME));
     }
 }
