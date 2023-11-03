@@ -30,7 +30,7 @@ const MainPage = () => {
           </div>
           {/* 게임 시작 버튼 */}
           <div className='flex justify-center'>
-            <div className='w-4/5'>
+            <div className='w-4/5 2sm:w-[320px]'>
               <LinkButton value='게임 시작' moveLink='game/list' />
             </div>
           </div>
