@@ -1,6 +1,5 @@
 openvidu_url: ${OPENVIDU_URL}
 openvidu_secret: ${OPENVIDU_SECRET}
-game.round.time: 30
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
