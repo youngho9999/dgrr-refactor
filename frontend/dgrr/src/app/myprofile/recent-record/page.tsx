@@ -130,7 +130,7 @@ const RecentRecord = () => {
   }, []);
 
   return (
-    <div>
+    <div className='w-screen max-w-[500px]'>
       <Header headerType="OTHER">최근 전적</Header>
       <div className="px-6 pt-2">
         {myInfo.gameHistoryList.map((item, index) => (
