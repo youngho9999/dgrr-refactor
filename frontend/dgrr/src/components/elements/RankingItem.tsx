@@ -5,13 +5,12 @@ export type itemType = 'MY' | 'ALL';
 interface RankingItemProps {
   itemType: itemType;
   item: {
-    nickname: string,
-    profileImage: string,
-    rankingId: number,
-    memberId: number,
-    season: number,
-    score: number,
-  }, 
+    memberId: 0,
+    rating: 0,
+    rank: 0,
+    nickname: '',
+    profileImage: '',
+  }
 }
 
 const RankingItem = ({itemType, item}: RankingItemProps) => {
@@ -20,7 +19,7 @@ const RankingItem = ({itemType, item}: RankingItemProps) => {
       {itemType === 'MY' ? (
         <div>
           <div className='flex justify-center items-center bg-main-blue rounded-l-lg'>
-            <RankingMedal ranking={item.rankingId} />
+            <RankingMedal ranking={item.rank} />
           </div>
         </div>
       ) : (
