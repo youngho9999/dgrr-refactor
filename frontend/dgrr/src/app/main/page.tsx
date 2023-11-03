@@ -19,8 +19,8 @@ const MainPage = () => {
             <Image alt='캐릭터' src={character} className='w-40 h-40 hover:animate-spin' />
           </div>
           {/* 데구르르 로고 */}
-          <div className='flex justify-center'>
-            <Image alt='타이틀' src={title} className='w-56 ms-3' />
+          <div className='flex justify-center 2sm:px-20 px-14'>
+            <Image alt='타이틀' src={title} className='ms-3' />
           </div>
         </div>
         <div className='space-y-6'>
