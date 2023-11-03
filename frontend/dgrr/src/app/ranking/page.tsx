@@ -1,6 +1,7 @@
 'use client';
 
 import Header from '@/components/elements/Header';
+import RankingItem from '@/components/elements/RankingItem';
 import { useEffect, useState } from 'react';
 
 const Ranking = () => {
@@ -114,7 +115,7 @@ const Ranking = () => {
         },
       ],
     });
-  });
+  }, []);
 
   return (
     <div className="w-screen max-w-[500px]">
@@ -129,7 +130,9 @@ const Ranking = () => {
               전 시즌 랭킹
             </div>
           </div>
-          <div className="h-[110px] bg-[#EAEEFF]"></div>
+          <div className="h-[110px] bg-[#EAEEFF] flex justify-center items-center">
+            <RankingItem item={rankingData.memberRank} itemType='MY' />
+          </div>
           <div className="h-[1070px] bg-[#DADADA] rounded-b-lg">모든 랭킹</div>
         </div>
       </div>
