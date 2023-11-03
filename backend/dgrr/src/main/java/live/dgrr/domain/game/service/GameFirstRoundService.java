@@ -56,7 +56,7 @@ public class GameFirstRoundService {
         String openviduTokenTwo = openviduService.createConnection(openviduSessionId);
 
         //Redis 에 게임 객체 저장
-        GameRoom gameRoom = new GameRoom(gameRoomId, memberOne, memberTwo, GameStatus.BEFORE_START);
+        GameRoom gameRoom = new GameRoom(gameRoomId, memberOne, memberTwo, GameStatus.BEFORE_START, gameType);
         gameRoomRepository.save(gameRoom);
 
         //GameStart 정보 전송
