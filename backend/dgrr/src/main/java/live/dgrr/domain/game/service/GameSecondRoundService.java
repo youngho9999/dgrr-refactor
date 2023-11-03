@@ -16,10 +16,7 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Timer;
-import java.util.TimerTask;
 
 @Service
 @RequiredArgsConstructor
