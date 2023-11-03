@@ -10,7 +10,7 @@ const MainPage = () => {
   // 나중에 설명 모달 on/off 로직 추가할 예정
   const handleModal = () => {};
   return (
-    <div className='bg-main-blue w-screen h-screen min-h-[580px] max-w-[360px]'>
+    <div className='bg-main-blue w-screen h-screen min-h-[580px] max-w-[500px]'>
       <Header headerType='MAIN' />
       <div className='flex flex-col justify-between h-5/6 pt-10'>
         <div>
