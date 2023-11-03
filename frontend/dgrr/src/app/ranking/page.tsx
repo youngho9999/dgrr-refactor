@@ -1,7 +1,6 @@
 'use client';
 
 import Header from '@/components/elements/Header';
-import RankingMedal from '@/components/elements/RankingMedal';
 import { useEffect, useState } from 'react';
 
 const Ranking = () => {
@@ -132,7 +131,6 @@ const Ranking = () => {
     )
   })
 
-  const ranking = 5
 
   return (
     <div className="w-screen max-w-[500px]">
@@ -148,7 +146,7 @@ const Ranking = () => {
             </div>
           </div>
           <div className="h-[110px] bg-[#EAEEFF]">
-            
+
           </div>
           <div className="h-[1070px] bg-[#DADADA] rounded-b-lg">모든 랭킹</div>
         </div>

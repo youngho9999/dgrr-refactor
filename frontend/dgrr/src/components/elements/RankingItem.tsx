@@ -1,3 +1,5 @@
+import RankingMedal from './RankingMedal';
+
 export type itemType = 'MY' | 'ALL';
 
 interface RankingItemProps {
@@ -17,7 +19,9 @@ const RankingItem = ({itemType, item}: RankingItemProps) => {
     <div>
       {itemType === 'MY' ? (
         <div>
-          <div className='flex justify-center items-center bg-main-blue rounded-l-lg'></div>
+          <div className='flex justify-center items-center bg-main-blue rounded-l-lg'>
+            <RankingMedal ranking={item.rankingId} />
+          </div>
         </div>
       ) : (
         <div></div>
