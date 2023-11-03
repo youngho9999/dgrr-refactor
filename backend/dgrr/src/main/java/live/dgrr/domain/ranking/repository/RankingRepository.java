@@ -34,18 +34,22 @@ public class RankingRepository {
         return redisTemplate.opsForZSet().add(key, memberId, rating);
     }
 
-    public List<RankingResponse> getRankingMember(Long memberId) {
+    public List<RankingResponse> getRankingMember(Member member, Season season) {
         List<RankingResponse> rankings = new ArrayList<>();
-        Set<ZSetOperations.TypedTuple<Long>> results = redisTemplate.opsForZSet().rangeWithScores(key, 0, -1);
+        String seasonKey = season == Season.CURRENT? key : lastKey;
+        Set<ZSetOperations.TypedTuple<Long>> results = redisTemplate.opsForZSet().rangeWithScores(seasonKey, 0, -1);
         if (results != null) {
             for (ZSetOperations.TypedTuple<Long> result : results) {
                 String value = String.valueOf(result.getValue());
                 Double rating = result.getScore();
+                Member memberForRank = memberRepository.findById(Long.valueOf(value)).get();
                 rankings.add(
                         RankingResponse.of(
                                 Long.valueOf(value),
                                 rating,
-                                redisTemplate.opsForZSet().reverseRank(key, Long.valueOf(value))+1
+                                redisTemplate.opsForZSet().reverseRank(seasonKey, Long.valueOf(value))+1,
+                                memberForRank.getNickname(),
+                                memberForRank.getProfileImage()
                         )
                 );
             }
