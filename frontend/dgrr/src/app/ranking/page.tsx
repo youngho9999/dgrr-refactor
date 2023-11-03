@@ -140,9 +140,9 @@ const Ranking = () => {
             <div className='h-[1020px] py-[10px] bg-[#DADADA] rounded-b-lg'>
               <div className=''>
                 {rankingData.rankings.map((item, index) => [
-                  <div className='flex justify-center'>
-                    <RankingItem item={item} itemType='ALL' key={index} />
-                  </div>,
+                  <div className='flex justify-center' key={index}>
+                    <RankingItem item={item} itemType='ALL' />
+                  </div>
                 ])}
               </div>
             </div>
@@ -166,11 +166,11 @@ const Ranking = () => {
               <RankingItem item={rankingData.memberRank} itemType='MY' />
             </div>
             <div className='h-[1020px] py-[10px] bg-[#DADADA] rounded-b-lg'>
-              <div className=''>
+              <div>
                 {rankingData.rankings.map((item, index) => [
-                  <div className='flex justify-center'>
-                    <RankingItem item={item} itemType='ALL' key={index} />
-                  </div>,
+                  <div className='flex justify-center' key={index}>
+                    <RankingItem item={item} itemType='ALL' />
+                  </div>
                 ])}
               </div>
             </div>
