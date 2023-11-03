@@ -1,4 +1,4 @@
-import { Client } from '@stomp/stompjs';
+import { Client, StompHeaders } from '@stomp/stompjs';
 
 export interface IGameConfig {
   // 게임 정보
@@ -112,4 +112,7 @@ export interface IGamePlayProps {
   stompClient: Client | undefined;
   setStompClient: React.Dispatch<React.SetStateAction<Client | undefined>>;
   isStompConnected: boolean;
+  getGameConfiguration: (client: Client) => Promise<IGameConfig>;
+  setGameConfig: React.Dispatch<React.SetStateAction<IGameConfig>>;
+  connectStompClient: (headers: StompHeaders) => Promise<Client>;
 }

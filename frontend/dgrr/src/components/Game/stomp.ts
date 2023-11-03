@@ -27,36 +27,32 @@ export const connectStomp = (headers: StompHeaders) => {
 };
 
 export const gameSubscribe = (client: Client, destination: string) => {
-  console.log('경로 확인: ', destination)
-  console.log('client 확인: ', client)
-  console.log('client 연결 확인: ', client.connected)
-  
+  console.log('경로 확인: ', destination);
+  console.log('client 확인: ', client);
+  console.log('client 연결 확인: ', client.connected);
+
   client.subscribe(destination, (message) => {
-    console.log('구독하고있나?:', message)
-    console.log(message.body)
-  })
-}
+    console.log('메세지:', message);
+    console.log(message.body);
+  });
+};
 
-
+// 게임 정보 받아오기
 export const getGameConfig = (client: Client) => {
   return new Promise<IGameConfig>((resolve) => {
     console.log(GAME_URI, '를 구독합니다. ');
     client.subscribe(GAME_URI, (message) => {
-      console.log(' 게임 메시지를 받았습니다. message : ' + message);
+      console.log(' 게임 메시지 : ' + message);
       const gameConfig = JSON.parse(message.body);
       resolve(gameConfig);
     });
+  });
+};
 
-    const token = localStorage.getItem('token');
-    console.log(MATCHING_URI, '로 localStorage의 token을 보냅니다. ');
-    if (token !== null) {
-      client.publish({
-        destination: MATCHING_URI,
-        body: token,
-      });
-    } else {
-      console.error('Error 발생!! localStorage에 토큰이 없습니다.');
-    }
+// 라운드 시작 정보 받아오기
+export const getRoundStart = (client: Client, destination: string) => {
+  return new Promise((resolve) => {
+    console.log(destination, '구독');
   });
 };
 
