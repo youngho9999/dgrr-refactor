@@ -118,32 +118,65 @@ const Ranking = () => {
   }, []);
 
   return (
-    <div className="w-screen max-w-[500px]">
-      <Header headerType="OTHER">랭킹 조회</Header>
-      <div className="flex justify-center mt-3 mb-8">
-        <div className="w-11/12">
-          <div className="h-10 flex">
-            <div className="flex items-center justify-center w-1/2 h-full bg-[#EAEEFF] rounded-t-lg text-sm font-bold">
-              현 시즌 랭킹
+    <div className='w-screen max-w-[500px]'>
+      <Header headerType='OTHER'>랭킹 조회</Header>
+      {currentSeason === true ? (
+        <div className='flex justify-center mt-3 mb-8'>
+          <div className='w-11/12'>
+            <div className='h-10 flex'>
+              <div className='flex items-center justify-center w-1/2 h-full bg-[#EAEEFF] rounded-t-lg text-sm font-bold'>
+                현 시즌 랭킹
+              </div>
+              <div
+                onClick={clickPast}
+                className='flex items-center justify-center w-1/2 h-full bg-main-blue rounded-t-lg text-sm font-bold cursor-pointer hover:brightness-90'
+              >
+                전 시즌 랭킹
+              </div>
             </div>
-            <div className="flex items-center justify-center w-1/2 h-full bg-main-blue rounded-t-lg text-sm font-bold">
-              전 시즌 랭킹
+            <div className='h-[110px] bg-[#EAEEFF] flex justify-center items-center'>
+              <RankingItem item={rankingData.memberRank} itemType='MY' />
             </div>
-          </div>
-          <div className="h-[110px] bg-[#EAEEFF] flex justify-center items-center">
-            <RankingItem item={rankingData.memberRank} itemType='MY' />
-          </div>
-          <div className="h-[1020px] py-[10px] bg-[#DADADA] rounded-b-lg">
-            <div className=''>
-              {rankingData.rankings.map((item, index) => [
-                <div className='flex justify-center'>
-                  <RankingItem item={item} itemType='ALL' key={index} />
-                </div>
-              ])}
+            <div className='h-[1020px] py-[10px] bg-[#DADADA] rounded-b-lg'>
+              <div className=''>
+                {rankingData.rankings.map((item, index) => [
+                  <div className='flex justify-center'>
+                    <RankingItem item={item} itemType='ALL' key={index} />
+                  </div>,
+                ])}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className='flex justify-center mt-3 mb-8'>
+          <div className='w-11/12'>
+            <div className='h-10 flex'>
+              <div
+                onClick={clickCurrent}
+                className='flex items-center justify-center w-1/2 h-full bg-main-blue rounded-t-lg text-sm font-bold cursor-pointer hover:brightness-90'
+              >
+                현 시즌 랭킹
+              </div>
+              <div className='flex items-center justify-center w-1/2 h-full bg-[#EAEEFF] rounded-t-lg text-sm font-bold'>
+                전 시즌 랭킹
+              </div>
+            </div>
+            <div className='h-[110px] bg-[#EAEEFF] flex justify-center items-center'>
+              <RankingItem item={rankingData.memberRank} itemType='MY' />
+            </div>
+            <div className='h-[1020px] py-[10px] bg-[#DADADA] rounded-b-lg'>
+              <div className=''>
+                {rankingData.rankings.map((item, index) => [
+                  <div className='flex justify-center'>
+                    <RankingItem item={item} itemType='ALL' key={index} />
+                  </div>,
+                ])}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
