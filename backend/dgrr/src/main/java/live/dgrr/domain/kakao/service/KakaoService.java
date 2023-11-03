@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Optional;
 
 @Service
 public class KakaoService {
@@ -103,14 +104,15 @@ public class KakaoService {
     }
 
     public MemberResponse getMemberByKakaoId(String kakaoId) {
-        Member member = memberRepository.findByKakaoId(kakaoId);
-        MemberResponse memberResponse = MemberResponse.builder()
-                .memberId(member.getMemberId())
-                .nickname(member.getNickname())
-                .profileImage(member.getProfileImage())
-                .description(member.getDescription())
-                .build();
-        return memberResponse;
+        Optional<Member> memberOpt = memberRepository.findByKakaoId(kakaoId);
+
+        return memberOpt.map(member -> MemberResponse.builder()
+                        .memberId(member.getMemberId())
+                        .nickname(member.getNickname())
+                        .profileImage(member.getProfileImage())
+                        .description(member.getDescription())
+                        .build())
+                .orElse(null);
     }
 
 }
