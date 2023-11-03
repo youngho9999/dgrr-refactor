@@ -13,13 +13,13 @@ public record MemberAddRequest (
         String description,
         MemberRole memberRole
 ) {
-    public Member forAddMember(String kakaoId, String nickname, String profileImage, String description, MemberRole memberRole) {
+    public Member forAddMember() {
         Member member = Member.builder()
-                .kakaoId(kakaoId)
-                .nickname(nickname)
-                .profileImage(profileImage)
-                .description(description)
-                .memberRole(memberRole)
+                .kakaoId(this.kakaoId)
+                .nickname(this.nickname)
+                .profileImage(this.profileImage)
+                .description(this.description)
+                .memberRole(this.memberRole)
                 .build();
         return member;
     }

@@ -98,7 +98,7 @@ public class MemberService {
     }
 
     public MemberResponse addMember(MemberAddRequest memberAddRequest) {
-        Member member = memberRepository.save(memberAddRequest.forAddMember(memberAddRequest.kakaoId(), memberAddRequest.nickname(), memberAddRequest.profileImage(), memberAddRequest.description(), memberAddRequest.memberRole()));
+        Member member = memberRepository.save(memberAddRequest.forAddMember());
         MemberResponse memberResponse = MemberResponse.builder()
                 .memberId(member.getMemberId())
                 .description(member.getDescription())
