@@ -8,6 +8,7 @@ import live.dgrr.domain.game.entity.RoundResult;
 import live.dgrr.domain.game.entity.event.FirstRoundEndEvent;
 import live.dgrr.domain.game.entity.event.FirstRoundPreparedEvent;
 import live.dgrr.domain.game.entity.event.FirstRoundOverEvent;
+import live.dgrr.domain.game.entity.event.GameType;
 import live.dgrr.domain.game.repository.GameRoomRepository;
 import live.dgrr.domain.openvidu.OpenviduService;
 import live.dgrr.global.entity.Tier;
@@ -42,7 +43,7 @@ public class GameFirstRoundService {
      * @param memberOneId 멤버1아이디
      * @param memberTwoId 멤버2 아이디
      */
-    public List<GameStartResponse> gameStart(String memberOneId, String memberTwoId) {
+    public List<GameStartResponse> gameStart(String memberOneId, String memberTwoId, GameType gameType) {
         GameMember memberOne = new GameMember(memberOneId, memberOneId," ", "descript1", 1400, Tier.BRONZE);
         GameMember memberTwo = new GameMember(memberTwoId, memberTwoId," ", "descript2", 1400, Tier.GOLD);
 

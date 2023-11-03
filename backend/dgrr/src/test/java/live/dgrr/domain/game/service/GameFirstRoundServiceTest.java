@@ -9,6 +9,7 @@ import live.dgrr.domain.game.entity.RoundResult;
 import live.dgrr.domain.game.entity.event.FirstRoundEndEvent;
 import live.dgrr.domain.game.entity.event.FirstRoundOverEvent;
 import live.dgrr.domain.game.entity.event.FirstRoundPreparedEvent;
+import live.dgrr.domain.game.entity.event.GameType;
 import live.dgrr.domain.game.repository.GameRoomRepository;
 import live.dgrr.domain.openvidu.OpenviduService;
 import live.dgrr.global.entity.Tier;
@@ -66,7 +67,7 @@ class GameFirstRoundServiceTest {
     }
     @Test
     void gameStartTest() {
-        List<GameStartResponse> gameStartResponses = gameFirstRoundService.gameStart(memberOneId, memberTwoId);
+        List<GameStartResponse> gameStartResponses = gameFirstRoundService.gameStart(memberOneId, memberTwoId, GameType.RANDOM);
         assertThat(gameStartResponses.get(0).myInfo().memberId()).isEqualTo(memberOneId);
         assertThat(gameStartResponses.get(1).myInfo().memberId()).isEqualTo(memberTwoId);
     }
