@@ -1,6 +1,9 @@
 package live.dgrr.domain.ranking.repository;
 
+import live.dgrr.domain.member.entity.Member;
+import live.dgrr.domain.member.repository.MemberRepository;
 import live.dgrr.domain.ranking.dto.response.RankingResponse;
+import live.dgrr.domain.ranking.entity.Season;
 import live.dgrr.global.config.redis.RankingConfig;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
@@ -15,12 +18,16 @@ public class RankingRepository {
 
     private final RedisTemplate<String, Long> redisTemplate;
     private final String key;
+    private final String lastKey;
     private final int CURRENT_SEASON;
+    private final MemberRepository memberRepository;
 
-    public RankingRepository(RedisTemplate<String, Long> redisTemplate, RankingConfig rankingConfig) {
+    public RankingRepository(RedisTemplate<String, Long> redisTemplate, RankingConfig rankingConfig, MemberRepository memberRepository) {
         this.redisTemplate = redisTemplate;
         this.key = rankingConfig.getKey() + rankingConfig.getSeason();
+        this.lastKey = rankingConfig.getKey() + (rankingConfig.getSeason() - 1);
         this.CURRENT_SEASON = rankingConfig.getSeason();
+        this.memberRepository = memberRepository;
     }
 
     public boolean addRanking(Long memberId, double rating) {
