@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { Provider } from 'react-redux';
-import store from '@/store/store';
+import { Providers } from '@/store/providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,10 +20,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/images/logo.png" />
       </head>
       <body className={inter.className}>
-        <Provider store={store}>
-        {children}
-        </Provider>
-        </body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
