@@ -1,7 +1,9 @@
 'use client';
 import { useAppSelector } from '@/store/hooks';
-import { stompConfig } from '@/types/game';
+import { ChildMethods, stompConfig } from '@/types/game';
 import { useEffect, useRef, useState } from 'react';
+import { UserVideoComponent } from './videoComponent';
+import { Publisher } from 'openvidu-browser';
 
 const PlayPage = () => {
   const client = useAppSelector((state) => state.game.client);
@@ -21,6 +23,7 @@ const PlayPage = () => {
   } = DESTINATION_URI;
   const [firstRoundResult, setFirstRoundResult] = useState('');
   const [secondRoundResult, setSecondRoundResult] = useState('');
+  const childRef = useRef<ChildMethods | null>(null);
 
   const subscribeGame = () => {
     // 1라운드 관련 구독
@@ -65,6 +68,7 @@ const PlayPage = () => {
   const [ws, setWs] = useState<WebSocket | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [publisher, setPublisher] = useState<Publisher>();
   useEffect(() => {
     // 웹캠 연결
     navigator.mediaDevices
@@ -114,6 +118,7 @@ const PlayPage = () => {
 
   return (
     <div>
+      <UserVideoComponent ref={childRef} streamManager={publisher} />
       <video ref={videoRef} width="640" height="480" autoPlay muted />
       <canvas ref={canvasRef} width="640" height="480" style={{ display: 'none' }} />
     </div>
