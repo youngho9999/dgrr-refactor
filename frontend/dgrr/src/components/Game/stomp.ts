@@ -5,27 +5,6 @@ const { DESTINATION_URI } = stompConfig;
 // eslint-disable-next-line
 const { MATCHING_URI, GAME_URI, IMAGE_DATA_URI, STATUS_URI, END_URI, RESULT_URI } = DESTINATION_URI;
 
-export const connectStomp = (headers: StompHeaders) => {
-  const client = new Client({
-    brokerURL: process.env.NEXT_PUBLIC_BROKER_URL,
-    connectHeaders: {
-      ...headers,
-    },
-    debug: (message) => {
-      console.log('[Stomp Debug :: message]', message); // 웹소켓 디버깅 로그 추가
-    },
-  });
-
-  // 클라이언트 활성화
-  client.activate();
-
-  return new Promise<Client>((resolve) => {
-    client.onConnect = (frame) => {
-      resolve(client);
-    };
-  });
-};
-
 export const gameSubscribe = (client: Client, destination: string) => {
   console.log('경로 확인: ', destination);
   console.log('client 확인: ', client);

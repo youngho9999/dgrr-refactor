@@ -7,6 +7,9 @@ import welcomeImg from '@/../public/images/welcome.svg';
 import Link from 'next/link';
 import { FindRoomModal } from './FindRoomModal';
 import { useState } from 'react';
+import { Client, StompHeaders } from '@stomp/stompjs';
+import { useDispatch } from 'react-redux';
+import { createClient } from '@/store/gameSlice';
 
 const ListPage = () => {
   const gameList = [
@@ -20,6 +23,29 @@ const ListPage = () => {
     setIsModal(!isModal);
   };
   const [isModal, setIsModal] = useState(false);
+  const dispatch = useDispatch();
+  
+  const connectStomp = (headers: StompHeaders) => {
+    const client = new Client({
+      brokerURL: process.env.NEXT_PUBLIC_BROKER_URL,
+      connectHeaders: {
+        ...headers,
+      },
+      debug: (message) => {
+        console.log('[Stomp Debug :: message]', message); // 웹소켓 디버깅 로그 추가
+      },
+    });
+
+    // 클라이언트 활성화
+    client.activate();
+
+    client.onConnect = (frame) => {
+      console.log('연결');
+      console.log(client);
+      // redux에 client 저장
+      dispatch(createClient(client));
+    };
+  };
 
   return (
     <div className="bg-main-blue w-screen h-screen max-w-[500px]">
@@ -34,10 +60,16 @@ const ListPage = () => {
               <p className="font-bold text-base">{item.value}</p>
             </div>
           ) : (
-            <Link href={item.navLink} className={commonClass} key={index}>
-              <Image src={item.imgLink} alt="이미지예시" className="w-20 h-20" />
-              <p className="font-bold text-base">{item.value}</p>
-            </Link>
+            <button
+              key={index}
+              onClick={() => connectStomp({ Authorization: '1' })}
+              className={commonClass}
+            >
+              <Link href={item.navLink} className="w-full h-full flex flex-col items-center">
+                <Image src={item.imgLink} alt="이미지예시" className="w-20 h-20" />
+                <p className="font-bold text-base">{item.value}</p>
+              </Link>
+            </button>
           )
         )}
       </div>
