@@ -14,6 +14,15 @@ interface RankingItemProps {
 }
 
 const RankingItem = ({ itemType, item }: RankingItemProps) => {
+  const profileImage =
+    item.profileImage !== '' ? item.profileImage : '/images/default_profile_image.png';
+  const medalColor =
+    item.rating >= 1800
+      ? '/images/Gold.png'
+      : item.rating >= 1600
+      ? '/images/Sliver.png'
+      : '/images/Bronze.png';
+
   return (
     <div className='h-[80px] w-11/12 flex my-[10px]'>
       {itemType === 'MY' || item.rank > 3 ? (
@@ -26,30 +35,16 @@ const RankingItem = ({ itemType, item }: RankingItemProps) => {
         </div>
       )}
       <div className='w-4/5 flex items-center bg-white rounded-r-lg'>
-        {item.profileImage !== '' ? (
-          <img
-            className='w-[60px] aspect-square rounded-full mx-3'
-            src={item.profileImage}
-            alt='프로필 사진'
-          />
-        ) : (
-          <img
-            className='w-[60px] aspect-square rounded-full mx-3'
-            src='/images/default_profile_image.png'
-            alt='프로필 사진'
-          />
-        )}
+        <img
+          className='w-[60px] aspect-square rounded-full mx-3'
+          src={profileImage}
+          alt='프로필 사진'
+        />
         <div className='inline-block'>
           <div className='mb-1 font-semibold'>{item.nickname}</div>
           <div className='flex gap-x-2'>
             <div className='flex w-[24px] aspect-square'>
-              {item.rating >= 1800 ? (
-                <img src='/images/Gold.png' alt='티어_골드' />
-              ) : item.rating >= 1600 ? (
-                <img src='/images/Sliver.png' alt='티어_실버' />
-              ) : (
-                <img src='/images/Bronze.png' alt='티어_브론즈' />
-              )}
+              <img src={medalColor} />
             </div>
             <div className='flex items-center text-sm'>{item.rating}</div>
           </div>
