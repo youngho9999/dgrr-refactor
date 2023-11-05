@@ -4,8 +4,11 @@ import Image from 'next/image';
 import { FuncButton } from '@/components/FuncButton';
 import { useEffect, useState } from 'react';
 import { ExplainModal } from '@/components/elements/ExplainModal';
-import { GameProvider, useGameContext } from '../play/context';
-import { IGameConfig } from '@/types/game';
+import { useAppSelector } from '@/store/hooks';
+import { stompConfig } from '@/types/game';
+import { useDispatch } from 'react-redux';
+import { saveGameInfo } from '@/store/gameSlice';
+import { publishMessage } from '@/components/Game/stomp';
 
 const GameLoading = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -13,30 +16,30 @@ const GameLoading = () => {
     setOpenModal(!openModal);
   };
 
-  const { stompClient, setGameConfig, connectStompClient, getGameConfiguration } = useGameContext();
+  const client = useAppSelector((state) => state.game.client);
+  const { DESTINATION_URI } = stompConfig;
+  const { GAME_URI, MATCHING_URI } = DESTINATION_URI;
+  const dispatch = useDispatch();
+
+  // 랜덤매칭
+  const gameMatch = () => {
+    if (client) {
+      publishMessage(client, MATCHING_URI, '');
+    }
+  };
+
+  const subscribeGame = () => {
+    client?.subscribe(GAME_URI, (message) => {
+      console.log('게임정보 받는 메세지: ', message);
+      // 게임 정보 저장
+      dispatch(saveGameInfo(message));
+    });
+  };
 
   useEffect(() => {
-    const tryConnectStomp = async () => {
-      if (!stompClient) {
-        console.log('스톰프 연결 시도!');
-        const client = await connectStompClient({ Authorization: '1' });
-        console.log('여기 왜 안옴?', client);
-        console.log('게임 시작!');
-        // startGameSession(await getGameConfiguration(client));
-      }
-    };
-
-    const startGameSession = (message: IGameConfig) => {
-      console.log('message: ', message);
-      if (message.gameRoomId) {
-        setGameConfig(message);
-      } else {
-        console.log('게임 설정 수신 오류');
-      }
-    };
-
-    // tryConnectStomp();
-  }, [stompClient]);
+    gameMatch();
+    subscribeGame();
+  }, []);
 
   return (
     <div className="grid place-items-center bg-main-blue w-screen h-screen max-w-[500px]">
