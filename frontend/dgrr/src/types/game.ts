@@ -51,7 +51,7 @@ export const stompConfig = {
     // 2라운드 웃음 정보
     SECOND_ROUND_LAUGH_URI: '/user/recv/secondroundend-laugh',
     // 에러 처리
-    ERROR_URL: '/user/recv/errors',
+    ERROR_URI: '/user/recv/errors',
   },
   CAPTURE_INTERVAL: 500,
 };
