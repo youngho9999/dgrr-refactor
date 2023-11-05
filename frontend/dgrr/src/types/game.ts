@@ -1,5 +1,10 @@
 import { Client, StompHeaders } from '@stomp/stompjs';
 
+export type GameType = {
+  client: Client | undefined,
+  gameInfo: IGameConfig
+}
+
 export interface IGameConfig {
   // 게임 정보
   turn: 'FIRST' | 'SECOND';
