@@ -4,6 +4,8 @@ import { ChildMethods, stompConfig } from '@/types/game';
 import { useEffect, useRef, useState } from 'react';
 import { UserVideoComponent } from './videoComponent';
 import { Publisher } from 'openvidu-browser';
+import { useDispatch } from 'react-redux';
+import { saveGameResult } from '@/store/gameSlice';
 
 const PlayPage = () => {
   const client = useAppSelector((state) => state.game.client);
@@ -24,6 +26,7 @@ const PlayPage = () => {
   const [firstRoundResult, setFirstRoundResult] = useState('');
   const [secondRoundResult, setSecondRoundResult] = useState('');
   const childRef = useRef<ChildMethods | null>(null);
+  const dispatch = useDispatch();
 
   const subscribeGame = () => {
     // 1라운드 관련 구독
@@ -62,6 +65,11 @@ const PlayPage = () => {
     client?.subscribe(ERROR_URI, (message) => {
       console.log('error: ', message);
     });
+
+    // 게임 결과
+    client?.subscribe(RESULT_URI, (message)=> {
+      dispatch(saveGameResult(message.body))
+    })
   };
 
   // 웹소켓 관련

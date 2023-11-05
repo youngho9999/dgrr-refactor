@@ -1,8 +1,10 @@
 import { Client, StompHeaders } from '@stomp/stompjs';
+import { StreamManager } from "openvidu-browser";
 
 export type GameType = {
   client: Client | undefined,
-  gameInfo: IGameConfig
+  gameInfo: IGameConfig,
+  gameResult: IGameResult
 }
 
 export interface IGameConfig {
@@ -120,4 +122,12 @@ export interface IGamePlayProps {
   getGameConfiguration: (client: Client) => Promise<IGameConfig>;
   setGameConfig: React.Dispatch<React.SetStateAction<IGameConfig>>;
   connectStompClient: (headers: StompHeaders) => Promise<Client>;
+}
+
+export interface IUserVideoComponent {
+  streamManager: StreamManager | undefined;
+}
+
+export interface ChildMethods {
+  getVideoElement: () => HTMLVideoElement | null;
 }

@@ -10,6 +10,14 @@ const initialState: GameType = {
     myInfo: { nickname: '', profileImage: '', description: '', rating: 0, rank: 'BRONZE' },
     enemyInfo: { nickname: '', profileImage: '', description: '', rating: 0, rank: 'BRONZE' },
   },
+  gameResult: {
+    myInfo: { nickname: '', profileImage: '', description: '', rating: 0, rank: 'BRONZE' },
+    enemyInfo: { nickname: '', profileImage: '', description: '', rating: 0, rank: 'BRONZE' },
+    highlightImage: '',
+    gameResult: 'Draw',
+    afterRating: 0,
+    afterRank: 'BRONZE',
+  },
 };
 
 const gameSlice = createSlice({
@@ -22,10 +30,13 @@ const gameSlice = createSlice({
     },
     createClient: (state, action) => {
       // console.log(action.payload)
-      state.client = action.payload
-    }
+      state.client = action.payload;
+    },
+    saveGameResult: (state, action) => {
+      state.gameResult = action.payload;
+    },
   },
 });
 
 export default gameSlice.reducer;
-export const { saveGameInfo, createClient } = gameSlice.actions;
+export const { saveGameInfo, createClient, saveGameResult } = gameSlice.actions;
