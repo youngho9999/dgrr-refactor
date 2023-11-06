@@ -105,8 +105,8 @@ public class KakaoService {
 
     public MemberResponse getMemberByKakaoId(String kakaoId) {
         Optional<Member> memberOpt = memberRepository.findByKakaoId(kakaoId);
-
         return memberOpt.map(member -> MemberResponse.builder()
+                        .kakaoId(member.getKakaoId())
                         .memberId(member.getMemberId())
                         .nickname(member.getNickname())
                         .profileImage(member.getProfileImage())
