@@ -26,7 +26,9 @@ const gameSlice = createSlice({
   reducers: {
     reset: () => initialState,
     saveGameInfo: (state, action) => {
-      state = action.payload;
+      console.log(action.payload);
+      const newGameInfo = action.payload;
+      state.gameInfo = newGameInfo;
     },
     createClient: (state, action) => {
       // console.log(action.payload)
