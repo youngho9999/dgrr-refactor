@@ -42,7 +42,7 @@ public class KakaoController {
     @GetMapping("/login/{kakaoId}")
     public ResponseEntity<MemberLoginResponse> login(@PathVariable(value="kakaoId") String kakaoId) {
         MemberResponse member = kakaoService.getMemberByKakaoId(kakaoId);
-        MemberLoginResponse response = new MemberLoginResponse(JwtProperties.TOKEN_PREFIX+tokenProvider.generateTokenDto(member.kakaoId(), member.memberId()).getAccessToken(), member);
+        MemberLoginResponse response = new MemberLoginResponse(JwtProperties.TOKEN_PREFIX+tokenProvider.generateTokenDto(member.kakaoId(), member.memberId()).accessToken(), member);
         return new ResponseEntity(response, HttpStatus.OK);
     }
 
