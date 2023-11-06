@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import React, { useState, useEffect } from 'react';
 import ProgressBar from '@ramonak/react-progress-bar';
 import { IoHelpCircleOutline } from 'react-icons/io5';
+import ModalWithX from './ModalWithX';
 
 type pageType = 'GAMERESULT' | 'PROFILE';
 
@@ -15,6 +16,16 @@ interface RankProps {
 
 const Rank = ({ pageType, tier, rating }: RankProps) => {
   const [nowRating, setNowRating] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const tierList = [{image: '/images/Gold.png', title: '골드 Gold', explain: '1800 ~'}, {image: '/images/Sliver.png', title: '실버 Sliver', explain: '1600 ~'}, {image: '/images/Bronze.png', title: '브론즈 Bronze', explain: '1400 ~'}]
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     setNowRating(rating - 1400);
@@ -77,9 +88,26 @@ const Rank = ({ pageType, tier, rating }: RankProps) => {
         <div className="h-[220px] py-6 my-2">
           <div className="flex items-center pb-4">
             <div className="text-lg font-semibold ps-6 me-1">내 티어</div>
-            <div className="inline-block cursor-pointer hover:text-main-blue" onClick={showHelp}>
+            <div className="inline-block cursor-pointer hover:text-main-blue" onMouseEnter={handleModalOpen} onMouseLeave={handleModalClose}>
               <IoHelpCircleOutline fontSize={'18px'} />
             </div>
+            {isModalOpen && (
+              <div className='fixed top-0 left-0 w-screen h-screen flex items-center justify-center'>
+              <div className='bg-white p-4 rounded-lg'>
+                  {tierList.map((tier, index) => [
+                    <div className='bg-[#e7e0ec] py-[8px] px-[15px] rounded-md flex items-center' key={index}>
+                      <img src={tier.image} className='w-[38px] aspect-square ms-3' />
+                      <div className='flex'>
+                        <div className='text-sm font-semibold'>{tier.title}</div>
+                        <div className='text-xs'>{tier.explain}</div>
+
+                      </div>
+                  </div>
+
+                  ])}
+              </div>
+            </div>
+            )}
           </div>
           <div className="flex justify-center">
             {tier === 'Gold' ? (
