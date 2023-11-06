@@ -18,18 +18,20 @@ const Edit = () => {
     ranking: {
       season: 1,
       score: 1500,
-      rank: 'BRONZE',
+      rank: 1,
+      tier: 'BRONZE',
     },
-    gameDetailList: [
+    gameHistoryList: [
       {
-        gameDetailId: 1,
+        gameHistoryId: 1,
         gameRoomId: 123456,
         gameResult: 'WIN',
         gameType: 'RANDOM',
         gameTime: 30,
         holdingTime: 30,
-        laughAmount: 415,
+        ratingChange: 415,
         highlightImage: '/images/sample_image1.png',
+        createdAt: '2023-10-31T16:00:05',
         opponentNickname: '보라돌이',
         opponentProfileImage: '/images/sample_image1.png',
         opponentDescription: '2023-10-30',
@@ -37,8 +39,18 @@ const Edit = () => {
     ],
   };
 
-  const [nowNickname, setNowNickName] = useState('');
-  const [nowDescription, setNowDescription] = useState('');
+  const [nowNickname, setNowNickName] = useState(sampleData.member.nickname);
+  const [nowDescription, setNowDescription] = useState(sampleData.member.description);
+  const [nowProfileImage, setNowProfileImage] = useState(sampleData.member.profileImage);
+  const [nicknameExists, setNicknameExists] = useState(false);
+
+  useEffect(() => {
+    if (nowNickname === '농담곰의 농담') {
+      setNicknameExists(true);
+    } else {
+      setNicknameExists(false);
+    }
+  }, [nowNickname]);
 
   // 닉네임 입력값 반영
   const handleNicknameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -50,10 +62,46 @@ const Edit = () => {
     setNowDescription(event.target.value);
   };
 
-  // 저장 버튼 눌렀을 때 작동하는 함수
+  // 프로필 이미지 업로드해서 변경하는 코드
+  const changeProfileImage = (event: any) => {
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      if (event && event.target && typeof event.target.result === 'string') {
+        setNowProfileImage(event.target.result);
+      }
+    };
+
+    if (event && event.target && event.target.files && event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  };
+
+  const requestNewNicknameModal = () => {
+    Swal.fire({
+      width: 400,
+      title: `닉네임이 중복되거나
+      입력되지 않았어요😥`,
+      icon: 'error',
+      confirmButtonColor: '#469FF6',
+      confirmButtonText: '확인',
+      customClass: {
+        confirmButton: 'custom-confirm-button',
+      },
+    });
+  };
+
+  // 저장 버튼
+  // 닉네임이 입력되지 않았거나 중복되면 경고 모달창이 뜸
   // (나중에 API 연결)
   const handleSaveButton = () => {
     console.log('Save');
+    console.log(nowNickname, nowDescription)
+    if (nicknameExists !== true && nowNickname !== '') {
+      const newPathname = '/myprofile';
+      window.location.href = newPathname;
+    } else {
+      requestNewNicknameModal();
+    }
   };
 
   const openWithdrawModal = () => {
@@ -90,36 +138,37 @@ const Edit = () => {
   }, []);
 
   return (
-    <div>
-      <Header headerType="OTHER">프로필 수정</Header>
+    <div className='w-screen max-w-[500px]'>
+      <Header headerType='OTHER'>프로필 수정</Header>
       <div>
-        <ImageInput myProfileImage={sampleData.member.profileImage} />
+        <ImageInput myProfileImage={nowProfileImage} profileImageUpdate={changeProfileImage} />
         <DataInput
-          inputType="NICKNAME"
-          pageType="PROFILE_EDIT"
+          inputType='NICKNAME'
+          pageType='PROFILE_EDIT'
           onChange={handleNicknameChange}
           value={nowNickname}
+          nicknameExists={nicknameExists}
         />
         <DataInput
-          inputType="DESCRIPTION"
-          pageType="PROFILE_EDIT"
+          inputType='DESCRIPTION'
+          pageType='PROFILE_EDIT'
           onChange={handleDescirptChange}
           value={nowDescription}
         />
       </div>
-      <div className="px-6">
+      <div className='px-6'>
         <div
           onClick={handleSaveButton}
-          className="bg-main-blue rounded-lg w-full max-w-xs p-4 hover:brightness-110"
+          className='bg-main-blue rounded-lg w-full max-w-[500px] p-4 hover:brightness-110'
         >
-          <div className="text-white text-center text-base font-bold cursor-pointer uppercase leading-none">
+          <div className='text-white text-center text-base font-bold cursor-pointer uppercase leading-none'>
             저장
           </div>
         </div>
       </div>
       <div
         onClick={openWithdrawModal}
-        className="flex justify-center mt-40 mb-3 text-xs font-semibold cursor-pointer hover:text-[#E83F57]"
+        className='flex justify-center mt-40 mb-3 text-xs font-semibold cursor-pointer hover:text-[#E83F57]'
       >
         회원 탈퇴
       </div>

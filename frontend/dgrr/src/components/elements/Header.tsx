@@ -54,11 +54,13 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
     // WAITING : 대기실에서의 헤더(클립보드 복사 버튼, 나가기 버튼)
     // GAME : 게임 화면에서의 헤더(시간, 나가기 버튼)
     // OTHER : 랭킹 조회, 프로필 수정, 최근 전적에서의 헤더(뒤로 가기 버튼)
-    <div className='w-screen 2sm:w-[360px]'>
+    <div className='max-w-[500px]'>
       {headerType === 'MAIN' ? (
         <div className='bg-main-blue h-[60px] top-0 right-0 flex justify-between items-center'>
           <div className='flex ms-4 cursor-pointer hover:text-white'>
-            <IoTrophyOutline fontSize={'27px'} />
+            <Link href='/ranking'>
+              <IoTrophyOutline fontSize={'27px'} />
+            </Link>
           </div>
           <div className='me-4 cursor-pointer hover:text-white'>
             <Link href='/myprofile'>
@@ -77,16 +79,18 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
       ) : headerType === 'PROFILE' ? (
         <div className='h-[60px] top-0 right-0 flex justify-between items-center'>
           <div className='flex gap-2 ms-2'>
-            <div onClick={handleMoveBack} className='cursor-pointer hover:text-main-blue'>
-              <IoChevronBackOutline fontSize={'27px'} />
+            <div className='cursor-pointer hover:text-main-blue'>
+              <Link href='/main'>
+                <IoChevronBackOutline fontSize={'27px'} />
+              </Link>
             </div>
             <div className='inline-block text-lg font-semibold'>마이 프로필</div>
+          </div>
+          <Link href='/myprofile/edit'>
+            <div className='me-4 hover:text-main-blue'>
+              <IoPencilSharp fontSize={'25px'} />
             </div>
-            <Link href='/myprofile/edit'>
-              <div className='me-4 hover:text-main-blue'>
-                <IoPencilSharp fontSize={'25px'} />
-              </div>
-            </Link>
+          </Link>
         </div>
       ) : headerType === 'WAITING' ? (
         <div className='bg-black h-[60px] top-0 right-0 gap-2 pe-4 flex justify-end items-center'>
