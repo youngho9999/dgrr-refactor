@@ -1,6 +1,6 @@
-'use client'
-import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
-import { ChildMethods, IUserVideoComponent } from "@/types/game";
+'use client';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import { ChildMethods, IUserVideoComponent } from '@/types/game';
 
 export const UserVideoComponent = forwardRef<ChildMethods, IUserVideoComponent>(
   ({ streamManager }: IUserVideoComponent, ref) => {
@@ -20,13 +20,12 @@ export const UserVideoComponent = forwardRef<ChildMethods, IUserVideoComponent>(
       }
     }, [streamManager]);
 
-
     return (
       <div>
-        <video autoPlay={true} ref={videoRef} />
+        <video autoPlay={true} ref={videoRef} className="w-80" />
       </div>
     );
   }
 );
 
-UserVideoComponent.displayName = "UserVideoComponent";
+UserVideoComponent.displayName = 'UserVideoComponent';
