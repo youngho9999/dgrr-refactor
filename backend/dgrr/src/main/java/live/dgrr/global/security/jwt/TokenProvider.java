@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Component
 public class TokenProvider {
 
-    private static final String BEARER_TYPE = "bearer";
+    private static final String BEARER_TYPE = "Bearer";
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;
     private final Key key;
 
