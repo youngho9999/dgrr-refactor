@@ -4,6 +4,10 @@ import live.dgrr.domain.game.dto.GameResultResponse;
 import live.dgrr.domain.game.entity.*;
 import live.dgrr.domain.game.entity.event.*;
 import live.dgrr.domain.game.repository.GameRoomRepository;
+import live.dgrr.domain.gamehistory.entity.GameHistory;
+import live.dgrr.domain.gamehistory.repository.GameHistoryRepository;
+import live.dgrr.domain.member.entity.Member;
+import live.dgrr.domain.member.repository.MemberRepository;
 import live.dgrr.global.entity.Tier;
 import live.dgrr.global.exception.ErrorCode;
 import live.dgrr.global.exception.GameException;
@@ -25,6 +29,8 @@ public class GameSecondRoundService {
     private final GameRoomRepository gameRoomRepository;
     private final ApplicationEventPublisher publisher;
     private final TaskScheduler taskScheduler;
+    private final MemberRepository memberRepository;
+    private final GameHistoryRepository gameHistoryRepository;
 
     private static final long ROUND_TIME = 30L;
     private static final String SECOND_ROUND_LAUGH = "/recv/secondroundend-laugh";
@@ -105,6 +111,24 @@ public class GameSecondRoundService {
         int afterRating = EloCalculator.calculateRating(myInfo.rating(), enemyInfo.rating(), gameResult);
         Tier afterTier = TierCalculator.calculateRank(afterRating);
 
+        //게임 결과 저장
+        Member member = memberRepository.findById(Long.parseLong(myInfo.memberId()))
+                .orElseThrow(() -> new GameException(ErrorCode.MEMBER_NOT_FOUND));
+
+        GameHistory history = GameHistory.builder()
+                .member(member)
+                .gameRoomId(gameRoomId)
+                .gameResult(gameResult)
+                .gameType(gameRoom.getGameType())
+                .gameTime(gameRoom.getGameTime())
+                .ratingChange(afterRating - myInfo.rating())
+                .holdingTime(gameRoom.getHoldingTime(memberId))
+                .highlightImage(null)
+                .build();
+
+        gameHistoryRepository.save(history);
+
+
         return GameResultResponse.builder()
                 .gameResult(gameResult)
                 .myInfo(myInfo)
@@ -129,6 +153,23 @@ public class GameSecondRoundService {
         GameMember enemyInfo = gameRoom.getMyInfo(memberId);
         int afterRating = EloCalculator.calculateRating(myInfo.rating(), enemyInfo.rating(), GameResult.WIN);
         Tier afterTier = TierCalculator.calculateRank(afterRating);
+
+        Member member = memberRepository.findById(Long.parseLong(myInfo.memberId()))
+                .orElseThrow(() -> new GameException(ErrorCode.MEMBER_NOT_FOUND));
+
+        //게임 결과 저장
+        GameHistory history = GameHistory.builder()
+                .member(member)
+                .gameRoomId(gameRoomId)
+                .gameResult(GameResult.WIN)
+                .gameType(gameRoom.getGameType())
+                .gameTime(gameRoom.getGameTime())
+                .ratingChange(afterRating - myInfo.rating())
+                .holdingTime(gameRoom.getHoldingTime(memberId))
+                .highlightImage(null)
+                .build();
+
+        gameHistoryRepository.save(history);
 
         return GameResultResponse.builder()
                 .gameResult(GameResult.WIN)
