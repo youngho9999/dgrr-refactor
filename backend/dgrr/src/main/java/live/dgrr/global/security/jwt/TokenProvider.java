@@ -4,6 +4,8 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import live.dgrr.global.config.jwt.JwtConfig;
+import live.dgrr.global.exception.ErrorCode;
+import live.dgrr.global.exception.GeneralException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,7 +39,6 @@ public class TokenProvider {
         long now = (new Date()).getTime();
 
         Date tokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
-        System.out.println("aaa: " + key);
         String accessToken = Jwts.builder()
                 .setSubject(kakaoId)
                 .claim("id", memberId)
@@ -70,15 +71,14 @@ public class TokenProvider {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("잘못된 JWT 서명입니다.");
+            throw new GeneralException(ErrorCode.WRONG_JWT_SIGNATURE);
         } catch (ExpiredJwtException e) {
-            log.info("만료된 JWT 토큰입니다.");
+            throw new GeneralException(ErrorCode.EXPIRED_JWT);
         } catch (UnsupportedJwtException e) {
-            log.info("지원되지 않는 JWT 토큰입니다.");
+            throw new GeneralException(ErrorCode.UNSUPPORTED_JWT);
         } catch (IllegalArgumentException e) {
-            log.info("JWT 토큰이 잘못되었습니다.");
+            throw new GeneralException(ErrorCode.WRONG_JWT_TOKEN);
         }
-        return false;
     }
 
     private Claims parseClaims(String accessToken) {
