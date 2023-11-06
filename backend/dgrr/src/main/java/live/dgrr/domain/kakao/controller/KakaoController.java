@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/kakao")
 public class KakaoController {
     private final KakaoService kakaoService;
-    private final RankingService rankingService;
-    private static final int START_SCORE = 1400;
     private final TokenProvider tokenProvider;
 
     // 카카오 로그인
