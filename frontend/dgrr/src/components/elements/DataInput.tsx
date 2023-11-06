@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from 'react';
+
 export type inputType = 'NICKNAME' | 'DESCRIPTION';
 export type pageType = 'SIGNUP' | 'PROFILE_EDIT';
 
@@ -5,6 +9,7 @@ interface DataInputProps {
   inputType: inputType;
   pageType: pageType;
   value?: string;
+  nickname?: string;
   onChange?: any;
 }
 
@@ -28,6 +33,7 @@ const DataInput = ({ inputType, pageType, value, onChange }: DataInputProps) => 
                 className="bg-[#F4F4F6] w-full text-xs p-4 rounded-lg focus:outline-none focus:ring focus:ring-main-blue"
                 placeholder="닉네임을 입력해주세요."
               />
+
             </div>
           ) : (
             // 닉네임 - 프로필 수정

@@ -41,6 +41,7 @@ const Edit = () => {
 
   const [nowNickname, setNowNickName] = useState('');
   const [nowDescription, setNowDescription] = useState('');
+  const [nowProfileImage, setNowProfileImage] = useState(sampleData.member.profileImage);
 
   // 닉네임 입력값 반영
   const handleNicknameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +51,20 @@ const Edit = () => {
   // 상태 메시지 입력값 반영
   const handleDescirptChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNowDescription(event.target.value);
+  };
+
+  // 프로필 이미지 업로드해서 변경하는 코드
+  const changeProfileImage = (event: any) => {
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      if (event && event.target && typeof event.target.result === 'string') {
+        setNowProfileImage(event.target.result);
+      }
+    };
+
+    if (event && event.target && event.target.files && event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]);
+    }
   };
 
   // 저장 버튼 눌렀을 때 작동하는 함수
@@ -95,7 +110,7 @@ const Edit = () => {
     <div className='w-screen max-w-[500px]'>
       <Header headerType='OTHER'>프로필 수정</Header>
       <div>
-        <ImageInput myProfileImage={sampleData.member.profileImage} />
+        <ImageInput myProfileImage={nowProfileImage} profileImageUpdate={changeProfileImage} />
         <DataInput
           inputType='NICKNAME'
           pageType='PROFILE_EDIT'
