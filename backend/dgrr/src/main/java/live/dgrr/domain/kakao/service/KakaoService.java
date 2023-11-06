@@ -120,7 +120,8 @@ public class KakaoService {
                 .orElse(null);
     }
 
-    public MemberLoginResponse getTokenFromMember(MemberResponse member) {
+    public MemberLoginResponse getTokenFromMember(String kakaoId) {
+        MemberResponse member = getMemberByKakaoId(kakaoId);
         return new MemberLoginResponse(JwtProperties.TOKEN_PREFIX+tokenProvider.generateTokenDto(member.kakaoId(), member.memberId()).accessToken(), member);
     }
 

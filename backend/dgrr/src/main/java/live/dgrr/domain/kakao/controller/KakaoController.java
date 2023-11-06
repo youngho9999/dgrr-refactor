@@ -33,8 +33,7 @@ public class KakaoController {
 
     @GetMapping("/login/{kakaoId}")
     public ResponseEntity<MemberLoginResponse> login(@PathVariable(value="kakaoId") String kakaoId) {
-        MemberResponse member = kakaoService.getMemberByKakaoId(kakaoId);
-        MemberLoginResponse response = kakaoService.getTokenFromMember(member);
+        MemberLoginResponse response = kakaoService.getTokenFromMember(kakaoId);
         return new ResponseEntity(response, HttpStatus.OK);
     }
 
