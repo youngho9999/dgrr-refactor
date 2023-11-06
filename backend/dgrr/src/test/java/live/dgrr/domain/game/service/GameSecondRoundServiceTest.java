@@ -5,7 +5,6 @@ import live.dgrr.domain.game.dto.GameResultResponse;
 import live.dgrr.domain.game.entity.*;
 import live.dgrr.domain.game.entity.event.*;
 import live.dgrr.domain.game.repository.GameRoomRepository;
-import live.dgrr.domain.gamehistory.repository.GameHistoryRepository;
 import live.dgrr.domain.gamehistory.service.GameHistoryService;
 import live.dgrr.global.entity.Tier;
 import org.junit.jupiter.api.BeforeEach;
