@@ -3,12 +3,22 @@
 import { FuncButton } from '@/components/FuncButton';
 import DataInput from '@/components/elements/DataInput';
 import ImageInput from '@/components/elements/ImageInput';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 const SignUp = () => {
   const [nickname, setNickName] = useState('');
   const [description, setDescription] = useState('');
   const [profileImage, setProfileImage] = useState('/images/default_profile_image.png');
+  const [nicknameExists, setNicknameExists] = useState(false)
+  
+  useEffect(() => {
+    if (nickname === '농담곰의 농담') { 
+      setNicknameExists(true)
+    } else {
+      setNicknameExists(false)
+    }
+  }, [nickname])
+
 
   // 닉네임 입력값 반영
   const handleAddNickname = (event: ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +46,6 @@ const SignUp = () => {
 
   const handleSignUpButton = () => {
     console.log('Sign Up');
-    console.log(nickname, description, profileImage)
   };
 
   return (
@@ -46,7 +55,7 @@ const SignUp = () => {
         <ImageInput myProfileImage={profileImage} profileImageUpdate={addProfileImage} />
       </div>
       <div className='mt-1 mb-11'>
-        <DataInput inputType='NICKNAME' pageType='SIGNUP' nickname={nickname} onChange={handleAddNickname} />
+        <DataInput inputType='NICKNAME' pageType='SIGNUP' nicknameExists={nicknameExists} onChange={handleAddNickname} />
         <DataInput inputType='DESCRIPTION' pageType='SIGNUP' onChange={handleAddDescirpt} />
       </div>
       <div className='flex justify-center h-14'>
