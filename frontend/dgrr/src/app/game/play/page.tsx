@@ -6,9 +6,14 @@ import { UserVideoComponent } from './videoComponent';
 import { Publisher } from 'openvidu-browser';
 import { useDispatch } from 'react-redux';
 import { saveGameResult } from '@/store/gameSlice';
+import { publishMessage } from '@/components/Game/stomp';
 
 const PlayPage = () => {
   const client = useAppSelector((state) => state.game.client);
+  const gameInfo = useAppSelector((state) => state.game.gameInfo);
+  const gameRoomID = useAppSelector((state) => state.game.gameInfo.gameRoomId);
+  const turn = useAppSelector((state) => state.game.gameInfo.turn);
+
   const { DESTINATION_URI } = stompConfig;
   const {
     FIRST_ROUND_GO_URI,
@@ -31,23 +36,23 @@ const PlayPage = () => {
   const subscribeGame = () => {
     // 1라운드 관련 구독
     client?.subscribe(FIRST_ROUND_GO_URI, (message) => {
-      console.log('1라운드 메세지: ', message);
+      console.log('1라운드 메세지: ', message.body);
       if (message.body == 'START') {
         console.log('1라운드 시작');
       }
     });
     client?.subscribe(FIRST_ROUND_NO_LAUGH_URI, (message) => {
-      console.log('1라운드 메세지: ', message);
+      console.log('1라운드 메세지: ', message.body);
       setFirstRoundResult(message.body);
     });
     client?.subscribe(FIRST_ROUND_LAUGH_URI, (message) => {
-      console.log('1라운드 메세지: ', message);
+      console.log('1라운드 메세지: ', message.body);
       setFirstRoundResult(message.body);
     });
 
     // 2라운드 관련 구독
     client?.subscribe(SECOND_ROUND_GO_URI, (message) => {
-      console.log('2라운드 메세지: ', message);
+      console.log('2라운드 메세지: ', message.body);
       if (message.body == 'START') {
         console.log('2라운드 시작');
       }
@@ -67,11 +72,17 @@ const PlayPage = () => {
     });
 
     // 게임 결과
-    client?.subscribe(RESULT_URI, (message)=> {
-      dispatch(saveGameResult(message.body))
-    })
+    client?.subscribe(RESULT_URI, (message) => {
+      dispatch(saveGameResult(message.body));
+    });
   };
 
+  // 1라운드 시작
+  const firstRoundStart = () => {
+    if (client) {
+      publishMessage(client, FIRST_ROUND_START_URI, gameRoomID);
+    }
+  };
   // 웹소켓 관련
   const [ws, setWs] = useState<WebSocket | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -116,14 +127,29 @@ const PlayPage = () => {
       }
     };
     const intervalId = setInterval(captureAndSend, 1000);
+
+    const alertTimeout = setTimeout(() => {
+      console.log(turn);
+      const myState = turn == 'FIRST' ? '공격' : '방어';
+      alert(myState);
+      firstRoundStart();
+    }, 3000);
+
     return () => {
       clearInterval(intervalId);
+      clearTimeout(alertTimeout);
+      subscribeGame();
       if (websocket) {
         websocket.close();
       }
     };
-  }, []);
+  }, [turn, gameRoomID, gameInfo]);
 
+  useEffect(() => {
+    if (firstRoundResult && client) {
+      publishMessage(client, SECOND_ROUND_START_URI, gameRoomID);
+    }
+  }, [firstRoundResult]);
   return (
     <div>
       <UserVideoComponent ref={childRef} streamManager={publisher} />
