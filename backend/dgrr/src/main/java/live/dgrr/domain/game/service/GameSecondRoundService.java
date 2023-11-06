@@ -135,6 +135,7 @@ public class GameSecondRoundService {
         int afterRating = EloCalculator.calculateRating(myInfo.rating(), enemyInfo.rating(), GameResult.WIN);
         Tier afterTier = TierCalculator.calculateRank(afterRating);
 
+        //todo: 게임 팅겼을 시 history 저장
 //        gameHistoryService.save(gameRoom, gameRoomId, memberId, GameResult.WIN, afterRating - myInfo.rating(), null);
 
         return GameResultResponse.builder()
