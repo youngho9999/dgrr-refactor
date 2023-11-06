@@ -1,17 +1,17 @@
 import { Client, StompHeaders } from '@stomp/stompjs';
-import { StreamManager } from "openvidu-browser";
+import { StreamManager } from 'openvidu-browser';
 
 export type GameType = {
-  client: Client | undefined,
-  gameInfo: IGameConfig,
-  gameResult: IGameResult
-}
+  client: Client | undefined;
+  gameInfo: IGameConfig;
+  gameResult: IGameResult;
+};
 
 export interface IGameConfig {
   // 게임 정보
   turn: 'FIRST' | 'SECOND';
   gameRoomId: string;
-  openViduToken: string;
+  openviduToken: string;
 
   // 유저 정보
   myInfo: IMemberInfo;

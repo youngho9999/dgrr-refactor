@@ -6,7 +6,7 @@ const initialState: GameType = {
   gameInfo: {
     turn: 'FIRST',
     gameRoomId: '',
-    openViduToken: '',
+    openviduToken: '',
     myInfo: { nickname: '', profileImage: '', description: '', rating: 0, rank: 'BRONZE' },
     enemyInfo: { nickname: '', profileImage: '', description: '', rating: 0, rank: 'BRONZE' },
   },
