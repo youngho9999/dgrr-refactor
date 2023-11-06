@@ -21,7 +21,7 @@ public class MatchingService {
     public void matchRandom(String memberId) {
         double memberRating = rankingRepository.getRatingByMemberId(Long.valueOf(memberId));
         if (!matchingRepository.isMemberSetEmpty()) {
-            String opponentId = matchingRepository.findClosestRatingMember(memberId, memberRating);
+            String opponentId = matchingRepository.findClosestRatingMember(memberRating);
 
             if (opponentId != null && !opponentId.equals(memberId)) {
                 // 매칭된 상대가 있다면 게임 시작 이벤트 발행

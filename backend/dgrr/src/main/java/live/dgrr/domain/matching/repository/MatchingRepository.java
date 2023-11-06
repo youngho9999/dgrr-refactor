@@ -33,7 +33,7 @@ public class MatchingRepository {
         redisTemplate.opsForZSet().remove(WAITING_MEMBERS_KEY, memberId);
     }
 
-    public String findClosestRatingMember(String memberId, double memberRating) {
+    public String findClosestRatingMember(double memberRating) {
         // 정의된 레이팅 범위. +/- 50 내에서 검색
         double minRatingRange = memberRating - 50;
         double maxRatingRange = memberRating + 50;
