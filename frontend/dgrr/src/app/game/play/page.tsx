@@ -7,7 +7,7 @@ import { Device, OpenVidu, Publisher, Subscriber, Session } from 'openvidu-brows
 import { useDispatch } from 'react-redux';
 import { saveGameResult } from '@/store/gameSlice';
 import { publishMessage } from '@/components/Game/stomp';
-import { initGame, joinSession } from '@/components/Game/openvidu';
+import { initGame, joinSession } from '@/components/Game/openVidu';
 
 const PlayPage = () => {
   const client = useAppSelector((state) => state.game.client);
@@ -97,6 +97,7 @@ const PlayPage = () => {
   const [subscriber, setSubscriber] = useState<Subscriber>();
   const currentVideoDeviceRef = useRef<Device>();
 
+  // 오픈비두 연결
   const connectOV = () => {
     initGame().then(({ OV, session }) => {
       // console.log("THE FIRST OV INItialte");
@@ -119,19 +120,14 @@ const PlayPage = () => {
         });
     });
   };
+
+  // 이미지 처리]
+  const startWebcamCapture = useRef<NodeJS.Timer>();
+  const webcamCapture = useRef<() => void>(() => {});
   useEffect(() => {
     connectOV();
   }, []);
   useEffect(() => {
-    // 웹캠 연결
-    navigator.mediaDevices
-      .getUserMedia({ video: true })
-      .then((stream) => {
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      })
-      .catch((err) => console.log('웹캠 에러:', err));
     // WebSocket 연결
     const PYTHON_URL = process.env.NEXT_PUBLIC_PYTHON_URL;
     const websocket = new WebSocket(`${PYTHON_URL}`);
