@@ -39,9 +39,18 @@ const Edit = () => {
     ],
   };
 
-  const [nowNickname, setNowNickName] = useState('');
-  const [nowDescription, setNowDescription] = useState('');
+  const [nowNickname, setNowNickName] = useState(sampleData.member.nickname);
+  const [nowDescription, setNowDescription] = useState(sampleData.member.description);
   const [nowProfileImage, setNowProfileImage] = useState(sampleData.member.profileImage);
+  const [nicknameExists, setNicknameExists] = useState(false);
+
+  useEffect(() => {
+    if (nowNickname === '농담곰의 농담') {
+      setNicknameExists(true);
+    } else {
+      setNicknameExists(false);
+    }
+  }, [nowNickname]);
 
   // 닉네임 입력값 반영
   const handleNicknameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -67,10 +76,32 @@ const Edit = () => {
     }
   };
 
-  // 저장 버튼 눌렀을 때 작동하는 함수
+  const requestNewNicknameModal = () => {
+    Swal.fire({
+      width: 400,
+      title: `닉네임이 중복되거나
+      입력되지 않았어요😥`,
+      icon: 'error',
+      confirmButtonColor: '#469FF6',
+      confirmButtonText: '확인',
+      customClass: {
+        confirmButton: 'custom-confirm-button',
+      },
+    });
+  };
+
+  // 저장 버튼
+  // 닉네임이 입력되지 않았거나 중복되면 경고 모달창이 뜸
   // (나중에 API 연결)
   const handleSaveButton = () => {
     console.log('Save');
+    console.log(nowNickname, nowDescription)
+    if (nicknameExists !== true && nowNickname !== '') {
+      const newPathname = '/myprofile';
+      window.location.href = newPathname;
+    } else {
+      requestNewNicknameModal();
+    }
   };
 
   const openWithdrawModal = () => {
@@ -116,6 +147,7 @@ const Edit = () => {
           pageType='PROFILE_EDIT'
           onChange={handleNicknameChange}
           value={nowNickname}
+          nicknameExists={nicknameExists}
         />
         <DataInput
           inputType='DESCRIPTION'
