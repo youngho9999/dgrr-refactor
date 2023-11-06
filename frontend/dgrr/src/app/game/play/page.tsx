@@ -3,16 +3,18 @@ import { useAppSelector } from '@/store/hooks';
 import { ChildMethods, stompConfig } from '@/types/game';
 import { useEffect, useRef, useState } from 'react';
 import { UserVideoComponent } from './videoComponent';
-import { Publisher } from 'openvidu-browser';
+import { Device, OpenVidu, Publisher, Subscriber, Session } from 'openvidu-browser';
 import { useDispatch } from 'react-redux';
 import { saveGameResult } from '@/store/gameSlice';
 import { publishMessage } from '@/components/Game/stomp';
+import { initGame, joinSession } from '@/components/Game/openvidu';
 
 const PlayPage = () => {
   const client = useAppSelector((state) => state.game.client);
   const gameInfo = useAppSelector((state) => state.game.gameInfo);
   const gameRoomID = useAppSelector((state) => state.game.gameInfo.gameRoomId);
   const turn = useAppSelector((state) => state.game.gameInfo.turn);
+  const openviduToken = useAppSelector((state) => state.game.gameInfo.openviduToken);
 
   const { DESTINATION_URI } = stompConfig;
   const {
@@ -87,7 +89,39 @@ const PlayPage = () => {
   const [ws, setWs] = useState<WebSocket | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  // OpenVidu
+  // eslint-disable-next-line
+  const [OV, setOV] = useState<OpenVidu>();
+  const [OVSession, setOVSession] = useState<Session>();
   const [publisher, setPublisher] = useState<Publisher>();
+  const [subscriber, setSubscriber] = useState<Subscriber>();
+  const currentVideoDeviceRef = useRef<Device>();
+
+  const connectOV = () => {
+    initGame().then(({ OV, session }) => {
+      // console.log("THE FIRST OV INItialte");
+      setOV(OV);
+      setOVSession(session);
+      session.on('streamCreated', (event) => {
+        const ySubscriber = session.subscribe(event.stream, undefined);
+        setSubscriber(ySubscriber);
+      });
+
+      //연결
+      joinSession(OV, session, openviduToken, gameInfo.myInfo.nickname)
+        .then(({ publisher, currentVideoDevice }) => {
+          setPublisher(publisher);
+          currentVideoDeviceRef.current = currentVideoDevice;
+          console.log('OpenVidu 연결 완료');
+        })
+        .catch((error) => {
+          console.log('OpenVidu 연결 실패', error.code, error.message);
+        });
+    });
+  };
+  useEffect(() => {
+    connectOV();
+  }, []);
   useEffect(() => {
     // 웹캠 연결
     navigator.mediaDevices
@@ -139,9 +173,9 @@ const PlayPage = () => {
       clearInterval(intervalId);
       clearTimeout(alertTimeout);
       subscribeGame();
-      if (websocket) {
-        websocket.close();
-      }
+      // if (websocket) {
+      //   websocket.close();
+      // }
     };
   }, [turn, gameRoomID, gameInfo]);
 
@@ -153,7 +187,8 @@ const PlayPage = () => {
   return (
     <div>
       <UserVideoComponent ref={childRef} streamManager={publisher} />
-      <video ref={videoRef} width="640" height="480" autoPlay muted />
+      <UserVideoComponent streamManager={subscriber} />
+      {/* <video ref={videoRef} width="640" height="480" autoPlay muted /> */}
       <canvas ref={canvasRef} width="640" height="480" style={{ display: 'none' }} />
     </div>
   );
