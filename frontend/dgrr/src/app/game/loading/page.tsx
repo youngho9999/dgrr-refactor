@@ -9,6 +9,7 @@ import { stompConfig } from '@/types/game';
 import { useDispatch } from 'react-redux';
 import { saveGameInfo } from '@/store/gameSlice';
 import { publishMessage } from '@/components/Game/stomp';
+import { useRouter } from 'next/navigation';
 
 const GameLoading = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -20,6 +21,7 @@ const GameLoading = () => {
   const { DESTINATION_URI } = stompConfig;
   const { GAME_URI, MATCHING_URI } = DESTINATION_URI;
   const dispatch = useDispatch();
+  const router = useRouter();
 
   // 랜덤매칭
   const gameMatch = () => {
@@ -30,15 +32,17 @@ const GameLoading = () => {
 
   const subscribeGame = () => {
     client?.subscribe(GAME_URI, (message) => {
-      console.log('게임정보 받는 메세지: ', message);
+      console.log('게임정보 받는 메세지: ', message.body);
       // 게임 정보 저장
-      dispatch(saveGameInfo(message));
+      dispatch(saveGameInfo(JSON.parse(message.body)));
+      // 게임 정보가 왔다면 매칭 페이지로 이동
+      router.push('/game/play');
     });
   };
 
   useEffect(() => {
-    gameMatch();
     subscribeGame();
+    gameMatch();
   }, []);
 
   return (
