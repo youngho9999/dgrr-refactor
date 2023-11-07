@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { saveGameResult } from '@/store/gameSlice';
 import { publishMessage } from '@/components/Game/stomp';
 import { initGame, joinSession } from '@/components/Game/openVidu';
+import { GameStateModal } from '@/components/elements/GameStateModal';
 
 const PlayPage = () => {
   const client = useAppSelector((state) => state.game.client);
@@ -34,8 +35,10 @@ const PlayPage = () => {
   const [secondRoundResult, setSecondRoundResult] = useState('');
   const childRef = useRef<ChildMethods | null>(null);
   const dispatch = useDispatch();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [when, setWhen] = useState<'START' | 'ROUND' | 'END'>('START');
 
-  const subscribeGame = () => {
+  const subscribeFirstGame = () => {
     // 1라운드 관련 구독
     client?.subscribe(FIRST_ROUND_GO_URI, (message) => {
       console.log('1라운드 메세지: ', message.body);
@@ -45,27 +48,15 @@ const PlayPage = () => {
     });
     client?.subscribe(FIRST_ROUND_NO_LAUGH_URI, (message) => {
       console.log('1라운드 메세지: ', message.body);
-      setFirstRoundResult(message.body);
+      if (message) {
+        setFirstRoundResult(message.body);
+        subscribeSecondGame();
+      }
     });
     client?.subscribe(FIRST_ROUND_LAUGH_URI, (message) => {
       console.log('1라운드 메세지: ', message.body);
       setFirstRoundResult(message.body);
-    });
-
-    // 2라운드 관련 구독
-    client?.subscribe(SECOND_ROUND_GO_URI, (message) => {
-      console.log('2라운드 메세지: ', message.body);
-      if (message.body == 'START') {
-        console.log('2라운드 시작');
-      }
-    });
-    client?.subscribe(SECOND_ROUND_NO_LAUGH_URI, (message) => {
-      console.log('2라운드 메세지: ', message);
-      setSecondRoundResult(message.body);
-    });
-    client?.subscribe(SECOND_ROUND_LAUGH_URI, (message) => {
-      console.log('2라운드 메세지: ', message);
-      setSecondRoundResult(message.body);
+      subscribeSecondGame();
     });
 
     // error
@@ -75,10 +66,32 @@ const PlayPage = () => {
 
     // 게임 결과
     client?.subscribe(RESULT_URI, (message) => {
-      dispatch(saveGameResult(message.body));
+      if (message.body) {
+        dispatch(saveGameResult(message.body));
+      }
     });
   };
 
+  const subscribeSecondGame = () => {
+    // 2라운드 관련 구독
+    client?.subscribe(SECOND_ROUND_GO_URI, (message) => {
+      console.log('2라운드 메세지: ', message.body);
+      if (message.body == 'START') {
+        console.log('2라운드 시작');
+      }
+    });
+    client?.subscribe(SECOND_ROUND_NO_LAUGH_URI, (message) => {
+      console.log('2라운드 메세지: ', message.body);
+      setSecondRoundResult(message.body);
+    });
+    client?.subscribe(SECOND_ROUND_LAUGH_URI, (message) => {
+      console.log('2라운드 메세지: ', message.body);
+      setSecondRoundResult(message.body);
+    });
+    if (client) {
+      publishMessage(client, SECOND_ROUND_START_URI, gameRoomID);
+    }
+  };
   // 1라운드 시작
   const firstRoundStart = () => {
     if (client) {
@@ -125,9 +138,6 @@ const PlayPage = () => {
   const startWebcamCapture = useRef<NodeJS.Timer>();
   const webcamCapture = useRef<() => void>(() => {});
   useEffect(() => {
-    connectOV();
-  }, []);
-  useEffect(() => {
     // WebSocket 연결
     const PYTHON_URL = process.env.NEXT_PUBLIC_PYTHON_URL;
     const websocket = new WebSocket(`${PYTHON_URL}`);
@@ -157,6 +167,7 @@ const PlayPage = () => {
       }
     };
     const intervalId = setInterval(captureAndSend, 1000);
+    connectOV();
 
     const alertTimeout = setTimeout(() => {
       console.log(turn);
@@ -168,10 +179,7 @@ const PlayPage = () => {
     return () => {
       clearInterval(intervalId);
       clearTimeout(alertTimeout);
-      subscribeGame();
-      // if (websocket) {
-      //   websocket.close();
-      // }
+      subscribeFirstGame();
     };
   }, [turn, gameRoomID, gameInfo]);
 
@@ -182,9 +190,9 @@ const PlayPage = () => {
   }, [firstRoundResult]);
   return (
     <div>
+      <GameStateModal when={when} gameState={turn} roundResult={firstRoundResult} />
       <UserVideoComponent ref={childRef} streamManager={publisher} />
       <UserVideoComponent streamManager={subscriber} />
-      {/* <video ref={videoRef} width="640" height="480" autoPlay muted /> */}
       <canvas ref={canvasRef} width="640" height="480" style={{ display: 'none' }} />
     </div>
   );
