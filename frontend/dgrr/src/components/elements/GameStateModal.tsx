@@ -6,7 +6,7 @@ import Image from 'next/image';
 interface GameStateInfo {
   when: 'START' | 'ROUND' | 'END';
   gameState?: 'FIRST' | 'SECOND';
-  roundResult?: 'NO_LAUGH' | 'LAUGH';
+  roundResult?: string;
 }
 
 export const GameStateModal = ({ when, gameState, roundResult }: GameStateInfo) => {
