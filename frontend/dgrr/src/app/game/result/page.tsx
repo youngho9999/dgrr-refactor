@@ -1,10 +1,22 @@
 'use client';
 
 import { FuncButton } from '@/components/FuncButton';
+import ModalWithX from '@/components/elements/ModalWithX';
 import Rank from '@/components/elements/Rank';
 import { useEffect, useState } from 'react';
 
 const Result = () => {
+  const [modalStatus, setModalStatus] = useState(false);
+
+  const openModal = (index: any) => {
+    setModalStatus(true);
+    console.log('Open Modal');
+  };
+  const closeModal = () => {
+    setModalStatus(false);
+    console.log('Close Modal');
+  };
+
   const [gameResult, setGameResult] = useState({
     myInfo: {
       nickname: '',
@@ -52,7 +64,7 @@ const Result = () => {
         rating: 1550,
         tier: 'Gold',
       },
-      highlightImage: '/images/sample_image2.png', //비겼을 경우 null
+      highlightImage: '/images/sample_image1.png', //비겼을 경우 null
       gameResult: 'LOSE',
       afterRating: 1600,
       afterTier: 'Gold',
@@ -65,6 +77,11 @@ const Result = () => {
         <div className='text-[40px] font-bold text-center'>
           {gameResult.gameResult === 'WIN' ? <div>WIN</div> : <div>LOSE</div>}
         </div>
+        <img onClick={openModal} src={gameResult.highlightImage} alt='하이라이트 이미지' className='fixed top-32 right-7 w-16 animate-bounce hover:cursor-pointer' />
+        <ModalWithX
+        closeModal={closeModal}
+        modalStatus={modalStatus}
+      />
         <div className='mt-9'>
           <Rank pageType='GAMERESULT' rating={gameResult.afterRating} tier={gameResult.afterTier} />
         </div>
