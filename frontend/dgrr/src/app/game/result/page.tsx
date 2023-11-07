@@ -74,14 +74,18 @@ const Result = () => {
   return (
     <div className='flex justify-center items-center bg-main-blue w-screen h-screen max-w-[500px]'>
       <div className='bg-white w-11/12 h-[522px] rounded-[12px] p-5'>
+        
         <div className='text-[40px] font-bold text-center'>
           {gameResult.gameResult === 'WIN' ? <div>WIN</div> : <div>LOSE</div>}
         </div>
         <img onClick={openModal} src={gameResult.highlightImage} alt='하이라이트 이미지' className='fixed top-32 right-7 w-16 animate-bounce hover:cursor-pointer' />
-        <ModalWithX
+        <div className='fixed left-10'>
+      <ModalWithX
         closeModal={closeModal}
         modalStatus={modalStatus}
       />
+      </div>
+        
         <div className='mt-9'>
           <Rank pageType='GAMERESULT' rating={gameResult.afterRating} tier={gameResult.afterTier} />
         </div>
