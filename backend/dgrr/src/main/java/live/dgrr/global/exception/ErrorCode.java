@@ -28,7 +28,11 @@ public enum ErrorCode {
     VALIDATION_DESCRIPTION_LENGTH_INVALID(HttpStatus.BAD_REQUEST,"Validation Description Length Invalid"),
     VALIDATION_NICKNAME_LENGTH_INVALID(HttpStatus.BAD_REQUEST,"Validation Nickname Length Invalid"),
     NICKNAME_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "Nickname Already Exist"),
-    VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "Validation Error");
+    VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "Validation Error"),
+    IMAGE_UPLOAD_ERROR(HttpStatus.BAD_REQUEST, "Image upload error"),
+    HIGHLIGHT_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "Highlight already exists"),
+    HIGHLIGHT_NOT_FOUND(HttpStatus.BAD_REQUEST, "Highlight not found");
+
     private final HttpStatus httpStatus;
     private final String message;
 
