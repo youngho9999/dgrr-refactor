@@ -4,14 +4,6 @@ import { setUrl } from '../../utils/setUrl';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-interface member {
-  memberId: number;
-  kakaoId: string;
-  nickname: string;
-  profileImage: string;
-  description: string;
-}
-
 const AuthPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -24,7 +16,7 @@ const AuthPage = () => {
         if (res.data.key === 'signUp') {
           router.push(`/signup?id=${res.data.id}`);
         } else {
-          const member: member = res.data.member;
+          const member = res.data.member;
           alert(`${member.nickname}님, 환영합니다.`);
           axios
             .get(`${setUrl}/kakao/login/${member.kakaoId}`)
