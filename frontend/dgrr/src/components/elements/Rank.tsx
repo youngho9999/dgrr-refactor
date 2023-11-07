@@ -42,9 +42,12 @@ const Rank = ({ pageType, tier, rating }: RankProps) => {
 
   // ProgressBar 컴포넌트에 대한 기본 매개변수 설정
   const progressBarProps = {
+    // 지금 게이지바가 얼마나 찼는지
     completed: nowRating,
+    // 게이지바 전체 용량
     maxCompleted: 400,
-    customLabel: rating.toString(),
+    // 게이지바 안에 들어갈 문구
+    customLabel: ' ',
     width: '270px',
     height: '25px',
   };
