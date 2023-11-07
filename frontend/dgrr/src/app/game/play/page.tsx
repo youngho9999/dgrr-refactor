@@ -9,6 +9,7 @@ import { saveGameResult } from '@/store/gameSlice';
 import { publishMessage } from '@/components/Game/stomp';
 import { initGame, joinSession } from '@/components/Game/openVidu';
 import { GameStateModal } from '@/components/elements/GameStateModal';
+import { useRouter } from 'next/navigation';
 
 const PlayPage = () => {
   const client = useAppSelector((state) => state.game.client);
@@ -37,13 +38,18 @@ const PlayPage = () => {
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
   const [when, setWhen] = useState<'START' | 'ROUND' | 'END'>('START');
+  const [round, setRound] = useState(0);
+  const router = useRouter();
 
+  let intervalId: any;
+  // 1라운드 관련 구독
   const subscribeFirstGame = () => {
-    // 1라운드 관련 구독
     client?.subscribe(FIRST_ROUND_GO_URI, (message) => {
       console.log('1라운드 메세지: ', message.body);
       if (message.body == 'START') {
         console.log('1라운드 시작');
+        setRound(1);
+        setWhen('ROUND');
       }
     });
     client?.subscribe(FIRST_ROUND_NO_LAUGH_URI, (message) => {
@@ -51,12 +57,25 @@ const PlayPage = () => {
       if (message) {
         setFirstRoundResult(message.body);
         subscribeSecondGame();
+        setModalOpen(true);
+        clearInterval(intervalId);
+        // 1초 후 modalOpen를 false로 설정
+        setTimeout(() => {
+          setModalOpen(false);
+        }, 1000);
       }
     });
     client?.subscribe(FIRST_ROUND_LAUGH_URI, (message) => {
       console.log('1라운드 메세지: ', message.body);
       setFirstRoundResult(message.body);
       subscribeSecondGame();
+      setModalOpen(true);
+
+      // 1초 후 modalOpen를 false로 설정
+      setTimeout(() => {
+        setModalOpen(false);
+        secondRoundStart();
+      }, 1000);
     });
 
     // error
@@ -68,36 +87,64 @@ const PlayPage = () => {
     client?.subscribe(RESULT_URI, (message) => {
       if (message.body) {
         dispatch(saveGameResult(message.body));
+        router.push('/game/result');
       }
     });
+
+    if (turn === 'SECOND') {
+      intervalId = setInterval(captureAndSend, 1000);
+    }
   };
 
+  // 2라운드 관련 구독
   const subscribeSecondGame = () => {
-    // 2라운드 관련 구독
     client?.subscribe(SECOND_ROUND_GO_URI, (message) => {
       console.log('2라운드 메세지: ', message.body);
       if (message.body == 'START') {
         console.log('2라운드 시작');
+        setRound(2);
       }
     });
     client?.subscribe(SECOND_ROUND_NO_LAUGH_URI, (message) => {
       console.log('2라운드 메세지: ', message.body);
       setSecondRoundResult(message.body);
+      setWhen('END');
+      clearInterval(intervalId);
+      setModalOpen(true);
+      setTimeout(() => {
+        setModalOpen(false);
+      }, 1000);
     });
     client?.subscribe(SECOND_ROUND_LAUGH_URI, (message) => {
       console.log('2라운드 메세지: ', message.body);
       setSecondRoundResult(message.body);
+      setWhen('END');
+      clearInterval(intervalId);
+      setModalOpen(true);
+      setTimeout(() => {
+        setModalOpen(false);
+      }, 1000);
     });
-    if (client) {
-      publishMessage(client, SECOND_ROUND_START_URI, gameRoomID);
+
+    if (turn === 'FIRST') {
+      intervalId = setInterval(captureAndSend, 1000);
     }
   };
+
   // 1라운드 시작
   const firstRoundStart = () => {
     if (client) {
       publishMessage(client, FIRST_ROUND_START_URI, gameRoomID);
     }
   };
+
+  // 2라운드 시작
+  const secondRoundStart = () => {
+    if (client) {
+      publishMessage(client, SECOND_ROUND_START_URI, gameRoomID);
+    }
+  };
+
   // 웹소켓 관련
   const [ws, setWs] = useState<WebSocket | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -134,9 +181,45 @@ const PlayPage = () => {
     });
   };
 
-  // 이미지 처리]
-  const startWebcamCapture = useRef<NodeJS.Timer>();
-  const webcamCapture = useRef<() => void>(() => {});
+  // 웹캠 이미지 캡쳐 및 전송
+  const capturePublisherScreen = () => {
+    if (publisher && canvasRef.current) {
+      const videoElement = publisher.videos[0].video;
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext('2d');
+
+      // Canvas에 비디오 화면 그리기
+      if (ctx) {
+        ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+      }
+
+      // Canvas를 이미지로 저장
+      const dataURL = canvas.toDataURL('image/jpeg');
+
+      return dataURL;
+    }
+    return null;
+  };
+
+  const sendCapturedImage = (imageData: any) => {
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      const message = {
+        image: imageData,
+        header: {
+          round: round, // 라운드 정보 설정
+          gameSessionId: gameRoomID, // 게임 세션 ID 설정
+        },
+      };
+      ws.send(JSON.stringify(message));
+    }
+  };
+  const captureAndSend = () => {
+    const capturedImage = capturePublisherScreen();
+    if (capturedImage) {
+      sendCapturedImage(capturedImage);
+    }
+  };
+
   useEffect(() => {
     // WebSocket 연결
     const PYTHON_URL = process.env.NEXT_PUBLIC_PYTHON_URL;
@@ -146,51 +229,25 @@ const PlayPage = () => {
     websocket.onmessage = (event) => console.log('서버로부터 메세지 받음:', event.data);
     websocket.onerror = (error) => console.log('WebSocket 에러:', error);
     websocket.onclose = () => console.log('WebSocket 연결 종료됨');
-    // 웹캠 이미지 캡쳐 및 전송
-    const captureAndSend = () => {
-      if (canvasRef.current && videoRef.current) {
-        const ctx = canvasRef.current.getContext('2d');
-        if (ctx) {
-          ctx.drawImage(videoRef.current, 0, 0, 640, 480); // 여기서 640x480은 캡처할 이미지의 크기입니다. 원하는대로 조절하세요.
-          const dataURL = canvasRef.current.toDataURL('image/jpeg');
-          if (websocket.readyState === WebSocket.OPEN) {
-            const message = {
-              image: dataURL,
-              header: {
-                round: 1,
-                gameSessionId: '12345',
-              },
-            };
-            websocket.send(JSON.stringify(message));
-          }
-        }
-      }
-    };
-    const intervalId = setInterval(captureAndSend, 1000);
+
     connectOV();
 
     const alertTimeout = setTimeout(() => {
       console.log(turn);
-      const myState = turn == 'FIRST' ? '공격' : '방어';
-      alert(myState);
+      setModalOpen(true);
       firstRoundStart();
     }, 3000);
 
     return () => {
-      clearInterval(intervalId);
       clearTimeout(alertTimeout);
       subscribeFirstGame();
+      setModalOpen(false);
     };
   }, [turn, gameRoomID, gameInfo]);
 
-  useEffect(() => {
-    if (firstRoundResult && client) {
-      publishMessage(client, SECOND_ROUND_START_URI, gameRoomID);
-    }
-  }, [firstRoundResult]);
   return (
-    <div>
-      <GameStateModal when={when} gameState={turn} roundResult={firstRoundResult} />
+    <div className="w-screen h-screen max-w-[500px] min-h-[565px] bg-black">
+      {modalOpen && <GameStateModal when={when} gameState={turn} roundResult={firstRoundResult} />}
       <UserVideoComponent ref={childRef} streamManager={publisher} />
       <UserVideoComponent streamManager={subscriber} />
       <canvas ref={canvasRef} width="640" height="480" style={{ display: 'none' }} />
