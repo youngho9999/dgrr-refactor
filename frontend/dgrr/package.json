@@ -2,6 +2,7 @@
   "name": "dgrr",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://dgrr.live/api", 
   "scripts": {
     "dev": "next dev",
     "build": "next build",
