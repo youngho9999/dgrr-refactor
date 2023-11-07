@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 interface GameStateInfo {
   when: 'START' | 'ROUND' | 'END';
-  gameState?: 'ATTACK' | 'DEFENSE';
+  gameState?: 'FIRST' | 'SECOND';
   roundResult?: 'NO_LAUGH' | 'LAUGH';
 }
 
@@ -21,13 +21,21 @@ export const GameStateModal = ({ when, gameState, roundResult }: GameStateInfo) 
         ) : (
           <div className="flex flex-col items-center">
             <Image
-              src={gameState === 'ATTACK' ? attackImg : defenseImg}
+              src={
+                when === 'START'
+                  ? gameState === 'FIRST'
+                    ? attackImg
+                    : defenseImg
+                  : gameState === 'FIRST'
+                  ? defenseImg
+                  : attackImg
+              }
               alt="공방 이미지"
               className="w-40"
             />
             {when === 'ROUND' && (
               <p className="font-bold text-2xl">
-                {gameState === 'ATTACK'
+                {gameState === 'SECOND'
                   ? roundResult === 'NO_LAUGH'
                     ? '웃음을 참았어요'
                     : '웃음을 참지 못했어요'
@@ -37,7 +45,13 @@ export const GameStateModal = ({ when, gameState, roundResult }: GameStateInfo) 
               </p>
             )}
             <p className="font-bold text-2xl">
-              {gameState === 'ATTACK' ? '상대방을 웃기세요!' : '웃음을 참아보세요!'}
+              {when === 'START'
+                ? gameState === 'FIRST'
+                  ? '상대방을 웃기세요!'
+                  : '웃음을 참아보세요!'
+                : gameState === 'FIRST'
+                ? '웃음을 참아보세요'
+                : '상대방을 웃기세요!'}
             </p>
           </div>
         )}
