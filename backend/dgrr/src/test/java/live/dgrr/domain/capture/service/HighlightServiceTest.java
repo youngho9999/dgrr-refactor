@@ -42,7 +42,7 @@ public class HighlightServiceTest {
 
     @BeforeEach
     void setUp() throws MalformedURLException {
-        mockUrl = new URL("http://example.com/highlight.jpg");
+        mockUrl = new URL("https://example.com/highlight.jpg");
         gameRoomId = "gameRoom1";
         round = 1;
         highlightID = new HighlightID(gameRoomId, round);
