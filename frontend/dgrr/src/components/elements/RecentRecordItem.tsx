@@ -21,10 +21,13 @@ interface RecentRecordItemProps {
 }
 
 const RecentRecordItem = ({ item }: RecentRecordItemProps) => {
+  const textColor = item.ratingChange > 0 ? 'text-[#E83F57]' : item.ratingChange < 0 ? 'text-[#5383E8]' : 'text-black';
+  const getOrLose = item.ratingChange >= 0 ? '획득한' : '상실한';
+  
   return (
     <div>
-      <div className="flex h-[40px] mb-1 justify-between">
-        <div className="gap-x-[10px] flex items-center ms-2">
+      <div className="flex h-[50px] mb-1 justify-between">
+        <div className="gap-x-[12px] flex items-center ms-2">
           {item.gameResult === 'WIN' ? (
             <div className="bg-[#5383E8] w-[24px] h-[24px] text-white text-center rounded-full font-semibold">
               승
@@ -43,7 +46,14 @@ const RecentRecordItem = ({ item }: RecentRecordItemProps) => {
             alt="opponentProileImage"
             className="w-[24px] h-[24px] rounded-full inline-block"
           />
-          <div className="text-[14px] inline-block">{item.opponentNickname}</div>
+          <div className="text-sm ms-1 inline-block">
+            <div className='font-semibold'>
+            {item.opponentNickname}
+            </div>
+            <div className={`text-xs ${textColor}`}>
+              내가 {getOrLose} 점수 : {item.ratingChange}
+            </div>
+          </div>
         </div>
         <div className="flex items-center me-2">
           {item.gameResult !== 'DRAW' ? (
