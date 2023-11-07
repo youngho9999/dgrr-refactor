@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 const RecentRecord = () => {
   const [modalStatus, setModalStatus] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
-  const currentDate = new Date();
 
   const openModal = (index: any) => {
     setSelectedItemIndex(index);
@@ -135,16 +134,23 @@ const RecentRecord = () => {
       <div className='px-4 pt-2'>
         {myInfo.gameHistoryList.map((item, index) => (
           <div key={index}>
-            {item.gameResult !== 'DRAW' ? (
+            {item.gameResult === 'WIN' ? (
               <div
                 onClick={() => openModal(index)}
                 className='cursor-pointer hover:bg-blue-200 hover:rounded-lg'
               >
-                <RecentRecordItem item={item} />
+                <RecentRecordItem pageType='RECENT-RECORD' item={item} />
+              </div>
+            ) : item.gameResult === 'LOSE' ? (
+              <div
+                onClick={() => openModal(index)}
+                className='cursor-pointer hover:bg-red-200 hover:rounded-lg'
+              >
+                <RecentRecordItem pageType='RECENT-RECORD' item={item} />
               </div>
             ) : (
               <div>
-                <RecentRecordItem item={item} />
+                <RecentRecordItem pageType='RECENT-RECORD' item={item} />
               </div>
             )}
           </div>
