@@ -43,7 +43,7 @@ public class MatchingRepository {
         String closestMemberId = null;
         double closestDistance = Double.MAX_VALUE;
 
-        // 트랜잭션 바깥에서 가장 가까운 멤버 찾기
+        // Rating이 가까운 멤버 찾기
         for (String closeMemberId : closeRatingMembers) {
             Double rating = redisTemplate.opsForZSet().score(WAITING_MEMBERS_KEY, closeMemberId);
             if (rating != null) {
@@ -55,7 +55,7 @@ public class MatchingRepository {
             }
         }
 
-        // 가장 가까운 멤버가 없다면 바로 null 반환
+        // Rating이 맞는 멤버가 없다면 바로 null 반환
         if (closestMemberId == null) {
             return null;
         }

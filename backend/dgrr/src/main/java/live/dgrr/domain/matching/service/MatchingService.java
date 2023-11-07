@@ -25,12 +25,11 @@ public class MatchingService {
 
             if (opponentId != null && !opponentId.equals(memberId)) {
                 // 매칭된 상대가 있다면 게임 시작 이벤트 발행
-                log.info("이벤트 발생 : by {}, with {}", memberId, opponentId);
                 publisher.publishEvent(new GameStartEvent(opponentId, memberId, GameType.RANDOM));
                 return;
             }
         }
-        //매칭 상대가 없으면 add
+        //매칭 상대가 없으면 대기 등록
         matchingRepository.addMember(memberId, memberRating);
 
     }
