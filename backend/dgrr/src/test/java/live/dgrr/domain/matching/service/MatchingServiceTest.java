@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ActiveProfiles("test")
 public class MatchingServiceTest {
-    private static final String WAITING_MEMBERS_KEY = "waitingQueue"; // 예를 들어 사용된 키 이름입니다.
+    private static final String WAITING_MEMBERS_KEY = "waitingQueue";
     private final String CUR_RANKING_KEY;
 
 
@@ -28,7 +28,7 @@ public class MatchingServiceTest {
     private RedisTemplate<String, String> redisTemplate;
 
     @Autowired
-    private MatchingRepository matchingRepository; // 실제 구현체가 자동으로 주입됩니다.
+    private MatchingRepository matchingRepository;
 
     @Autowired
     private MatchingService matchingService;
@@ -56,22 +56,24 @@ public class MatchingServiceTest {
     public void 가까운_레이팅의_멤버가_없는_경우() {
         //given
         ZSetOperations<String, String> zSetOps = redisTemplate.opsForZSet();
-        zSetOps.add(WAITING_MEMBERS_KEY, "member1", 100.0);
-        zSetOps.add(WAITING_MEMBERS_KEY, "member2", 200.0);
-        zSetOps.add(WAITING_MEMBERS_KEY, "member3", 300.0);
+        zSetOps.add(WAITING_MEMBERS_KEY, "member1", 100);
+        zSetOps.add(WAITING_MEMBERS_KEY, "member2", 200);
+        zSetOps.add(WAITING_MEMBERS_KEY, "member3", 300);
 
-        //when - 가까운 레이팅의 멤버가 없는 상황을 테스트합니다.
-        String matchedMemberId = matchingRepository.findClosestRatingMember(1400.0); // 범위 밖의 레이팅을 사용합니다.
+        int range = 50;
 
-        //then - 매치되지 않아야 합니다.
+        //when - 가까운 레이팅의 멤버가 없는 상황을 테스트
+        String matchedMemberId = matchingRepository.findClosestRatingMember(300 + range*10); // 범위 밖의 레이팅.
+
+        //then - 매치되지 않아야 한다.
         assertThat(matchedMemberId).isNull();
     }
 
     @Test
     public void 매칭중인_멤버가_없는_경우() {
-        //when - 가까운 레이팅의 멤버가 없는 상황을 테스트합니다.
-        String matchedMemberId = matchingRepository.findClosestRatingMember(1400.0);
-        //then - 매치되지 않아야 합니다.
+        //when - 가까운 레이팅의 멤버가 없는 상황을 테스트
+        String matchedMemberId = matchingRepository.findClosestRatingMember(1400);
+        //then - 매치되지 않아야 한다.
         assertThat(matchedMemberId).isNull();
     }
 
@@ -113,7 +115,7 @@ public class MatchingServiceTest {
         // then
         int eventsPublished = testEventListener.getEventsCount();
 
-        // 매칭된 게임 *2 가 멤버 수인지 확인
+        // 매칭된 게임 *2 가 총 멤버 수인지 확인
         assertThat(eventsPublished * 2L).isEqualTo(50);
 
 
@@ -138,7 +140,7 @@ public class MatchingServiceTest {
         // then
         int eventsPublished = testEventListener.getEventsCount();
         long waitingQueueSize = redisTemplate.opsForZSet().size(WAITING_MEMBERS_KEY);
-        // 매칭된 게임 *2 가 멤버 수인지 확인
+        // 매칭된 게임 *2 + 대기중인 멤버 수가 총 멤버 수인지 확인
         assertThat(eventsPublished * 2L + waitingQueueSize).isEqualTo(50);
 
     }
