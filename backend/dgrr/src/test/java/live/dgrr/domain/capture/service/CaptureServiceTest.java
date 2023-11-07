@@ -40,6 +40,9 @@ class CaptureServiceTest {
     @Mock
     ApplicationEventPublisher publisher;
 
+    @Mock
+    HighlightServiceImpl highlightServiceImpl;
+
     @Captor
     private ArgumentCaptor<FirstRoundOverEvent> firstRoundOverEventCaptor;
 
