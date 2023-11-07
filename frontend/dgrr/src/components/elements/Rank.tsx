@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import ProgressBar from '@ramonak/react-progress-bar';
 import { IoHelpCircleOutline } from 'react-icons/io5';
-import ModalWithX from './ModalWithX';
 
 type pageType = 'GAMERESULT' | 'PROFILE';
 
@@ -15,12 +14,14 @@ interface RankProps {
 const Rank = ({ pageType, tier, rating }: RankProps) => {
   const [nowRating, setNowRating] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const myTier =
     tier === 'Gold'
       ? { name: 'Gold', image: '/images/Gold.png', bgColor: '#FCC858' }
       : tier === 'Sliver'
       ? { name: 'Sliver', image: '/images/Sliver.png', bgColor: '#B8B8B8' }
       : { name: 'Bronze', image: '/images/Bronze.png', bgColor: '#C4872F' };
+
   const tierList = [
     { image: '/images/Gold.png', title: '골드 Gold', explain: '1800 ~' },
     { image: '/images/Sliver.png', title: '실버 Sliver', explain: '1600 ~' },
@@ -51,31 +52,32 @@ const Rank = ({ pageType, tier, rating }: RankProps) => {
   return (
     <div>
       {pageType === 'PROFILE' ? (
-        <div className="h-[220px] py-6 my-2">
-          <div className="flex items-center pb-4">
-            <div className="text-lg font-semibold ps-6 me-1">내 티어</div>
+        <div className='h-[220px] py-6 my-2'>
+          <div className='flex items-center pb-4'>
+            <div className='text-lg font-semibold ps-6 me-1'>내 티어</div>
             <div
-              className="inline-block cursor-pointer hover:text-main-blue"
+              className='inline-block cursor-pointer hover:text-main-blue'
               onClick={handleModalOpen}
               onMouseLeave={handleModalClose}
             >
               <IoHelpCircleOutline fontSize={'18px'} />
             </div>
             <div>
+              {/* 물음표 누르면 티어 정보 모달이 뜸 */}
               <div>
                 {isModalOpen === true ? (
-                  <div className="z-10 h-full fixed top-8 flex items-center">
-                    <div className="3sm:w-60 w-56 h-fit bg-white rounded-lg border-2 border-black p-3">
-                      <div className="bg-white rounded-lg space-y-2">
+                  <div className='z-10 w-full h-full fixed top-[-16px] flex items-center'>
+                    <div className='w-2/3 2sm:ms-3 h-fit bg-white rounded-lg border-2 border-black p-3'>
+                      <div className='bg-white rounded-lg space-y-2'>
                         {tierList.map((tier, index) => [
                           <div
-                            className="bg-[#e7e0ec] py-[10px] px-[8px]  rounded-md flex items-center gap-x-3"
+                            className='bg-[#e7e0ec] py-[10px] px-[8px]  rounded-md flex items-center gap-x-3'
                             key={index}
                           >
-                            <img src={tier.image} className="w-[38px] aspect-square ms-3" />
+                            <img src={tier.image} className='w-[38px] aspect-square ms-3' />
                             <div>
-                              <div className="text-sm font-semibold">{tier.title}</div>
-                              <div className="text-xs">{tier.explain}</div>
+                              <div className='text-sm font-semibold'>{tier.title}</div>
+                              <div className='text-xs'>{tier.explain}</div>
                             </div>
                           </div>,
                         ])}
@@ -85,45 +87,11 @@ const Rank = ({ pageType, tier, rating }: RankProps) => {
                 ) : null}
               </div>
             </div>
-            {/* {isModalOpen && (
-              <ModalWithX modalStatus={isModalOpen} closeModal={handleModalClose}>
-                <div className="bg-white p-5 rounded-lg space-y-2">
-                  {tierList.map((tier, index) => [
-                    <div
-                      className="bg-[#e7e0ec] py-[10px] px-[8px] w-[250px] rounded-md flex items-center gap-x-3"
-                      key={index}
-                    >
-                      <img src={tier.image} className="w-[38px] aspect-square ms-3" />
-                      <div>
-                        <div className="text-sm font-semibold">{tier.title}</div>
-                        <div className="text-xs">{tier.explain}</div>
-                      </div>
-                    </div>,
-                  ])}
-                </div>
-              </ModalWithX>
-              // <div className='fixed top-50 left-0 w-screen h-screen flex items-center justify-center'>
-              //   <div className='bg-white p-5 border-4 border-main-blue rounded-lg space-y-2'>
-              //     {tierList.map((tier, index) => [
-              //       <div
-              //         className='bg-[#e7e0ec] py-[10px] px-[8px] w-[250px] rounded-md flex items-center gap-x-3'
-              //         key={index}
-              //       >
-              //         <img src={tier.image} className='w-[38px] aspect-square ms-3' />
-              //         <div>
-              //           <div className='text-sm font-semibold'>{tier.title}</div>
-              //           <div className='text-xs'>{tier.explain}</div>
-              //         </div>
-              //       </div>,
-              //     ])}
-              //   </div>
-              // </div>
-            )} */}
           </div>
-          <div className="flex justify-center">
-            <img src={myTier.image} alt={myTier.name} className="w-[80px] aspect-square" />
+          <div className='flex justify-center'>
+            <img src={myTier.image} alt={myTier.name} className='w-[80px] aspect-square' />
           </div>
-          <div className="flex justify-center mt-[19px]">
+          <div className='flex justify-center mt-[19px]'>
             <ProgressBar
               {...progressBarProps} // 기본 매개변수를 전달
               bgColor={myTier.bgColor}
@@ -132,10 +100,10 @@ const Rank = ({ pageType, tier, rating }: RankProps) => {
         </div>
       ) : (
         <div>
-          <div className="flex justify-center">
-            <img src={myTier.image} alt={myTier.name} className="w-[90px] aspect-square" />
+          <div className='flex justify-center'>
+            <img src={myTier.image} alt={myTier.name} className='w-[90px] aspect-square' />
           </div>
-          <div className="flex justify-center mt-[25px]">
+          <div className='flex justify-center mt-[25px]'>
             <ProgressBar
               {...progressBarProps} // 기본 매개변수를 전달
               bgColor={myTier.bgColor}
