@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -21,12 +22,12 @@ public class HighlightServiceImpl implements IHighlightService {
 
     @Override
     public void saveHighlight(HighlightID highlightID, String encodedImage) {
-        highlightRepository.findById(highlightID).ifPresent(highlight -> {
-            throw new GameException(ErrorCode.HIGHLIGHT_ALREADY_EXISTS);
-        });
+        Optional<Highlight> optionalHighlight = highlightRepository.findById(highlightID);
+        if (optionalHighlight.isPresent()) return;
 
         URL captureUrl = s3Service.uploadBase64EncodedImage(encodedImage);
         Highlight highlight = new Highlight(highlightID, captureUrl);
+
 
         highlightRepository.save(highlight);
     }

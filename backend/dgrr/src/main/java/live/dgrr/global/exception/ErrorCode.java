@@ -34,7 +34,6 @@ public enum ErrorCode {
     WRONG_JWT_TOKEN(HttpStatus.NOT_FOUND, "Wrong JWT Token"), // JWT 토큰이 잘못됨
     VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "Validation Error"),
     IMAGE_UPLOAD_ERROR(HttpStatus.BAD_REQUEST, "Image upload error"),
-    HIGHLIGHT_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "Highlight already exists"),
     HIGHLIGHT_NOT_FOUND(HttpStatus.BAD_REQUEST, "Highlight not found");
 
     private final HttpStatus httpStatus;
