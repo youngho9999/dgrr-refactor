@@ -18,6 +18,7 @@ const config: Config = {
         'main-blue': '#469FF6',
       },
       screens: {
+        '4sm': '280px',
         '3sm': '360px',
         '2sm': '395px',
         sm: '640px',
@@ -26,6 +27,10 @@ const config: Config = {
         xl: '1280px',
         '2xl': '1536px',
       },
+      cursor: {
+        'default': `url(/images/cursor_default.cur), auto;`,
+        'hover': `url(/images/cursor_hover.cur), auto;`,
+      }
     },
   },
   plugins: [],
