@@ -117,7 +117,7 @@ const RecentRecord = () => {
           gameType: 'RANDOM',
           gameTime: 30,
           holdingTime: 30,
-          ratingChange: 415,
+          ratingChange: 999,
           highlightImage: '/images/sample_image4.png',
           createdAt: 'Thu Oct 15 2023 09:46:15 GMT+0900 (한국 표준시)',
           opponentNickname: '뽀',
