@@ -37,12 +37,16 @@ const Result = () => {
           <div className='inline-block w-1/6'></div>
           <div>{gameResult.gameResult}</div>
           {/* 하이라이트 사진 미리보기 */}
-          <Image
+          {gameResult.highlightImage
+            ? <Image
             onClick={openModal}
             src={gameResult.highlightImage}
             alt='하이라이트 이미지'
-            className={`inline-block w-1/6 aspect-square animate-bounce hover:cursor-pointer ${gameResult.gameResult === 'DRAW' && 'invisible' }`}
-          />
+            className='inline-block w-1/6 aspect-square animate-bounce hover:cursor-pointer'
+            />
+            : <div className='inline-block w-1/6'></div>
+          }
+
         </div>
         <div className='mt-7'>
           <Rank pageType='GAMERESULT' rating={gameResult.afterRating} tier={gameResult.afterTier} />
