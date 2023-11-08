@@ -1,14 +1,13 @@
 'use client';
-
+import { IoCloseOutline } from 'react-icons/io5';
 import { FuncButton } from '@/components/FuncButton';
-import ModalWithX from '@/components/elements/ModalWithX';
 import Rank from '@/components/elements/Rank';
 import { useEffect, useState } from 'react';
 
 const Result = () => {
   const [modalStatus, setModalStatus] = useState(false);
 
-  const openModal = (index: any) => {
+  const openModal = () => {
     setModalStatus(true);
     console.log('Open Modal');
   };
@@ -73,20 +72,19 @@ const Result = () => {
 
   return (
     <div className='flex justify-center items-center bg-main-blue w-screen h-screen max-w-[500px]'>
-      <div className='bg-white w-11/12 h-[522px] rounded-[12px] p-5'>
-        
-        <div className='text-[40px] font-bold text-center'>
+      <div className='bg-white w-11/12 h-[522px] rounded-[12px] py-5 px-3'>
+        <div className='text-[40px] font-bold text-center flex justify-between'>
+          <div className='inline-block w-1/6'></div>
           {gameResult.gameResult === 'WIN' ? <div>WIN</div> : <div>LOSE</div>}
+          {/* 하이라이트 사진 미리보기 */}
+          <img
+            onClick={openModal}
+            src={gameResult.highlightImage}
+            alt='하이라이트 이미지'
+            className='inline-block w-1/6 aspect-square animate-bounce hover:cursor-pointer'
+          />
         </div>
-        <img onClick={openModal} src={gameResult.highlightImage} alt='하이라이트 이미지' className='fixed top-32 right-7 w-16 animate-bounce hover:cursor-pointer' />
-        <div className='fixed left-10'>
-      <ModalWithX
-        closeModal={closeModal}
-        modalStatus={modalStatus}
-      />
-      </div>
-        
-        <div className='mt-9'>
+        <div className='mt-7'>
           <Rank pageType='GAMERESULT' rating={gameResult.afterRating} tier={gameResult.afterTier} />
         </div>
         <div>
@@ -113,6 +111,25 @@ const Result = () => {
           </div>
         </div>
       </div>
+      {/* 하이라이트 사진이 있는 모달 */}
+      {modalStatus === true ? (
+        <div className='z-10 bg-black/30 w-screen h-full max-w-[500px] fixed top-0 flex justify-center items-center'>
+          <div className='w-72 h-fit bg-white rounded-lg border-2 border-black p-3'>
+            <div className='flex justify-end mb-1' onClick={closeModal}>
+              <button className='hover:text-[#E83F57]'>
+                <IoCloseOutline fontSize={'24px'} />
+              </button>
+            </div>
+            <div className='flex justify-center'>
+              <img
+                src={gameResult.highlightImage}
+                alt='하이라이트 사진'
+                className='w-full max-w-[280px]'
+              />
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };
