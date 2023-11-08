@@ -42,7 +42,6 @@ public class GameSecondRoundService {
 
         Long prepareCounter = gamePrepareRepository.prepareRoundTwo(gameRoomId);
 
-        //todo: 동시성 이슈 처리 필요
         //둘 모두 준비되었을때만 시작
         if(prepareCounter == 2) {
             GameRoom gameRoom = gameRoomRepository.findById(gameRoomId).orElseThrow(() -> new GameException(ErrorCode.GAME_ROOM_NOT_FOUND));
