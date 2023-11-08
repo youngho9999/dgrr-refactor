@@ -27,7 +27,7 @@ public class S3Service {
 
     public URL uploadBase64EncodedImage(String base64EncodedImage) {
         byte[] imageBytes = Base64.getDecoder().decode(base64EncodedImage);
-        String fileName = generateFileName();
+        String fileName = UUID.randomUUID().toString();
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(imageBytes.length);
         metadata.setContentType("image/jpeg");
@@ -40,9 +40,4 @@ public class S3Service {
         }
     }
 
-    private String generateFileName() {
-        String uid = UUID.randomUUID().toString();
-
-        return uid + ".jpeg";
-    }
 }
