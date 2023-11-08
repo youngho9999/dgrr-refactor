@@ -1,6 +1,6 @@
 'use client';
 import { initGame, joinSession } from '@/components/Game/openVidu';
-import { savePublisher, saveSubscriber } from '@/store/gameSlice';
+import { savePublisher, saveSubscriber, saveWebsocket } from '@/store/gameSlice';
 import { useAppSelector } from '@/store/hooks';
 import { useRouter } from 'next/navigation';
 import { Device, OpenVidu, Publisher, Session, Subscriber } from 'openvidu-browser';
@@ -48,6 +48,15 @@ const MatchPage = () => {
   };
 
   useEffect(() => {
+    // WebSocket 연결
+    const PYTHON_URL = process.env.NEXT_PUBLIC_PYTHON_URL;
+    const websocket = new WebSocket(`${PYTHON_URL}`);
+    dispatch(saveWebsocket(websocket));
+    websocket.onopen = () => console.log('WebSocket 연결됨');
+    websocket.onmessage = (event) => console.log('서버로부터 메세지 받음:', event.data);
+    websocket.onerror = (error) => console.log('WebSocket 에러:', error);
+    websocket.onclose = () => console.log('WebSocket 연결 종료됨');
+
     connectOV();
   }, []);
 };

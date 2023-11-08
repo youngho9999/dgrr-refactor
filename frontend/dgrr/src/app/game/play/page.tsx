@@ -3,11 +3,9 @@ import { useAppSelector } from '@/store/hooks';
 import { ChildMethods, stompConfig } from '@/types/game';
 import { useEffect, useRef, useState } from 'react';
 import { UserVideoComponent } from './videoComponent';
-import { Device, OpenVidu, Publisher, Subscriber, Session } from 'openvidu-browser';
 import { useDispatch } from 'react-redux';
 import { saveGameResult } from '@/store/gameSlice';
 import { publishMessage } from '@/components/Game/stomp';
-import { initGame, joinSession } from '@/components/Game/openVidu';
 import { GameStateModal } from '@/components/elements/GameStateModal';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/elements/Header';
@@ -20,6 +18,7 @@ const PlayPage = () => {
   const openviduToken = useAppSelector((state) => state.game.gameInfo.openviduToken);
   const publisher = useAppSelector((state) => state.game.publisher);
   const subscriber = useAppSelector((state) => state.game.subscriber);
+  const ws = useAppSelector((state) => state.game.websocket);
 
   const { DESTINATION_URI } = stompConfig;
   const {
@@ -55,6 +54,10 @@ const PlayPage = () => {
         setRound(1);
         setWhen('ROUND');
         if (turn === 'SECOND') {
+          // 표정 분석 결과
+          client?.subscribe(STATUS_URI, (message) => {
+            console.log('표정인식 결과: ', message.body);
+          });
           console.log('캡쳐 시작해줘');
           intervalId = setInterval(captureAndSend, 1000);
         }
@@ -99,10 +102,6 @@ const PlayPage = () => {
       }
     });
 
-    // 표정 분석 결과
-    client?.subscribe(STATUS_URI, (message) => {
-      console.log('표정인식 결과: ', message.body);
-    });
     firstRoundStart();
   };
 
@@ -114,6 +113,10 @@ const PlayPage = () => {
         console.log('2라운드 시작');
         setRound(2);
         if (turn === 'FIRST') {
+          // 표정 분석 결과
+          client?.subscribe(STATUS_URI, (message) => {
+            console.log('표정인식 결과: ', message.body);
+          });
           intervalId = setInterval(captureAndSend, 1000);
         }
       }
@@ -168,16 +171,14 @@ const PlayPage = () => {
       publishMessage(client, END_URI, gameRoomID);
     }
   };
-  // 웹소켓 관련
-  const [ws, setWs] = useState<WebSocket | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   // 웹캠 이미지 캡쳐 및 전송
   const capturePublisherScreen = () => {
-    console.log(2);
-    console.log('퍼블리셔: ', publisher);
-    console.log('Ref: ', canvasRef.current);
+    // console.log(2);
+    // console.log('퍼블리셔: ', publisher);
+    // console.log('Ref: ', canvasRef.current);
 
     if (publisher && canvasRef.current) {
       const videoElement = publisher.videos[0].video;
@@ -198,8 +199,8 @@ const PlayPage = () => {
   };
 
   const sendCapturedImage = (imageData: any) => {
-    console.log(5);
-    console.log(ws);
+    // console.log(5);
+    // console.log(ws);
     if (ws && ws.readyState === WebSocket.OPEN) {
       const message = {
         image: imageData,
@@ -220,16 +221,6 @@ const PlayPage = () => {
   };
 
   useEffect(() => {
-    // WebSocket 연결
-    const PYTHON_URL = process.env.NEXT_PUBLIC_PYTHON_URL;
-    const websocket = new WebSocket(`${PYTHON_URL}`);
-    setWs(websocket);
-    websocket.onopen = () => console.log('WebSocket 연결됨');
-    websocket.onmessage = (event) => console.log('서버로부터 메세지 받음:', event.data);
-    websocket.onerror = (error) => console.log('WebSocket 에러:', error);
-    websocket.onclose = () => console.log('WebSocket 연결 종료됨');
-    // connectOV();
-
     const alertTimeout = setTimeout(() => {
       console.log(turn);
       subscribeFirstGame();
