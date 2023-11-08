@@ -3,6 +3,8 @@ import { IoCloseOutline } from 'react-icons/io5';
 import { FuncButton } from '@/components/FuncButton';
 import Rank from '@/components/elements/Rank';
 import { useEffect, useState } from 'react';
+import { useAppSelector } from '@/store/hooks';
+import Image from 'next/image';
 
 const Result = () => {
   const [modalStatus, setModalStatus] = useState(false);
@@ -16,27 +18,8 @@ const Result = () => {
     console.log('Close Modal');
   };
 
-  const [gameResult, setGameResult] = useState({
-    myInfo: {
-      nickname: '',
-      profileImage: '',
-      description: '',
-      rating: 0,
-      tier: '',
-    },
-    enemyInfo: {
-      nickname: '',
-      profileImage: '',
-      description: '',
-      rating: 0,
-      tier: '',
-    },
-    highlightImage: '', //비겼을 경우 null
-    gameResult: '',
-    afterRating: 0,
-    afterTier: '',
-  });
-
+  const gameResult = useAppSelector((state) => state.game.gameResult)
+  
   const clickOneMore = () => {
     console.log('One More Time');
   };
@@ -47,41 +30,18 @@ const Result = () => {
     window.location.href = newPathname;
   };
 
-  useEffect(() => {
-    setGameResult({
-      myInfo: {
-        nickname: 'player1',
-        profileImage: '/images/nongdam.jpg',
-        description: 'A dedicated gamer from Seoul.',
-        rating: 1500,
-        tier: 'Gold',
-      },
-      enemyInfo: {
-        nickname: '가나다라마바',
-        profileImage: '/images/sample_image2.png',
-        description: 'An avid player from Busan.',
-        rating: 1550,
-        tier: 'Gold',
-      },
-      highlightImage: '/images/sample_image1.png', //비겼을 경우 null
-      gameResult: 'LOSE',
-      afterRating: 1600,
-      afterTier: 'Gold',
-    });
-  }, []);
-
   return (
     <div className='flex justify-center items-center bg-main-blue w-screen h-screen max-w-[500px]'>
       <div className='bg-white w-11/12 h-[522px] rounded-[12px] py-5 px-3'>
         <div className='text-[40px] font-bold text-center flex justify-between'>
           <div className='inline-block w-1/6'></div>
-          {gameResult.gameResult === 'WIN' ? <div>WIN</div> : <div>LOSE</div>}
+          <div>{gameResult.gameResult}</div>
           {/* 하이라이트 사진 미리보기 */}
-          <img
+          <Image
             onClick={openModal}
             src={gameResult.highlightImage}
             alt='하이라이트 이미지'
-            className='inline-block w-1/6 aspect-square animate-bounce hover:cursor-pointer'
+            className={`inline-block w-1/6 aspect-square animate-bounce hover:cursor-pointer ${gameResult.gameResult === 'DRAW' && 'invisible' }`}
           />
         </div>
         <div className='mt-7'>
