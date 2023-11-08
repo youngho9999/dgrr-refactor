@@ -18,6 +18,8 @@ const PlayPage = () => {
   const gameRoomID = useAppSelector((state) => state.game.gameInfo.gameRoomId);
   const turn = useAppSelector((state) => state.game.gameInfo.turn);
   const openviduToken = useAppSelector((state) => state.game.gameInfo.openviduToken);
+  const publisher = useAppSelector((state) => state.game.publisher);
+  const subscriber = useAppSelector((state) => state.game.subscriber);
 
   const { DESTINATION_URI } = stompConfig;
   const {
@@ -170,39 +172,6 @@ const PlayPage = () => {
   const [ws, setWs] = useState<WebSocket | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  // OpenVidu
-  // eslint-disable-next-line
-  const [OV, setOV] = useState<OpenVidu>();
-  const [OVSession, setOVSession] = useState<Session>();
-  const [publisher, setPublisher] = useState<Publisher>();
-  const [subscriber, setSubscriber] = useState<Subscriber>();
-  const currentVideoDeviceRef = useRef<Device>();
-
-  // 오픈비두 연결
-  const connectOV = () => {
-    initGame().then(({ OV, session }) => {
-      // console.log("THE FIRST OV INItialte");
-      setOV(OV);
-      setOVSession(session);
-      session.on('streamCreated', (event) => {
-        const ySubscriber = session.subscribe(event.stream, undefined);
-        setSubscriber(ySubscriber);
-      });
-
-      //연결
-      joinSession(OV, session, openviduToken, gameInfo.myInfo.nickname)
-        .then(({ publisher, currentVideoDevice }) => {
-          console.log('받은 퍼블리셔: ', publisher);
-          setPublisher(publisher);
-          currentVideoDeviceRef.current = currentVideoDevice;
-          console.log('OpenVidu 연결 완료');
-        })
-        .catch((error) => {
-          console.log('OpenVidu 연결 실패', error.code, error.message);
-        });
-      console.log('초반퍼블리셔: ', publisher);
-    });
-  };
 
   // 웹캠 이미지 캡쳐 및 전송
   const capturePublisherScreen = () => {
@@ -211,7 +180,6 @@ const PlayPage = () => {
     console.log('Ref: ', canvasRef.current);
 
     if (publisher && canvasRef.current) {
-      console.log(3);
       const videoElement = publisher.videos[0].video;
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
@@ -231,6 +199,7 @@ const PlayPage = () => {
 
   const sendCapturedImage = (imageData: any) => {
     console.log(5);
+    console.log(ws);
     if (ws && ws.readyState === WebSocket.OPEN) {
       const message = {
         image: imageData,
@@ -244,10 +213,8 @@ const PlayPage = () => {
     }
   };
   const captureAndSend = () => {
-    console.log(1);
     const capturedImage = capturePublisherScreen();
     if (capturedImage) {
-      console.log(4);
       sendCapturedImage(capturedImage);
     }
   };
@@ -261,7 +228,7 @@ const PlayPage = () => {
     websocket.onmessage = (event) => console.log('서버로부터 메세지 받음:', event.data);
     websocket.onerror = (error) => console.log('WebSocket 에러:', error);
     websocket.onclose = () => console.log('WebSocket 연결 종료됨');
-    connectOV();
+    // connectOV();
 
     const alertTimeout = setTimeout(() => {
       console.log(turn);
