@@ -21,6 +21,7 @@ const initialState: GameType = {
   publisher: undefined,
   subscriber: undefined,
   websocket: undefined,
+  roundResult: '',
 };
 
 const gameSlice = createSlice({
@@ -52,6 +53,10 @@ const gameSlice = createSlice({
       console.log('웹소켓 오나요?', action.payload);
       state.websocket = action.payload;
     },
+    saveRoundResult: (state, action) => {
+      console.log('게임 결과 왜 안옴?: ', action.payload)
+      state.roundResult = action.payload;
+    },
   },
 });
 
@@ -63,4 +68,5 @@ export const {
   savePublisher,
   saveSubscriber,
   saveWebsocket,
+  saveRoundResult,
 } = gameSlice.actions;
