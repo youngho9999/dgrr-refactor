@@ -58,6 +58,8 @@ export const stompConfig = {
     SECOND_ROUND_LAUGH_URI: '/user/recv/secondroundend-laugh',
     // 에러 처리
     ERROR_URI: '/user/recv/errors',
+    // 상대방 탈주 정보
+    ENEMY_LEFT_URI: '/user/recv/enemy-left',
   },
   CAPTURE_INTERVAL: 500,
 };
