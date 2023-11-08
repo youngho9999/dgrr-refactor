@@ -7,6 +7,7 @@ export type GameType = {
   gameResult: IGameResult;
   publisher: Publisher | undefined;
   subscriber: Subscriber | undefined;
+  websocket: WebSocket | undefined;
 };
 
 export interface IGameConfig {

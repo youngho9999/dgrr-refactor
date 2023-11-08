@@ -20,6 +20,7 @@ const initialState: GameType = {
   },
   publisher: undefined,
   subscriber: undefined,
+  websocket: undefined,
 };
 
 const gameSlice = createSlice({
@@ -47,9 +48,19 @@ const gameSlice = createSlice({
       console.log('섭스도 오나요?', action.payload);
       state.subscriber = action.payload;
     },
+    saveWebsocket: (state, action) => {
+      console.log('웹소켓 오나요?', action.payload);
+      state.websocket = action.payload;
+    },
   },
 });
 
 export default gameSlice.reducer;
-export const { saveGameInfo, createClient, saveGameResult, savePublisher, saveSubscriber } =
-  gameSlice.actions;
+export const {
+  saveGameInfo,
+  createClient,
+  saveGameResult,
+  savePublisher,
+  saveSubscriber,
+  saveWebsocket,
+} = gameSlice.actions;
