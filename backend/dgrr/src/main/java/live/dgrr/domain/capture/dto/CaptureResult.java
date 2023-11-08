@@ -1,4 +1,4 @@
-package live.dgrr.domain.capture.entity;
+package live.dgrr.domain.capture.dto;
 
 import lombok.*;
 
