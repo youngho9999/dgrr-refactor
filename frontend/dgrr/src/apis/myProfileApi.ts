@@ -35,7 +35,7 @@ export interface GetMyInfoProps {
   gameHistoryList: GameHistoryProps[];
 }
 
-export interface PutMyInfoProps {
+export interface UpdateMyInfoProps {
   member: {
     memberId: number;
     nickname: string;
@@ -51,3 +51,11 @@ export const getMyInfoApi = async () => {
   console.log('회원 정보 확인', res.data)
   return res.data;
 };
+
+export const updateMyInfoApi = async () => {
+  // axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = 1
+  const res = await axios.put<UpdateMyInfoProps>(`${apiUrl}`);
+  console.log('회원 정보 수정', res.data)
+  return res.data;
+}

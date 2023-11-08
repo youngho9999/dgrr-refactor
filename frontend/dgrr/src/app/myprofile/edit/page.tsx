@@ -93,10 +93,11 @@ const Edit = () => {
   // 저장 버튼
   // 닉네임이 입력되지 않았거나 중복되면 경고 모달창이 뜸
   // (나중에 API 연결)
-  const handleSaveButton = () => {
+  const handleSaveButton = async () => {
     console.log('Save');
     console.log(nowNickname, nowDescription)
     if (nicknameExists !== true && nowNickname !== '') {
+      // 수정하는 API 넣기
       const newPathname = '/myprofile';
       window.location.href = newPathname;
     } else {
