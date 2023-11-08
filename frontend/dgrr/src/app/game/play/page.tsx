@@ -101,7 +101,7 @@ const PlayPage = () => {
     client?.subscribe(RESULT_URI, (message) => {
       console.log(message.body);
       if (message.body) {
-        dispatch(saveGameResult(message.body));
+        dispatch(saveGameResult(JSON.parse(message.body)));
         client.deactivate();
         disconnectWs();
         router.push('/game/result');
