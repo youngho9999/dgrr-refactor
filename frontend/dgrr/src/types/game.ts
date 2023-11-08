@@ -40,7 +40,7 @@ export const stompConfig = {
     // 게임 시작 정보
     GAME_URI: '/user/recv/game-start',
     // 표정/얼굴 인식 정보
-    STATUS_URI: '/user/recv/captrue-result',
+    STATUS_URI: '/user/recv/capture-result',
     // 게임 결과 정보
     RESULT_URI: '/user/recv/game-result',
     // 1라운드 시작 정보
