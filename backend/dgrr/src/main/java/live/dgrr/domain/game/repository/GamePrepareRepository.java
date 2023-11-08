@@ -21,4 +21,11 @@ public class GamePrepareRepository {
         return valueOps.increment("gameRoomId:"+gameRoomId+":roundTwo");
     }
 
+    public Boolean deletePrepareRoundOne(String gameRoomId) {
+        return redisTemplate.delete("gameRoomId:" + gameRoomId + ":roundOne");
+    }
+
+    public Boolean deletePrepareRoundTwo(String gameRoomId) {
+        return redisTemplate.delete("gameRoomId:" + gameRoomId + ":roundTwo");
+    }
 }
