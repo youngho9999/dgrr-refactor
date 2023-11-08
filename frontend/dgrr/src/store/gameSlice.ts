@@ -18,6 +18,8 @@ const initialState: GameType = {
     afterRating: 0,
     afterRank: 'BRONZE',
   },
+  publisher: undefined,
+  subscriber: undefined,
 };
 
 const gameSlice = createSlice({
@@ -37,8 +39,17 @@ const gameSlice = createSlice({
     saveGameResult: (state, action) => {
       state.gameResult = action.payload;
     },
+    savePublisher: (state, action) => {
+      console.log('퍼블리셔 오나요?', action.payload);
+      state.publisher = action.payload;
+    },
+    saveSubscriber: (state, action) => {
+      console.log('섭스도 오나요?', action.payload);
+      state.subscriber = action.payload;
+    },
   },
 });
 
 export default gameSlice.reducer;
-export const { saveGameInfo, createClient, saveGameResult } = gameSlice.actions;
+export const { saveGameInfo, createClient, saveGameResult, savePublisher, saveSubscriber } =
+  gameSlice.actions;
