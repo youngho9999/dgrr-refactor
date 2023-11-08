@@ -108,11 +108,11 @@ export interface IGameResult {
 
   // 게임 결과
   highlightImage: string;
-  gameResult: 'WIN' | 'LOSE' | 'Draw';
+  gameResult: 'WIN' | 'LOSE' | 'DRAW';
 
   // 점수 변화
   afterRating: number;
-  afterRank: 'BRONZE' | 'SILVER' | 'GOLD';
+  afterTier: 'BRONZE' | 'SILVER' | 'GOLD';
 }
 
 export interface ChildMethods {

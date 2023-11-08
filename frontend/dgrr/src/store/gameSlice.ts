@@ -14,9 +14,9 @@ const initialState: GameType = {
     myInfo: { nickname: '', profileImage: '', description: '', rating: 0, rank: 'BRONZE' },
     enemyInfo: { nickname: '', profileImage: '', description: '', rating: 0, rank: 'BRONZE' },
     highlightImage: '',
-    gameResult: 'Draw',
+    gameResult: 'DRAW',
     afterRating: 0,
-    afterRank: 'BRONZE',
+    afterTier: 'BRONZE',
   },
   publisher: undefined,
   subscriber: undefined,
@@ -39,6 +39,7 @@ const gameSlice = createSlice({
       state.client = action.payload;
     },
     saveGameResult: (state, action) => {
+      console.log('총 결과: ', action.payload)
       state.gameResult = action.payload;
     },
     savePublisher: (state, action) => {
