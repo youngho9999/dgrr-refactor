@@ -70,10 +70,13 @@ const PlayPage = () => {
         subscribeSecondGame();
         setModalOpen(true);
         clearInterval(intervalId);
+        if (turn === 'SECOND') {
+          disconnectWs();
+        }
         // 1초 후 modalOpen를 false로 설정
         setTimeout(() => {
           setModalOpen(false);
-        }, 1000);
+        }, 3000);
       }
     });
     client?.subscribe(FIRST_ROUND_LAUGH_URI, (message) => {
@@ -81,7 +84,9 @@ const PlayPage = () => {
       setFirstRoundResult(message.body);
       subscribeSecondGame();
       setModalOpen(true);
-
+      if (turn === 'SECOND') {
+        disconnectWs();
+      }
       // 1초 후 modalOpen를 false로 설정
       setTimeout(() => {
         setModalOpen(false);
@@ -98,6 +103,8 @@ const PlayPage = () => {
       console.log(message.body);
       if (message.body) {
         dispatch(saveGameResult(message.body));
+        client.deactivate();
+        disconnectWs();
         router.push('/game/result');
       }
     });
@@ -137,7 +144,6 @@ const PlayPage = () => {
       setSecondRoundResult(message.body);
       setWhen('END');
       clearInterval(intervalId);
-      setModalOpen(true);
       gameEnd();
       setTimeout(() => {
         setModalOpen(false);
@@ -169,6 +175,14 @@ const PlayPage = () => {
     if (client) {
       console.log('게임 종료 메세지 보낼거임');
       publishMessage(client, END_URI, gameRoomID);
+    }
+  };
+
+  // 웹소켓 해제
+  const disconnectWs = () => {
+    if (ws) {
+      ws.close();
+      console.log('연결 해제');
     }
   };
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -223,12 +237,12 @@ const PlayPage = () => {
   useEffect(() => {
     const alertTimeout = setTimeout(() => {
       console.log(turn);
+      setModalOpen(false);
       subscribeFirstGame();
     }, 2000);
 
     return () => {
       clearTimeout(alertTimeout);
-      setModalOpen(false);
     };
   }, []);
 
