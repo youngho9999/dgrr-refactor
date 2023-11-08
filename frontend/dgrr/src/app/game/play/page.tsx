@@ -34,6 +34,7 @@ const PlayPage = () => {
     RESULT_URI,
     STATUS_URI,
     END_URI,
+    ENEMY_LEFT_URI,
   } = DESTINATION_URI;
   const [firstRoundResult, setFirstRoundResult] = useState('');
   const childRef = useRef<ChildMethods | null>(null);
@@ -65,7 +66,7 @@ const PlayPage = () => {
     client?.subscribe(FIRST_ROUND_NO_LAUGH_URI, (message) => {
       console.log('1라운드 결과: ', message.body);
       if (message) {
-        dispatch(saveRoundResult("NO_LAUGH"));
+        dispatch(saveRoundResult('NO_LAUGH'));
         subscribeSecondGame();
         setModalOpen(true);
         clearInterval(intervalId);
@@ -108,6 +109,14 @@ const PlayPage = () => {
       }
     });
 
+    // 상대 탈주 정보
+    client?.subscribe(ENEMY_LEFT_URI, (message) => {
+      console.log('상대 나감: ', message.body);
+      dispatch(saveGameResult(JSON.parse(message.body)));
+      client.deactivate();
+      disconnectWs();
+      router.push('/game/result');
+    });
     firstRoundStart();
   };
 
