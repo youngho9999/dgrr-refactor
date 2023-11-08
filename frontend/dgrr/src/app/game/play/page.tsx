@@ -4,7 +4,7 @@ import { ChildMethods, stompConfig } from '@/types/game';
 import { useEffect, useRef, useState } from 'react';
 import { UserVideoComponent } from './videoComponent';
 import { useDispatch } from 'react-redux';
-import { saveGameResult } from '@/store/gameSlice';
+import { saveGameResult, saveRoundResult } from '@/store/gameSlice';
 import { publishMessage } from '@/components/Game/stomp';
 import { GameStateModal } from '@/components/elements/GameStateModal';
 import { useRouter } from 'next/navigation';
@@ -36,7 +36,6 @@ const PlayPage = () => {
     END_URI,
   } = DESTINATION_URI;
   const [firstRoundResult, setFirstRoundResult] = useState('');
-  const [secondRoundResult, setSecondRoundResult] = useState('');
   const childRef = useRef<ChildMethods | null>(null);
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(true);
@@ -56,7 +55,7 @@ const PlayPage = () => {
         if (turn === 'SECOND') {
           // 표정 분석 결과
           client?.subscribe(STATUS_URI, (message) => {
-            console.log('표정인식 결과: ', message.body);
+            // console.log('표정인식 결과: ', message.body);
           });
           console.log('캡쳐 시작해줘');
           intervalId = setInterval(captureAndSend, 1000);
@@ -66,7 +65,7 @@ const PlayPage = () => {
     client?.subscribe(FIRST_ROUND_NO_LAUGH_URI, (message) => {
       console.log('1라운드 결과: ', message.body);
       if (message) {
-        setFirstRoundResult(message.body);
+        dispatch(saveRoundResult("NO_LAUGH"));
         subscribeSecondGame();
         setModalOpen(true);
         clearInterval(intervalId);
@@ -81,7 +80,7 @@ const PlayPage = () => {
     });
     client?.subscribe(FIRST_ROUND_LAUGH_URI, (message) => {
       console.log('1라운드 결과: ', message.body);
-      setFirstRoundResult(message.body);
+      dispatch(saveRoundResult(message.body));
       subscribeSecondGame();
       setModalOpen(true);
       if (turn === 'SECOND') {
@@ -122,7 +121,7 @@ const PlayPage = () => {
         if (turn === 'FIRST') {
           // 표정 분석 결과
           client?.subscribe(STATUS_URI, (message) => {
-            console.log('표정인식 결과: ', message.body);
+            // console.log('표정인식 결과: ', message.body);
           });
           intervalId = setInterval(captureAndSend, 1000);
         }
@@ -130,7 +129,6 @@ const PlayPage = () => {
     });
     client?.subscribe(SECOND_ROUND_NO_LAUGH_URI, (message) => {
       console.log('2라운드 결과: ', message.body);
-      setSecondRoundResult(message.body);
       setWhen('END');
       clearInterval(intervalId);
       setModalOpen(true);
@@ -141,7 +139,6 @@ const PlayPage = () => {
     });
     client?.subscribe(SECOND_ROUND_LAUGH_URI, (message) => {
       console.log('2라운드 결과: ', message.body);
-      setSecondRoundResult(message.body);
       setWhen('END');
       clearInterval(intervalId);
       gameEnd();
@@ -223,7 +220,7 @@ const PlayPage = () => {
           gameSessionId: gameRoomID, // 게임 세션 ID 설정
         },
       };
-      console.log('이미지 보낸다');
+      // console.log('이미지 보낸다');
       ws.send(JSON.stringify(message));
     }
   };
@@ -249,7 +246,7 @@ const PlayPage = () => {
   return (
     <div className="w-screen h-screen max-w-[500px] min-h-[565px] bg-black">
       <Header headerType="GAME" />
-      {modalOpen && <GameStateModal when={when} gameState={turn} roundResult={firstRoundResult} />}
+      {modalOpen && <GameStateModal when={when} gameState={turn} />}
       <UserVideoComponent ref={childRef} streamManager={publisher} />
       <UserVideoComponent streamManager={subscriber} />
       <canvas ref={canvasRef} width="640" height="480" style={{ display: 'none' }} />
