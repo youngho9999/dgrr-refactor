@@ -43,7 +43,7 @@ const GameLoading = () => {
   useEffect(() => {
     subscribeGame();
     gameMatch();
-  }, []);
+  }, [client]);
 
   return (
     <div className="grid place-items-center bg-main-blue w-screen h-screen max-w-[500px]">
