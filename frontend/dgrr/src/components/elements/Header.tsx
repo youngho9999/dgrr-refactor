@@ -16,6 +16,8 @@ import { useAppSelector } from '@/store/hooks';
 import { publishMessage } from '../Game/stomp';
 import { stompConfig } from '@/types/game';
 import WarningAlert from './WarningAlert';
+import { useDispatch } from 'react-redux';
+import { reset } from '@/store/gameSlice';
 
 export type headerType = 'MAIN' | 'GAMESTART' | 'PROFILE' | 'WAITING' | 'GAME' | 'OTHER';
 
@@ -32,9 +34,10 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
   const pathname = usePathname();
   const client = useAppSelector((state) => state.game.client);
   const gameRoomId = useAppSelector((state) => state.game.gameInfo.gameRoomId);
-  const ws = useAppSelector((state) => state.game.websocket)
+  const ws = useAppSelector((state) => state.game.websocket);
   const { DESTINATION_URI } = stompConfig;
   const { EXIT_URI } = DESTINATION_URI;
+  const dispatch = useDispatch();
 
   // 뒤로 가기
   const handleMoveBack = () => {
@@ -51,8 +54,9 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
         publishMessage(client, EXIT_URI, gameRoomId);
         client.deactivate();
         disconnectWs();
+        dispatch(reset());
         router.push('/main');
-      };
+      }
     }
   };
 

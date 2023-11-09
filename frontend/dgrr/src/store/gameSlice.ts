@@ -28,7 +28,9 @@ const gameSlice = createSlice({
   name: 'gameSlice',
   initialState,
   reducers: {
-    reset: () => initialState,
+    reset: () => {
+      return initialState;
+    },
     saveGameInfo: (state, action) => {
       console.log(action.payload);
       const newGameInfo = action.payload;
@@ -39,7 +41,7 @@ const gameSlice = createSlice({
       state.client = action.payload;
     },
     saveGameResult: (state, action) => {
-      console.log('총 결과: ', action.payload)
+      console.log('총 결과: ', action.payload);
       state.gameResult = action.payload;
     },
     savePublisher: (state, action) => {
@@ -55,7 +57,7 @@ const gameSlice = createSlice({
       state.websocket = action.payload;
     },
     saveRoundResult: (state, action) => {
-      console.log('게임 결과 왜 안옴?: ', action.payload)
+      console.log('게임 결과 왜 안옴?: ', action.payload);
       state.roundResult = action.payload;
     },
   },
@@ -63,6 +65,7 @@ const gameSlice = createSlice({
 
 export default gameSlice.reducer;
 export const {
+  reset,
   saveGameInfo,
   createClient,
   saveGameResult,
