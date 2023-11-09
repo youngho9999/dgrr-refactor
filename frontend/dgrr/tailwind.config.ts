@@ -16,6 +16,7 @@ const config: Config = {
         'start-yellow': '#FFF401',
         'end-yellow': '#FFD873',
         'main-blue': '#469FF6',
+        'match-white': '#ffffff',
       },
       screens: {
         '4sm': '280px',
