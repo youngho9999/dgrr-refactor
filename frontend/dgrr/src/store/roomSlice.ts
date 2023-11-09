@@ -6,6 +6,7 @@ const initialState: RoomType = {
     roomId: '',
     waitingMember: null,
   },
+  roomCode: '',
 };
 
 const roomSlice = createSlice({
@@ -15,8 +16,16 @@ const roomSlice = createSlice({
     reset: () => {
       return initialState;
     },
+    saveRoomInfo: (state, action) => {
+      console.log('방 정보 저장: ', action.payload);
+      state.roomInfo = action.payload;
+    },
+    saveRoomCode: (state, action) => {
+      console.log('룸 코드: ', action.payload);
+      state.roomCode = action.payload;
+    },
   },
 });
 
 export default roomSlice.reducer;
-export const { reset } = roomSlice.actions;
+export const { reset, saveRoomInfo, saveRoomCode } = roomSlice.actions;

@@ -1,5 +1,6 @@
 export type RoomType = {
   roomInfo: RoomConfig;
+  roomCode: string;
 };
 
 export interface RoomConfig {
