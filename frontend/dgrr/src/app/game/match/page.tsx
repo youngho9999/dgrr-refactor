@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Device, OpenVidu, Publisher, Session, Subscriber } from 'openvidu-browser';
 import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import './match.scss';
 
 const MatchPage = () => {
   const [OV, setOV] = useState<OpenVidu>();
@@ -59,12 +60,29 @@ const MatchPage = () => {
   // }, []);
 
   return (
-    <div className="bg-main-blue w-screen h-screen max-w-[500px]">
-      <div className="flex flex-col justify-between py-36 h-full">
-        <div className="flex flex-1 justify-center bg-match-white py-36"></div>
-        <div className="flex flex-1 justify-center bg-match-white py-36"></div>
+    <>
+      <div className='bg-main-blue w-screen h-screen max-w-[500px]'>
+        <div className='flex flex-col justify-between h-full'>
+          {/* 내 정보 */}
+          <div className='flex flex-col flex-1 justify-end bg-match-white mx-6 my-0'>
+            <div className='flex flex-2 items-center justify-center bg-match-versus py-6 mx-3 my-4 rounded-lg'></div>
+            <div className='flex flex-1 items-end justify-center bg-match-versus py-1 px-3 mx-3 my-2 rounded-lg'>
+              <div className='MatchedPersonBackground1 min-h-[150px]'></div>
+            </div>
+          </div>
+
+          {/* ------------------------------------------------------------------------------------------------------------- */}
+
+          {/* 상대 정보 */}
+          <div className='flex flex-col flex-1 justify-end bg-match-white mx-6 my-0'>
+            <div className='flex flex-1 items-start justify-center bg-match-versus py-1 px-3 mx-3 my-2 rounded-lg'>
+              <div className='MatchedPersonBackground2 min-h-[150px]'></div>
+            </div>
+            <div className='flex flex-2 items-center justify-center bg-match-versus py-6 mx-3 my-4 rounded-lg'></div>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

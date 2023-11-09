@@ -17,6 +17,7 @@ const config: Config = {
         'end-yellow': '#FFD873',
         'main-blue': '#469FF6',
         'match-white': '#ffffff',
+        'match-versus': '#aab4c8',
       },
       screens: {
         '4sm': '280px',
@@ -31,7 +32,7 @@ const config: Config = {
       cursor: {
         'default': `url(/images/cursor_default.cur), auto;`,
         'hover': `url(/images/cursor_hover.cur), auto;`,
-      }
+      },
     },
   },
   plugins: [],
