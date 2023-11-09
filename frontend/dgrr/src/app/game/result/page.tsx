@@ -23,10 +23,11 @@ const Result = () => {
   };
 
   const gameResult = useAppSelector((state) => state.game.gameResult)
+  const [memberId, setMemberId] = useState('')
 
   const clickOneMore = () => {
     console.log('One More Time');
-    connectStomp({ Authorization: '1' });
+    connectStomp({ Authorization: memberId });
   };
 
   const clickGoToMain = () => {
@@ -37,7 +38,12 @@ const Result = () => {
 
   const dispatch = useDispatch();
   const router = useRouter();
-
+  useEffect(() => {
+    const memberId = localStorage.getItem('memberId')
+    if (memberId) {
+      setMemberId(memberId)
+    }
+  }, [])
   const connectStomp = (headers: StompHeaders) => {
     const client = new Client({
       brokerURL: process.env.NEXT_PUBLIC_BROKER_URL,
