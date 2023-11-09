@@ -68,13 +68,11 @@ const Ranking = () => {
               <RankingItem item={rankingData.memberRank} itemType="MY" />
             </div>
             <div className="max-h-[1020px] py-[10px] bg-[#DADADA] rounded-b-lg">
-              <div className="">
-                {rankingData.rankings.map((item, index) => [
-                  <div className="flex justify-center" key={index}>
-                    <RankingItem item={item} itemType="ALL" />
-                  </div>,
-                ])}
-              </div>
+              {rankingData.rankings.map((item, index) => [
+                <div className="flex justify-center" key={index}>
+                  <RankingItem item={item} itemType="ALL" />
+                </div>,
+              ])}
             </div>
           </div>
         </div>
