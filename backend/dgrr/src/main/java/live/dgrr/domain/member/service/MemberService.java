@@ -94,7 +94,7 @@ public class MemberService {
     }
 
 
-    private void checkNickname(String nickname) {
+    public void checkNickname(String nickname) {
         if (isDuplicateNickname(nickname)) {
             throw new GeneralException(ErrorCode.NICKNAME_ALREADY_EXIST);
         }
