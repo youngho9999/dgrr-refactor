@@ -5,56 +5,36 @@ import Header from '@/components/elements/Header';
 import ImageInput from '@/components/elements/ImageInput';
 import DataInput from '@/components/elements/DataInput';
 import Swal from 'sweetalert2';
+import { UpdateMyInfoProps, getMyInfoApi, updateMyInfoApi } from '@/apis/myProfileApi';
 
 const Edit = () => {
-  // 나중에 삭제할 더미 데이터
-  const sampleData = {
-    member: {
-      memberId: 1,
-      nickname: '가나다라마바사아자',
-      profileImage: '/images/nongdam.jpg',
-      description: '행복한 하루 보내길',
-    },
-    ranking: {
-      season: 1,
-      score: 1500,
-      rank: 1,
-      tier: 'BRONZE',
-    },
-    gameHistoryList: [
-      {
-        gameHistoryId: 1,
-        gameRoomId: 123456,
-        gameResult: 'WIN',
-        gameType: 'RANDOM',
-        gameTime: 30,
-        holdingTime: 30,
-        ratingChange: 415,
-        highlightImage: '/images/sample_image1.png',
-        createdAt: '2023-10-31T16:00:05',
-        opponentNickname: '보라돌이',
-        opponentProfileImage: '/images/sample_image1.png',
-        opponentDescription: '2023-10-30',
-      },
-    ],
-  };
-
-  const [nowNickname, setNowNickName] = useState(sampleData.member.nickname);
-  const [nowDescription, setNowDescription] = useState(sampleData.member.description);
-  const [nowProfileImage, setNowProfileImage] = useState(sampleData.member.profileImage);
-  const [nicknameExists, setNicknameExists] = useState(false);
+  const [nowNickname, setNowNickName] = useState('');
+  const [nowDescription, setNowDescription] = useState('');
+  const [nowProfileImage, setNowProfileImage] = useState('');
 
   useEffect(() => {
-    if (nowNickname === '농담곰의 농담') {
-      setNicknameExists(true);
-    } else {
-      setNicknameExists(false);
-    }
-  }, [nowNickname]);
+    const fetchData = async () => {
+      try {
+        const response = await getMyInfoApi();
+        console.log('데이터 가져오기 성공:', response);
+        setNowNickName(response.member.nickname);
+        setNowDescription(response.member.description);
+        setNowProfileImage(response.member.profileImage);
+
+        // response의 PromiseResult를 추출
+        const { gameHistoryList, member, ranking } = response;
+      } catch (error) {
+        console.error('데이터 가져오기 실패:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // 닉네임 입력값 반영
   const handleNicknameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNowNickName(event.target.value);
+    console.log(nowProfileImage);
   };
 
   // 상태 메시지 입력값 반영
@@ -92,15 +72,22 @@ const Edit = () => {
 
   // 저장 버튼
   // 닉네임이 입력되지 않았거나 중복되면 경고 모달창이 뜸
-  // (나중에 API 연결)
   const handleSaveButton = async () => {
     console.log('Save');
-    console.log(nowNickname, nowDescription)
-    if (nicknameExists !== true && nowNickname !== '') {
-      // 수정하는 API 넣기
+    console.log(nowNickname, nowDescription);
+    const data: UpdateMyInfoProps = {
+      nickname: nowNickname,
+      profileImage: nowProfileImage,
+      description: nowDescription,
+    };
+
+    try {
+      await updateMyInfoApi(data);
+      // 여기서 정상적인 처리를 수행
       const newPathname = '/myprofile';
       window.location.href = newPathname;
-    } else {
+    } catch (error) {
+      // 에러가 발생한 경우
       requestNewNicknameModal();
     }
   };
@@ -131,13 +118,6 @@ const Edit = () => {
       }
     });
   };
-
-  useEffect(() => {
-    console.log(sampleData);
-    setNowNickName(sampleData.member.nickname);
-    setNowDescription(sampleData.member.description);
-  }, []);
-
   return (
     <div className='w-screen max-w-[500px]'>
       <Header headerType='OTHER'>프로필 수정</Header>
@@ -148,7 +128,6 @@ const Edit = () => {
           pageType='PROFILE_EDIT'
           onChange={handleNicknameChange}
           value={nowNickname}
-          nicknameExists={nicknameExists}
         />
         <DataInput
           inputType='DESCRIPTION'

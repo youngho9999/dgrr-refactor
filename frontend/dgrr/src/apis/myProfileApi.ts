@@ -1,8 +1,14 @@
 import axios from 'axios';
 import { setUrl } from '@/utils/setUrl';
 
-const apiUrl = `http://localhost:8080/api/v1/member`;
-// const apiUrl = `${setUrl}/member`;
+const apiUrl = `${setUrl}/member`;
+
+export interface MemberProps {
+  memberId: number;
+  nickname: string;
+  profileImage: string;
+  description: string;
+}
 
 export interface GameHistoryProps {
   gameHistoryId: number;
@@ -20,12 +26,7 @@ export interface GameHistoryProps {
 }
 
 export interface GetMyInfoProps {
-  member: {
-    memberId: number;
-    nickname: string;
-    profileImage: string;
-    description: string;
-  };
+  member: MemberProps;
   ranking: {
     season: number;
     score: number;
@@ -36,26 +37,23 @@ export interface GetMyInfoProps {
 }
 
 export interface UpdateMyInfoProps {
-  member: {
-    memberId: number;
-    nickname: string;
-    profileImage: string;
-    description: string;
-  };
+  nickname: string | undefined;
+  profileImage: string | undefined;
+  description: string | undefined;
 }
 
 export const getMyInfoApi = async () => {
   // axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
-  axios.defaults.headers.common["Authorization"] = 1
+  axios.defaults.headers.common['Authorization'] = 1;
   const res = await axios.get<GetMyInfoProps>(`${apiUrl}/member-id`);
-  console.log('회원 정보 확인', res.data)
+  console.log('회원 정보 확인', res.data);
   return res.data;
 };
 
-export const updateMyInfoApi = async () => {
+export const updateMyInfoApi = async (props: UpdateMyInfoProps) => {
   // axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
-  axios.defaults.headers.common["Authorization"] = 1
-  const res = await axios.put<UpdateMyInfoProps>(`${apiUrl}`);
-  console.log('회원 정보 수정', res.data)
+  axios.defaults.headers.common['Authorization'] = 1;
+  const res = await axios.put<MemberProps>(`${apiUrl}`, props);
+  console.log('회원 정보 수정', res.data);
   return res.data;
-}
+};
