@@ -13,7 +13,7 @@ import { createClient } from '@/store/gameSlice';
 
 const ListPage = () => {
   const gameList = [
-    { value: '방 만들기', imgLink: doorImg, navLink: '/game/room' },
+    { value: '방 만들기', imgLink: doorImg, navLink: '/main' },
     { value: '방 찾기', imgLink: keyImg, navLink: '' },
     { value: '랜덤 매칭', imgLink: welcomeImg, navLink: '/game/loading' },
   ];
