@@ -71,7 +71,7 @@ const Ranking = () => {
               {rankingData.rankings.map((item, index) => [
                 <div className="flex justify-center" key={index}>
                   <RankingItem item={item} itemType="ALL" />
-                </div>,
+                </div>
               ])}
             </div>
           </div>
