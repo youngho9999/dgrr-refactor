@@ -5,6 +5,10 @@ import Rank from '@/components/elements/Rank';
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '@/store/hooks';
 import Image from 'next/image';
+import { useDispatch } from 'react-redux';
+import { Client, StompHeaders } from '@stomp/stompjs';
+import { createClient } from '@/store/gameSlice';
+import { useRouter } from 'next/navigation';
 
 const Result = () => {
   const [modalStatus, setModalStatus] = useState(false);
@@ -19,15 +23,41 @@ const Result = () => {
   };
 
   const gameResult = useAppSelector((state) => state.game.gameResult)
-  
+
   const clickOneMore = () => {
     console.log('One More Time');
+    connectStomp({ Authorization: '1' });
   };
 
   const clickGoToMain = () => {
     console.log('Go To Main');
     const newPathname = '/main';
     window.location.href = newPathname;
+  };
+
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const connectStomp = (headers: StompHeaders) => {
+    const client = new Client({
+      brokerURL: process.env.NEXT_PUBLIC_BROKER_URL,
+      connectHeaders: {
+        ...headers,
+      },
+      debug: (message) => {
+        console.log('[Stomp Debug :: message]', message); // 웹소켓 디버깅 로그 추가
+      },
+    });
+
+    // 클라이언트 활성화
+    client.activate();
+
+    client.onConnect = (frame) => {
+      console.log('연결');
+      // redux에 client 저장
+      dispatch(createClient(client));
+      router.push('/game/loading')
+    };
   };
 
   return (
@@ -39,10 +69,10 @@ const Result = () => {
           {/* 하이라이트 사진 미리보기 */}
           {gameResult.highlightImage
             ? <Image
-            onClick={openModal}
-            src={gameResult.highlightImage}
-            alt='하이라이트 이미지'
-            className='inline-block w-1/6 aspect-square animate-bounce hover:cursor-pointer'
+              onClick={openModal}
+              src={gameResult.highlightImage}
+              alt='하이라이트 이미지'
+              className='inline-block w-1/6 aspect-square animate-bounce hover:cursor-pointer'
             />
             : <div className='inline-block w-1/6'></div>
           }
