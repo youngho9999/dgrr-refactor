@@ -124,7 +124,7 @@ public class MemberService {
             Key key = Keys.hmacShaKeyFor(keyBytes);
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
         } catch (ExpiredJwtException e) {
-            return e.getClaims();
+            throw new GeneralException(ErrorCode.EXPIRED_JWT, e);
         }
     }
 }
