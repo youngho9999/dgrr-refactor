@@ -24,7 +24,7 @@ export type headerType = 'MAIN' | 'GAMESTART' | 'PROFILE' | 'WAITING' | 'GAME' |
 interface HeaderProps {
   headerType: headerType;
   // WAITING에서만 roomCode 필요(roomCode 형식은 number)
-  roomCode?: number;
+  roomCode?: string;
   // OTHER에서만 페이지 제목에 해당하는 children 필요
   children?: React.ReactNode;
 }
@@ -69,11 +69,10 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
   };
 
   // 코드 복사
-  const handleCopyCode = async (roomCode: number | undefined) => {
+  const handleCopyCode = async (roomCode: string | undefined) => {
     if (roomCode !== undefined) {
       try {
-        // 숫자를 문자열로 변환 후 클립보드에 복사
-        await navigator.clipboard.writeText(roomCode.toString());
+        await navigator.clipboard.writeText(roomCode);
         console.log(`${roomCode} 복사 성공`);
       } catch (error) {
         console.log('복사 실패😥');
