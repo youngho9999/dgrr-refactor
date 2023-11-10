@@ -2,7 +2,7 @@
 import opositProfileImage from '@/../public/images/m-bread1.png';
 import myProfileImage from '@/../public/images/m-bread2.png';
 import matchAttackImage from '@/../public/images/match-attack.png';
-import vsImage from '@/../public/images/vsI-image.png';
+import vsImage from '@/../public/images/vs-image.png';
 import { useAppSelector } from '@/store/hooks';
 import { Image } from 'next/dist/client/image-component';
 import { useRouter } from 'next/navigation';
