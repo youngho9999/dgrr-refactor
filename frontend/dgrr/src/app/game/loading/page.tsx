@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 
 const GameLoading = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [seconds, setSeconds] = useState(0);
   const handleModal = () => {
     setOpenModal(!openModal);
   };
@@ -41,8 +42,12 @@ const GameLoading = () => {
   };
 
   useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds((prev) => prev + 1);
+    }, 1000);
     subscribeGame();
     gameMatch();
+    return () => clearInterval(interval);
   }, [client]);
 
   return (
@@ -50,6 +55,7 @@ const GameLoading = () => {
       {openModal && <ExplainModal onClose={handleModal} />}
       <Image alt="캐릭터" src={character} className="w-40 h-40" />
       <h1>게임 찾는 중...</h1>
+      <div className="Timer">{seconds}s</div>
       <FuncButton value="게임 설명" clickEvent={handleModal} small={true} />
     </div>
   );
