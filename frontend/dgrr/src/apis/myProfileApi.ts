@@ -29,9 +29,10 @@ export interface GetMyInfoProps {
   member: MemberProps;
   ranking: {
     season: number;
-    score: number;
+    rating: number;
     rank: number;
     tier: string;
+    score: number, // score 속성 추가
   };
   gameHistoryList: GameHistoryProps[];
 }
@@ -43,17 +44,16 @@ export interface UpdateMyInfoProps {
 }
 
 export const getMyInfoApi = async () => {
-  // axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
-  axios.defaults.headers.common['Authorization'] = 1;
   const res = await axios.get<GetMyInfoProps>(`${apiUrl}/member-id`);
-  console.log('회원 정보 확인', res.data);
   return res.data;
 };
 
 export const updateMyInfoApi = async (props: UpdateMyInfoProps) => {
-  // axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
-  axios.defaults.headers.common['Authorization'] = 1;
   const res = await axios.put<MemberProps>(`${apiUrl}`, props);
-  console.log('회원 정보 수정', res.data);
   return res.data;
 };
+
+export const checkNicknameApi = async (nickname: string) => {
+  const res = await axios.get(`${apiUrl}/nickname-check/${nickname}`);
+  return res.data;
+}

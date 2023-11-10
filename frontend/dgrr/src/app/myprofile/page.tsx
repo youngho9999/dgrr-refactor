@@ -7,9 +7,9 @@ import Rank from '@/components/elements/Rank';
 import { IoChevronForwardOutline } from 'react-icons/io5';
 import RecentRecordItem from '@/components/elements/RecentRecordItem';
 import { getMyInfoApi } from '@/apis/myProfileApi';
+import { KAKAO_LOGOUT_REDIRECT_URL } from '../../metadata/OAuth';
 
 const MyProfile = () => {
-  // Back에서 정보를 이 형태로 보내줌
   const [myInfo, setMyInfo] = useState({
     gameHistoryList: [
       {
@@ -35,13 +35,15 @@ const MyProfile = () => {
     },
     ranking: {
       season: 0,
-      score: 0,
+      rating: 0,
       rank: 0,
       tier: '',
+      score: 0, // score 속성 추가
     },
   });
 
   const handleLogin = () => {
+    window.location.href = KAKAO_LOGOUT_REDIRECT_URL;
     console.log('Logout');
   };
 
@@ -93,17 +95,17 @@ const MyProfile = () => {
         </div>
       </div>
       {/* 내 티어 */}
-      <Rank pageType='PROFILE' tier={myInfo.ranking.tier} rating={myInfo.ranking.score} />
+      <Rank pageType='PROFILE' tier={myInfo.ranking.tier} rating={myInfo.ranking.rating} />
       {/* 최근 전적 */}
       <div className='h-[220px] p-6'>
         <div className='flex justify-between items-center mb-4'>
           <div className='text-lg font-semibold'>최근 전적</div>
           {/* 전적이 아직 하나도 없다면 더 보기 버튼 생기지 않음 */}
           {myInfo.gameHistoryList.length !== 0 ? (
-            <Link href='/myprofile/recent-record'>
-              <div className='flex cursor-pointer gap-x-[3px] hover:text-main-blue'>
-                <div className='text-sm font-bold inline-block'>더 보기</div>
-                <div className='inline-block'>
+            <Link href="/myprofile/recent-record">
+              <div className="flex cursor-hover gap-x-[3px] hover:text-main-blue">
+                <div className="text-sm font-bold inline-block">더 보기</div>
+                <div className="inline-block">
                   <IoChevronForwardOutline fontSize={'18px'} />
                 </div>
               </div>
@@ -135,7 +137,7 @@ const MyProfile = () => {
       </div>
       <div
         onClick={handleLogin}
-        className='flex justify-center mt-[53px] mb-2 text-sm font-bold cursor-pointer hover:text-[#E83F57]'
+        className="flex justify-center mt-[53px] mb-2 text-sm font-bold cursor-hover hover:text-[#E83F57]"
       >
         로그아웃
       </div>

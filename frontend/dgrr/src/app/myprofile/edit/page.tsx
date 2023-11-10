@@ -1,26 +1,56 @@
 'use client';
 
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import Header from '@/components/elements/Header';
 import ImageInput from '@/components/elements/ImageInput';
 import DataInput from '@/components/elements/DataInput';
 import Swal from 'sweetalert2';
-import { UpdateMyInfoProps, getMyInfoApi, updateMyInfoApi } from '@/apis/myProfileApi';
+import {
+  UpdateMyInfoProps,
+  checkNicknameApi,
+  getMyInfoApi,
+  updateMyInfoApi,
+} from '@/apis/myProfileApi';
+import { setUrl } from '@/utils/setUrl';
+import axios from 'axios';
+
+type UploadImg = {
+  file: File | { buffer: Buffer; size: number; type: string };
+  thumbnail: string;
+  type: string;
+};
 
 const Edit = () => {
+  // 수정하기 전, 원래 닉네임
+  const [myNickName, setMyNickname] = useState('');
+  // 수정한 닉네임
   const [nowNickname, setNowNickName] = useState('');
+  // 닉네임 존재 여부 확인
+  const [nicknameExists, setNicknameExists] = useState(false);
   const [nowDescription, setNowDescription] = useState('');
-  const [nowProfileImage, setNowProfileImage] = useState('');
+  // const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [nowProfileImage, setNowProfileImage] = useState<UploadImg | null>({
+    file: {
+      buffer: Buffer.from([]),
+      size: 0,
+      type: 'application/octet-stream',
+    },
+    thumbnail: '',
+    type: '',
+  });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getMyInfoApi();
-        console.log('데이터 가져오기 성공:', response);
+        setMyNickname(response.member.nickname);
         setNowNickName(response.member.nickname);
         setNowDescription(response.member.description);
-        setNowProfileImage(response.member.profileImage);
-
+        setNowProfileImage({
+          file: new File([], ''),
+          thumbnail: response.member.profileImage,
+          type: '',
+        });
         // response의 PromiseResult를 추출
         const { gameHistoryList, member, ranking } = response;
       } catch (error) {
@@ -31,10 +61,27 @@ const Edit = () => {
     fetchData();
   }, []);
 
+  const checkNickname = async () => {
+    try {
+      const response = await checkNicknameApi(nowNickname);
+      // 여기서 response를 처리할 추가적인 로직을 작성할 수 있습니다.
+    } catch (error: any) {
+      // 400 에러가 발생한 경우에 대한 처리
+      if (myNickName !== nowNickname && error.response && error.response.status === 400) {
+        setNicknameExists(true);
+      }
+    }
+  };
+
+  // 닉네임 중복 확인
+  useEffect(() => {
+    setNicknameExists(false);
+    checkNickname();
+  }, [nowNickname]);
+
   // 닉네임 입력값 반영
   const handleNicknameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNowNickName(event.target.value);
-    console.log(nowProfileImage);
   };
 
   // 상태 메시지 입력값 반영
@@ -42,20 +89,34 @@ const Edit = () => {
     setNowDescription(event.target.value);
   };
 
-  // 프로필 이미지 업로드해서 변경하는 코드
-  const changeProfileImage = (event: any) => {
-    const reader = new FileReader();
-    reader.onload = function (event) {
-      if (event && event.target && typeof event.target.result === 'string') {
-        setNowProfileImage(event.target.result);
-      }
-    };
+  // 사진 업로드
+  const uploadImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = e.target.files;
 
-    if (event && event.target && event.target.files && event.target.files[0]) {
-      reader.readAsDataURL(event.target.files[0]);
+    if (fileList !== null && fileList.length > 0) {
+      // 미리보기용으로 이미지 state에 저장
+      const formData = new FormData();
+      formData.append('file', fileList[0]);
+      axios
+        .post(`${setUrl}/file/upload`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then((res: any) => {
+          setNowProfileImage({
+            file: fileList[0],
+            thumbnail: res.data,
+            type: fileList[0].type.slice(0, 5),
+          });
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
     }
   };
 
+  // 닉네임이 중복되었거나 없을 때, 모달 뜸
   const requestNewNicknameModal = () => {
     Swal.fire({
       width: 400,
@@ -71,16 +132,12 @@ const Edit = () => {
   };
 
   // 저장 버튼
-  // 닉네임이 입력되지 않았거나 중복되면 경고 모달창이 뜸
   const handleSaveButton = async () => {
-    console.log('Save');
-    console.log(nowNickname, nowDescription);
     const data: UpdateMyInfoProps = {
       nickname: nowNickname,
-      profileImage: nowProfileImage,
+      profileImage: nowProfileImage?.thumbnail,
       description: nowDescription,
     };
-
     try {
       await updateMyInfoApi(data);
       // 여기서 정상적인 처리를 수행
@@ -92,6 +149,7 @@ const Edit = () => {
     }
   };
 
+  // 회원탈퇴 확인 모달
   const openWithdrawModal = () => {
     Swal.fire({
       width: 400,
@@ -118,16 +176,18 @@ const Edit = () => {
       }
     });
   };
+
   return (
     <div className='w-screen max-w-[500px]'>
       <Header headerType='OTHER'>프로필 수정</Header>
       <div>
-        <ImageInput myProfileImage={nowProfileImage} profileImageUpdate={changeProfileImage} />
+        <ImageInput myProfileImage={nowProfileImage?.thumbnail} profileImageUpdate={uploadImg} />
         <DataInput
           inputType='NICKNAME'
           pageType='PROFILE_EDIT'
           onChange={handleNicknameChange}
           value={nowNickname}
+          nicknameExists={nicknameExists}
         />
         <DataInput
           inputType='DESCRIPTION'
@@ -141,17 +201,17 @@ const Edit = () => {
           onClick={handleSaveButton}
           className='bg-main-blue rounded-lg w-full max-w-[500px] p-4 hover:brightness-110'
         >
-          <div className='text-white text-center text-base font-bold cursor-pointer uppercase leading-none'>
+          <div className='text-white text-center text-base font-bold cursor-hover uppercase leading-none'>
             저장
           </div>
         </div>
       </div>
-      <div
+      {/* <div
         onClick={openWithdrawModal}
-        className='flex justify-center mt-40 mb-3 text-xs font-semibold cursor-pointer hover:text-[#E83F57]'
+        className='flex justify-center mt-40 mb-3 text-xs font-semibold cursor-hover hover:text-[#E83F57]'
       >
         회원 탈퇴
-      </div>
+      </div> */}
     </div>
   );
 };
