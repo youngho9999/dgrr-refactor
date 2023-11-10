@@ -19,8 +19,8 @@ export const FindRoomModal = ({ handleModal }: FindModalProps) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const client = useAppSelector((state) => state.game.client);
-  const { DESTINATION_URI } = roomStompConfig;
-  const { ENTER_SUB_URI, ENTER_SEND_URI } = DESTINATION_URI;
+  const { ROOM_DESTINATION_URI } = roomStompConfig;
+  const { ENTER_SUB_URI, ENTER_SEND_URI } = ROOM_DESTINATION_URI;
 
   const submitRoomNum = (event: FormEvent) => {
     event.preventDefault();

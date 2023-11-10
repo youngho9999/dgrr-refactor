@@ -9,8 +9,8 @@ import { useDispatch } from 'react-redux';
 
 const RommLoadingPage = () => {
   const client = useAppSelector((state) => state.game.client);
-  const { DESTINATION_URI } = roomStompConfig;
-  const { ENTER_SUB_URI, ENTER_SEND_URI } = DESTINATION_URI;
+  const { ROOM_DESTINATION_URI } = roomStompConfig;
+  const { ENTER_SUB_URI, ENTER_SEND_URI } = ROOM_DESTINATION_URI;
   const dispatch = useDispatch();
   const router = useRouter();
   const roomCode = useAppSelector((state) => state.room.roomCode);
@@ -28,7 +28,7 @@ const RommLoadingPage = () => {
   };
   useEffect(() => {
     subscribeEnter();
-  }, [client]);
+  }, [client, roomCode]);
 
   return <div>방 만드는 중~~</div>;
 };
