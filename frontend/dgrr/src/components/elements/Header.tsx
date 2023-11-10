@@ -33,7 +33,7 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
   const pathname = usePathname();
   const client = useAppSelector((state) => state.game.client);
   const gameRoomId = useAppSelector((state) => state.game.gameInfo.gameRoomId);
-  const ws = useAppSelector((state) => state.game.websocket)
+  const ws = useAppSelector((state) => state.game.websocket);
   const { DESTINATION_URI } = stompConfig;
   const { EXIT_URI } = DESTINATION_URI;
   const playsound = ButtonClickAudio();
@@ -56,7 +56,7 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
         client.deactivate();
         disconnectWs();
         router.push('/main');
-      };
+      }
     }
   };
 

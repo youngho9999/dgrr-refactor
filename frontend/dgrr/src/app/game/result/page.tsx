@@ -21,8 +21,8 @@ const Result = () => {
     console.log('Close Modal');
   };
 
-  const gameResult = useAppSelector((state) => state.game.gameResult)
-  const [memberId, setMemberId] = useState('')
+  const gameResult = useAppSelector((state) => state.game.gameResult);
+  const [memberId, setMemberId] = useState('');
 
   const clickOneMore = () => {
     console.log('One More Time');
@@ -38,11 +38,11 @@ const Result = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   useEffect(() => {
-    const memberId = localStorage.getItem('memberId')
+    const memberId = localStorage.getItem('memberId');
     if (memberId) {
-      setMemberId(memberId)
+      setMemberId(memberId);
     }
-  }, [])
+  }, []);
   const connectStomp = (headers: StompHeaders) => {
     const client = new Client({
       brokerURL: process.env.NEXT_PUBLIC_BROKER_URL,
@@ -61,7 +61,7 @@ const Result = () => {
       console.log('연결');
       // redux에 client 저장
       dispatch(createClient(client));
-      router.push('/game/loading')
+      router.push('/game/loading');
     };
   };
 
@@ -72,16 +72,16 @@ const Result = () => {
           <div className='inline-block w-1/6'></div>
           <div>{gameResult.gameResult}</div>
           {/* 하이라이트 사진 미리보기 */}
-          {gameResult.highlightImage
-            ? <img
+          {gameResult.highlightImage ? (
+            <img
               onClick={openModal}
               src={gameResult.highlightImage}
               alt='하이라이트 이미지'
               className='inline-block rounded-lg w-1/6 aspect-square animate-bounce hover:cursor-pointer'
             />
-            : <div className='inline-block w-1/6'></div>
-          }
-
+          ) : (
+            <div className='inline-block w-1/6'></div>
+          )}
         </div>
         <div className='mt-7'>
           <Rank pageType='GAMERESULT' rating={gameResult.afterRating} tier={gameResult.afterTier} />

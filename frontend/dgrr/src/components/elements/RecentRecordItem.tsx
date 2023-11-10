@@ -41,7 +41,9 @@ const RecentRecordItem = ({ pageType, item }: RecentRecordItemProps) => {
 
   return (
     <div>
-      <div className={`flex ${itemHeight} min-w-[305px] mb-3 justify-between rounded-lg border-2 ${borderColor}`}>
+      <div
+        className={`flex ${itemHeight} min-w-[305px] mb-3 justify-between rounded-lg border-2 ${borderColor}`}
+      >
         <div className='gap-x-[12px] flex items-center ms-2'>
           {item.gameResult === 'WIN' ? (
             <div className='bg-[#5383E8] w-[24px] h-[24px] text-white text-center rounded-full font-semibold'>
