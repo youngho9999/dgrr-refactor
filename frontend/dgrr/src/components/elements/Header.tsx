@@ -20,6 +20,7 @@ import { useDispatch } from 'react-redux';
 import { reset } from '@/store/gameSlice';
 import { roomStompConfig } from '@/types/room';
 import { roomReset } from '@/store/roomSlice';
+import { disconnectSession } from '../Game/openVidu';
 
 export type headerType = 'MAIN' | 'GAMESTART' | 'PROFILE' | 'WAITING' | 'GAME' | 'OTHER';
 
@@ -42,6 +43,8 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
   const { EXIT_URI } = DESTINATION_URI;
   const { EXIT_SEND_URI } = ROOM_DESTINATION_URI;
   const dispatch = useDispatch();
+  const session = useAppSelector((state) => state.game.OVsession);
+  const publisher = useAppSelector((state) => state.game.publisher);
 
   // 뒤로 가기
   const handleMoveBack = () => {
@@ -61,6 +64,9 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
         dispatch(reset());
         router.push('/main');
       }
+      if (session) {
+        disconnectSession(session, publisher);
+      }
     }
   };
 
@@ -73,6 +79,9 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
         client.deactivate();
         dispatch(roomReset());
         router.push('/main');
+      }
+      if (session) {
+        disconnectSession(session, publisher);
       }
     }
   };
