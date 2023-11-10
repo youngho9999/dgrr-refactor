@@ -1,17 +1,18 @@
 export type RoomType = {
   roomInfo: RoomConfig;
   roomCode: string;
+  roomReady: boolean;
 };
 
 export interface RoomConfig {
   roomId: string;
-  waitingMember: WaitMemberConfig | null;
+  waitingMember: object;
 }
 
 export interface WaitMemberConfig {
   waitingMemberId: number;
   nickname: string;
-  profileImg: string;
+  profileImage: string;
   ready: boolean;
 }
 
