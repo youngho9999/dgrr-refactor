@@ -1,23 +1,23 @@
 export type RoomType = {
-  roomInfo: RoomConfig;
+  roomInfo: Array<RoomConfig>;
   roomCode: string;
   roomReady: boolean;
 };
 
 export interface RoomConfig {
   roomId: string;
-  waitingMember: object;
+  waitingMember: WaitMemberConfig;
 }
 
 export interface WaitMemberConfig {
-  waitingMemberId: number;
+  waitingMemberId: string;
   nickname: string;
   profileImage: string;
   ready: boolean;
 }
 
 export const roomStompConfig = {
-  DESTINATION_URI: {
+  ROOM_DESTINATION_URI: {
     // 방 입장
     ENTER_SEND_URI: '/send/room-enter',
     // 준비/취소

@@ -2,10 +2,17 @@ import { RoomType } from '@/types/room';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState: RoomType = {
-  roomInfo: {
-    roomId: '',
-    waitingMember: {},
-  },
+  roomInfo: [
+    {
+      roomId: '',
+      waitingMember: {
+        waitingMemberId: '',
+        nickname: '',
+        profileImage: '',
+        ready: false,
+      },
+    },
+  ],
   roomCode: '',
   roomReady: false,
 };
@@ -14,7 +21,7 @@ const roomSlice = createSlice({
   name: 'roomSlice',
   initialState,
   reducers: {
-    reset: () => {
+    roomReset: () => {
       return initialState;
     },
     saveRoomInfo: (state, action) => {
@@ -33,4 +40,4 @@ const roomSlice = createSlice({
 });
 
 export default roomSlice.reducer;
-export const { reset, saveRoomInfo, saveRoomCode, setReady } = roomSlice.actions;
+export const { roomReset, saveRoomInfo, saveRoomCode, setReady } = roomSlice.actions;
