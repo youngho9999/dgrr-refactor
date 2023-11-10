@@ -1,5 +1,5 @@
 import { Client, StompHeaders } from '@stomp/stompjs';
-import { Publisher, StreamManager, Subscriber } from 'openvidu-browser';
+import { OpenVidu, Publisher, Session, StreamManager, Subscriber } from 'openvidu-browser';
 
 export type GameType = {
   client: Client | undefined;
@@ -9,6 +9,8 @@ export type GameType = {
   subscriber: Subscriber | undefined;
   websocket: WebSocket | undefined;
   roundResult: string;
+  OVsession: Session | undefined;
+  OV: OpenVidu | undefined;
 };
 
 export interface IGameConfig {

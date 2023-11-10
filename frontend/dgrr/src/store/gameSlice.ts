@@ -22,6 +22,8 @@ const initialState: GameType = {
   subscriber: undefined,
   websocket: undefined,
   roundResult: '',
+  OVsession: undefined,
+  OV: undefined,
 };
 
 const gameSlice = createSlice({
@@ -60,6 +62,14 @@ const gameSlice = createSlice({
       console.log('게임 결과 왜 안옴?: ', action.payload);
       state.roundResult = action.payload;
     },
+    saveOVSession: (state, action) => {
+      console.log('OVsession 저장', action.payload);
+      state.OVsession = action.payload;
+    },
+    saveOV: (state, action) => {
+      console.log('OV 저장', action.payload);
+      state.OV = action.payload;
+    },
   },
 });
 
@@ -73,4 +83,6 @@ export const {
   saveSubscriber,
   saveWebsocket,
   saveRoundResult,
+  saveOVSession,
+  saveOV,
 } = gameSlice.actions;
