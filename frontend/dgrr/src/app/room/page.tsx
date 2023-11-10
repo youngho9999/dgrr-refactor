@@ -24,6 +24,7 @@ const RoomPage = () => {
   const router = useRouter();
   const { DESTINATION_URI } = stompConfig;
   const { GAME_URI } = DESTINATION_URI;
+  const value = readyState ? '취소하기' : '준비하기';
 
   const subscribeRoom = () => {
     client?.subscribe(READY_SUB_URI, (message) => {
@@ -68,7 +69,7 @@ const RoomPage = () => {
     <div className='w-screen h-screen max-w-[500px] min-h-[565px] bg-black'>
       <Header headerType='WAITING' roomCode={roomcode} />
       {owner !== memberId ? (
-        <FuncButton value='준비하기' small={true} clickEvent={readyOnOff} />
+        <FuncButton value={value} small={true} clickEvent={readyOnOff} />
       ) : readyState ? (
         <FuncButton value='시작하기' small={true} clickEvent={startGame} />
       ) : (
