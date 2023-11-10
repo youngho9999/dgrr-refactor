@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import { KAKAO_AUTH_URL } from '../metadata/OAuth';
 import ButtonClickAudio from '@/components/audio/ButtonClickAudio';
 
