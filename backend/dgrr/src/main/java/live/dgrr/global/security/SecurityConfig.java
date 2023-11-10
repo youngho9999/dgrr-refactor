@@ -31,7 +31,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        System.out.println("FRONT: " + FRONT_URL);
         http
                 .formLogin(fl -> fl.disable())
                 .httpBasic(httpBasic -> httpBasic.disable())
