@@ -15,7 +15,6 @@ import java.util.Arrays;
 
 @EnableWebSecurity
 @Configuration
-//@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
