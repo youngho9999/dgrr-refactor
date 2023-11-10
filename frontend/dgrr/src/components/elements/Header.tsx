@@ -18,6 +18,8 @@ import { stompConfig } from '@/types/game';
 import WarningAlert from './WarningAlert';
 import { useDispatch } from 'react-redux';
 import { reset } from '@/store/gameSlice';
+import { roomStompConfig } from '@/types/room';
+import { roomReset } from '@/store/roomSlice';
 
 export type headerType = 'MAIN' | 'GAMESTART' | 'PROFILE' | 'WAITING' | 'GAME' | 'OTHER';
 
@@ -36,7 +38,9 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
   const gameRoomId = useAppSelector((state) => state.game.gameInfo.gameRoomId);
   const ws = useAppSelector((state) => state.game.websocket);
   const { DESTINATION_URI } = stompConfig;
+  const { ROOM_DESTINATION_URI } = roomStompConfig;
   const { EXIT_URI } = DESTINATION_URI;
+  const { EXIT_SEND_URI } = ROOM_DESTINATION_URI;
   const dispatch = useDispatch();
 
   // 뒤로 가기
@@ -55,6 +59,19 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
         client.deactivate();
         disconnectWs();
         dispatch(reset());
+        router.push('/main');
+      }
+    }
+  };
+
+  const exitRoom = async () => {
+    const askExit = await WarningAlert();
+
+    if (askExit) {
+      if (client) {
+        publishMessage(client, EXIT_SEND_URI, '');
+        client.deactivate();
+        dispatch(roomReset());
         router.push('/main');
       }
     }
@@ -133,7 +150,7 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
           >
             <IoCopyOutline fontSize={'27px'} />
           </div>
-          <div className='cursor-hover text-white hover:text-main-blue'>
+          <div className='cursor-hover text-white hover:text-main-blue' onClick={exitRoom}>
             <IoExitOutline fontSize={'30px'} />
           </div>
         </div>
