@@ -8,6 +8,7 @@ import { IoChevronForwardOutline } from 'react-icons/io5';
 import RecentRecordItem from '@/components/elements/RecentRecordItem';
 import { getMyInfoApi } from '@/apis/myProfileApi';
 import { KAKAO_LOGOUT_REDIRECT_URL } from '../../metadata/OAuth';
+import ButtonClickAudio from '@/components/audio/ButtonClickAudio';
 
 const MyProfile = () => {
   const [myInfo, setMyInfo] = useState({
@@ -46,9 +47,11 @@ const MyProfile = () => {
       ? myInfo.member.profileImage
       : '/images/default_profile_image.png';
 
+  const playsound = ButtonClickAudio();
+
   const handleLogin = () => {
+    playsound();
     window.location.href = KAKAO_LOGOUT_REDIRECT_URL;
-    console.log('Logout');
   };
 
   useEffect(() => {
@@ -100,7 +103,7 @@ const MyProfile = () => {
           {/* 전적이 아직 하나도 없다면 더 보기 버튼 생기지 않음 */}
           {myInfo.gameHistoryList.length !== 0 ? (
             <Link href='/myprofile/recent-record'>
-              <div className='flex cursor-hover gap-x-[3px] hover:text-main-blue'>
+              <div className='flex cursor-hover gap-x-[3px] hover:text-main-blue' onClick={playsound}>
                 <div className='text-sm font-bold inline-block'>더 보기</div>
                 <div className='inline-block'>
                   <IoChevronForwardOutline fontSize={'18px'} />

@@ -43,7 +43,6 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
     playsound();
     router.back();
     history.pushState({}, '', pathname);
-    console.log('Go Back');
   };
 
   const exitGame = async () => {

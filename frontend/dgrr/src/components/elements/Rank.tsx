@@ -3,6 +3,7 @@ import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import ProgressBar from '@ramonak/react-progress-bar';
 import { IoHelpCircleOutline } from 'react-icons/io5';
+import ButtonClickAudio from '../audio/ButtonClickAudio';
 
 type pageType = 'GAMERESULT' | 'PROFILE';
 
@@ -15,7 +16,7 @@ interface RankProps {
 const Rank = ({ pageType, tier, rating }: RankProps) => {
   const [nowRating, setNowRating] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const playsound = ButtonClickAudio();
   const myTier =
     tier === 'Gold'
       ? { name: 'Gold', image: '/images/Gold.png', bgColor: '#FCC858' }
@@ -30,6 +31,7 @@ const Rank = ({ pageType, tier, rating }: RankProps) => {
   ];
 
   const handleModalOpen = () => {
+    playsound();
     setIsModalOpen(true);
   };
 

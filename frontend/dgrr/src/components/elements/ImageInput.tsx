@@ -11,11 +11,6 @@ const ImageInput = ({ myProfileImage, profileImageUpdate }: ImageInputProps) => 
   return (
     <div className='px-6 py-8'>
       <div className='w-[121px] relative'>
-        {/* <img
-          className='w-[121px] aspect-square rounded-full'
-          src={myProfileImage}
-          alt='기본 사진'
-        /> */}
         <Image
           src={myProfileImage}
           alt='기본 사진'

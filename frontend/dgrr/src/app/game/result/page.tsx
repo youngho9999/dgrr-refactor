@@ -9,29 +9,31 @@ import { useDispatch } from 'react-redux';
 import { Client, StompHeaders } from '@stomp/stompjs';
 import { createClient } from '@/store/gameSlice';
 import { useRouter } from 'next/navigation';
+import ButtonClickAudio from '@/components/audio/ButtonClickAudio';
+
 
 const Result = () => {
   const [modalStatus, setModalStatus] = useState(false);
+  const [memberId, setMemberId] = useState('');
+  const gameResult = useAppSelector((state) => state.game.gameResult);
+  const playsound = ButtonClickAudio();
 
   const openModal = () => {
+    playsound();
     setModalStatus(true);
-    console.log('Open Modal');
   };
   const closeModal = () => {
+    playsound();
     setModalStatus(false);
-    console.log('Close Modal');
   };
 
-  const gameResult = useAppSelector((state) => state.game.gameResult);
-  const [memberId, setMemberId] = useState('');
-
   const clickOneMore = () => {
-    console.log('One More Time');
+    playsound();
     connectStomp({ Authorization: memberId });
   };
 
   const clickGoToMain = () => {
-    console.log('Go To Main');
+    playsound();
     const newPathname = '/main';
     window.location.href = newPathname;
   };
@@ -71,22 +73,16 @@ const Result = () => {
       <div className='bg-white w-11/12 h-[522px] rounded-[12px] py-5 px-3'>
         <div className='text-[40px] font-bold text-center flex justify-between'>
           <div className='inline-block w-1/6'></div>
-          <div>{gameResult.gameResult}</div>
+          {gameResult.gameResult === 'LOSE' ? <div>LOSS</div> : <div>{gameResult.gameResult}</div>}
           {/* 하이라이트 사진 미리보기 */}
           {gameResult.highlightImage ? (
-            // <img
-            //   onClick={openModal}
-            //   src={gameResult.highlightImage}
-            //   alt='하이라이트 이미지'
-            //   className='inline-block rounded-lg w-1/6 aspect-square animate-bounce hover:cursor-pointer'
-            // />
             <Image
               onClick={openModal}
               src={gameResult.highlightImage}
               alt='하이라이트 이미지'
               width={500}
               height={500}
-              className='inline-block rounded-lg w-1/6 aspect-square animate-bounce hover:cursor-pointer'
+              className='inline-block rounded-lg w-1/6 aspect-square animate-bounce cursor-hover'
             />
           ) : (
             <div className='inline-block w-1/6'></div>
@@ -98,11 +94,6 @@ const Result = () => {
         <div>
           <div className='flex items-center justify-center mt-9 mb-7 gap-x-2'>
             <div>
-              {/* <img
-                className='w-10 aspect-square rounded-full'
-                src={gameResult.enemyInfo.profileImage}
-                alt='상대방 프로필 사진'
-              /> */}
               <Image
                 src={gameResult.enemyInfo.profileImage}
                 alt='상대방 프로필 사진'
@@ -136,11 +127,6 @@ const Result = () => {
               </button>
             </div>
             <div className='flex justify-center'>
-              {/* <img
-                src={gameResult.highlightImage}
-                alt='하이라이트 사진'
-                className='w-full max-w-[280px]'
-              /> */}
               <Image
                 src={gameResult.highlightImage}
                 alt='하이라이트 사진'
