@@ -1,5 +1,5 @@
 'use client';
-
+import Image from 'next/image';
 import { IoCloseOutline } from 'react-icons/io5';
 
 interface ModalWithXProps {
@@ -33,7 +33,8 @@ const ModalWithX = ({ modalStatus, closeModal, item, children }: ModalWithXProps
               </button>
             </div>
             {item !== undefined ? (
-              <img className='max-w-[290px]' src={item.highlightImage} />
+              // <img className='max-w-[290px]' src={item.highlightImage} />
+              <Image src={item.highlightImage} alt='하이라이트 사진' width={500} height={500} className='max-w-[290px]' />
             ) : (
               <div>{children}</div>
             )}

@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import ProgressBar from '@ramonak/react-progress-bar';
 import { IoHelpCircleOutline } from 'react-icons/io5';
@@ -77,7 +78,7 @@ const Rank = ({ pageType, tier, rating }: RankProps) => {
                             className='bg-[#e7e0ec] py-[10px] px-[8px]  rounded-md flex items-center gap-x-3'
                             key={index}
                           >
-                            <img src={tier.image} className='w-[38px] aspect-square ms-3' />
+                            <Image src={tier.image} alt='티어 이미지' width={500} height={500} className='w-[38px] aspect-square ms-3' />
                             <div>
                               <div className='text-sm font-semibold'>{tier.title}</div>
                               <div className='text-xs'>{tier.explain}</div>
@@ -92,7 +93,7 @@ const Rank = ({ pageType, tier, rating }: RankProps) => {
             </div>
           </div>
           <div className='flex justify-center'>
-            <img src={myTier.image} alt={myTier.name} className='w-[80px] aspect-square' />
+            <Image src={myTier.image} alt={myTier.name} width={500} height={500} className='w-[80px] aspect-square' />
           </div>
           <div className='flex justify-center mt-[19px]'>
             <ProgressBar
@@ -104,7 +105,7 @@ const Rank = ({ pageType, tier, rating }: RankProps) => {
       ) : (
         <div>
           <div className='flex justify-center'>
-            <img src={myTier.image} alt={myTier.name} className='w-[90px] aspect-square' />
+            <Image src={myTier.image} alt={myTier.name} width={500} height={500} className='w-[90px] aspect-square' />
           </div>
           <div className='flex justify-center mt-[25px]'>
             <ProgressBar

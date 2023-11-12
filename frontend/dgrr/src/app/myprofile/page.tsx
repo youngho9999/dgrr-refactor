@@ -1,5 +1,5 @@
 'use client';
-
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import Header from '@/components/elements/Header';
 import Link from 'next/link';
@@ -41,6 +41,10 @@ const MyProfile = () => {
       score: 0, // score 속성 추가
     },
   });
+  const myProfileImage =
+    myInfo.member.profileImage !== ''
+      ? myInfo.member.profileImage
+      : '/images/default_profile_image.png';
 
   const handleLogin = () => {
     window.location.href = KAKAO_LOGOUT_REDIRECT_URL;
@@ -71,19 +75,13 @@ const MyProfile = () => {
         <div>
           {/* 프로필 사진 */}
           <div className='flex justify-center'>
-            {myInfo.member.profileImage !== '' ? (
-              <img
-                src={myInfo.member.profileImage}
-                alt='profileImage'
-                className='w-[80px] aspect-square rounded-full'
-              />
-            ) : (
-              <img
-                src='/images/default_profile_image.png'
-                alt='profileImage'
-                className='w-[80px] aspect-square rounded-full'
-              />
-            )}
+            <Image
+              src={myProfileImage}
+              alt='내 프로필 이미지'
+              width={500}
+              height={500}
+              className='w-[80px] aspect-square rounded-full'
+            />
           </div>
           {/* 닉네임 */}
           <div className='text-center mt-6 mb-3 text-lg font-semibold'>

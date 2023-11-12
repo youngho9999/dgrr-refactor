@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import { IoCloseOutline } from 'react-icons/io5';
 import { FuncButton } from '@/components/FuncButton';
 import Rank from '@/components/elements/Rank';
@@ -73,10 +74,18 @@ const Result = () => {
           <div>{gameResult.gameResult}</div>
           {/* 하이라이트 사진 미리보기 */}
           {gameResult.highlightImage ? (
-            <img
+            // <img
+            //   onClick={openModal}
+            //   src={gameResult.highlightImage}
+            //   alt='하이라이트 이미지'
+            //   className='inline-block rounded-lg w-1/6 aspect-square animate-bounce hover:cursor-pointer'
+            // />
+            <Image
               onClick={openModal}
               src={gameResult.highlightImage}
               alt='하이라이트 이미지'
+              width={500}
+              height={500}
               className='inline-block rounded-lg w-1/6 aspect-square animate-bounce hover:cursor-pointer'
             />
           ) : (
@@ -89,10 +98,17 @@ const Result = () => {
         <div>
           <div className='flex items-center justify-center mt-9 mb-7 gap-x-2'>
             <div>
-              <img
+              {/* <img
                 className='w-10 aspect-square rounded-full'
                 src={gameResult.enemyInfo.profileImage}
                 alt='상대방 프로필 사진'
+              /> */}
+              <Image
+                src={gameResult.enemyInfo.profileImage}
+                alt='상대방 프로필 사진'
+                width={500}
+                height={500}
+                className='w-10 aspect-square rounded-full'
               />
             </div>
             <div className='inline-block'>
@@ -120,9 +136,16 @@ const Result = () => {
               </button>
             </div>
             <div className='flex justify-center'>
-              <img
+              {/* <img
                 src={gameResult.highlightImage}
                 alt='하이라이트 사진'
+                className='w-full max-w-[280px]'
+              /> */}
+              <Image
+                src={gameResult.highlightImage}
+                alt='하이라이트 사진'
+                width={500}
+                height={500}
                 className='w-full max-w-[280px]'
               />
             </div>
