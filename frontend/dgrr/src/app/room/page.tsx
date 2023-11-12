@@ -17,7 +17,7 @@ import Image from 'next/image';
 const RoomPage = () => {
   const client = useAppSelector((state) => state.game.client);
   const roomcode = useAppSelector((state) => state.room.roomCode);
-  const owner = useAppSelector((state) => state.room.roomInfo[0].waitingMember.waitingMemberId);
+  const owner = useAppSelector((state) => state.room.roomInfo[0].waitingMember);
   const [memberId, setMemberId] = useState('');
   const readyState = useAppSelector((state) => state.room.roomReady);
   const { ROOM_DESTINATION_URI } = roomStompConfig;
@@ -29,6 +29,8 @@ const RoomPage = () => {
   const value = readyState ? '취소하기' : '준비하기';
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef(null);
+  const enemy = useAppSelector((state) => state.room.roomInfo[1]?.waitingMember);
+
   const subscribeRoom = () => {
     client?.subscribe(READY_SUB_URI, (message) => {
       const content = JSON.parse(message.body);
@@ -81,27 +83,49 @@ const RoomPage = () => {
     <div className='w-screen h-screen max-w-[500px] min-h-[565px] bg-black relative'>
       <Header headerType='WAITING' roomCode={roomcode} />
       <div className='userVideo mx-3'>
-        <video ref={videoRef} className='object-none h-full' autoPlay muted />
+        <video ref={videoRef} className='object-none h-full mx-auto' autoPlay muted />
         <canvas ref={canvasRef} width='640' height='480' style={{ display: 'none' }} />
       </div>
       <div className='absolute left-1/2 -ml-8'>
-        {owner !== memberId ? (
-          <FuncButton value={value} small={true} clickEvent={readyOnOff} />
-        ) : readyState ? (
-          <FuncButton value='시작하기' small={true} clickEvent={startGame} />
+        {enemy ? (
+          owner.waitingMemberId !== memberId ? (
+            <FuncButton value={value} small={true} clickEvent={readyOnOff} />
+          ) : readyState ? (
+            <FuncButton value='시작하기' small={true} clickEvent={startGame} />
+          ) : (
+            <button
+              disabled
+              className={`rounded-lg border-2 max-w-xs py-5 hover:brightness-110 w-20 cursor-hover bg-slate-300`}
+            >
+              <p className={`text-zinc-800 text-center text-base font-bold uppercase leading-none`}>
+                시작하기
+              </p>
+            </button>
+          )
         ) : (
-          <button
-            disabled
-            className={`rounded-lg border-2 max-w-xs py-5 hover:brightness-110 w-20 cursor-hover bg-slate-300`}
-          >
-            <p className={`text-zinc-800 text-center text-base font-bold uppercase leading-none`}>
-              시작하기
-            </p>
-          </button>
+          ''
         )}
       </div>
-      <div className='userVideo bg-white grid place-items-center mt-3 mx-3'>
-        <Image src={character} alt='식빵' className='w-40 h-40' />
+      <div className='userVideo mt-3 mx-3'>
+        {enemy ? (
+          <div className='bg-white grid place-items-center h-full'>
+            <Image
+              src={owner.waitingMemberId === memberId ? enemy.profileImage : owner.profileImage}
+              alt='상대프로필'
+              width={160}
+              height={160}
+              className='rounded-full border border-black'
+            />
+            <p className='font-bold text-2xl mt-6'>
+              {owner.waitingMemberId === memberId ? enemy.nickname : owner.nickname}
+            </p>
+          </div>
+        ) : (
+          <div className='grid place-items-center bg-white grid place-items-center w-full h-full mx-auto max-w-[412px]'>
+            <Image src={character} alt='식빵' className='w-40 h-40 animate-spin' />
+            <p className='font-bold text-2xl mt-6'>상대를 기다리는 중입니다</p>
+          </div>
+        )}
       </div>
     </div>
   );
