@@ -247,8 +247,8 @@ const Edit = () => {
                 maxLength={12}
                 className='bg-[#F4F4F6] w-full text-xs p-4 rounded-lg focus:outline-none focus:ring focus:ring-main-blue'
               />
-              <span onClick={checkNickname} className='bg-gray-300 rounded-lg hover:brightness-110'>
-                <div className='text-black text-center text-base font-bold'>중복 확인</div>
+              <span onClick={checkNickname} className='min-w-fit ml-3 pl-2 pr-2 cursor-hover flex items-center bg-gray-300 rounded-lg hover:brightness-110'>
+                <div className='text-black text-center text-sm font-bold'>중복 확인</div>
               </span>
             </div>
           </div>
