@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { Device, OpenVidu, Publisher, Session, Subscriber } from 'openvidu-browser';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+
 const matchAttack = '/images/match-attack.png';
 const matchDefense = '/images/match-defense.png';
 
@@ -29,6 +30,22 @@ const MatchPage = () => {
 
   const [roleMessage, setRoleMessage] = useState('');
   const [roleImage, setRoleImage] = useState('');
+
+  const [seconds, setSeconds] = useState(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    audioRef.current = new Audio('/audio/game-match.mp3');
+    audioRef.current.play();
+    const interval = setInterval(() => {
+      setSeconds((prev) => prev + 1);
+    }, 1000);
+    return () => {
+      // 페이지를 벗어날 때 오디오 정지
+      audioRef.current?.pause();
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     if (gameInfo.turn === 'FIRST') {
@@ -62,7 +79,7 @@ const MatchPage = () => {
           // console.log('OpenVidu 연결 완료');
           setTimeout(() => {
             router.push('/game/play');
-          }, 5000);
+          }, 4000);
         })
         .catch((error) => {
           console.log('OpenVidu 연결 실패', error.code, error.message);
