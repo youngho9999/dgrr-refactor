@@ -4,7 +4,7 @@ import { ChildMethods, stompConfig, IImageResult } from '@/types/game';
 import { useEffect, useRef, useState } from 'react';
 import { UserVideoComponent } from './videoComponent';
 import { useDispatch } from 'react-redux';
-import { saveGameResult, saveRoundResult } from '@/store/gameSlice';
+import { saveGameResult, saveRound, saveRoundResult } from '@/store/gameSlice';
 import { publishMessage } from '@/components/Game/stomp';
 import { GameStateModal } from '@/components/elements/GameStateModal';
 import { useRouter } from 'next/navigation';
@@ -130,6 +130,7 @@ const PlayPage = () => {
       console.log('2라운드 메세지: ', message.body);
       if (message.body == 'START') {
         console.log('2라운드 시작');
+        dispatch(saveRound('second'));
         if (turn === 'FIRST') {
           // 표정 분석 결과
           console.log('캡쳐 시작해줘');
@@ -166,6 +167,7 @@ const PlayPage = () => {
       console.log('1라운드 시작한다고 메세지 보낼거임');
       console.log(gameRoomID);
       publishMessage(client, FIRST_ROUND_START_URI, gameRoomID);
+      dispatch(saveRound('first'));
     }
   };
 
