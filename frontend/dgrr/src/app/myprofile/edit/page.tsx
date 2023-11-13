@@ -46,6 +46,7 @@ const Edit = () => {
     const fetchData = async () => {
       try {
         const response = await getMyInfoApi();
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
         setMyNickname(response.member.nickname);
         setNowNickName(response.member.nickname);
         setNowDescription(response.member.description);
@@ -65,19 +66,24 @@ const Edit = () => {
   }, []);
 
   const checkNickname = () => {
-    if(nowNickname.length===0) {
-      requestNewNicknameModal();
-    } else{
-      axios.get(`${setUrl}/member/nickname-check/${nowNickname}`)
-      .then((res:any) => {
-        console.log(JSON.stringify(res));
-        youCanUseThisNicknameModal();
-        setIsNicknameChanged(false);
-      })
-      .catch((err:any) => {
+    if(nowNickname===myNickName) {
+      didNotChangeModal();
+    }else {
+      if(nowNickname.length===0) {
         requestNewNicknameModal();
-      });
+      } else{
+        axios.get(`${setUrl}/member/nickname-check/${nowNickname}`)
+        .then((res:any) => {
+          console.log(JSON.stringify(res));
+          youCanUseThisNicknameModal();
+          setIsNicknameChanged(false);
+        })
+        .catch((err:any) => {
+          requestNewNicknameModal();
+        });
+      }
     }
+    
   };
 
   // 닉네임 입력값 반영
@@ -157,6 +163,19 @@ const Edit = () => {
       },
     });
   };
+  // 닉네임이 바뀌지 않음
+  const didNotChangeModal = () => {
+    Swal.fire({
+      width: 400,
+      title: `이전에 사용하던 닉네임입니다.`,
+      icon: 'question',
+      confirmButtonColor: '#469FF6',
+      confirmButtonText: '확인',
+      customClass: {
+        confirmButton: 'custom-confirm-button',
+      },
+    });
+  }
 
   // 저장 버튼
   const handleSaveButton = async () => {
