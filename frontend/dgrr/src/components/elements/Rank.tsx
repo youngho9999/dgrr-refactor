@@ -103,6 +103,7 @@ const Rank = ({ pageType, tier, rating }: RankProps) => {
               </div>
             </div>
           </div>
+          <div className={`mt-1 mb-3 text-3xl font-bold flex justify-center ${textColor}`}>{rating}</div>
           <div className='flex justify-center'>
             <Image
               src={myTier.image}
