@@ -135,7 +135,7 @@ const MatchPage = () => {
               <div className='absolute text-[10px] text-[#9cd4ab] mt-3 ml-[80%] mb-[50px]'>
                 상태메시지
               </div>
-              <div className='ml-[170px] px-2 min-w-[150px] text-right max-w-[220px] text-[14px] text-[#f2f2f2] mt-6 ml-4 rounded-lg border-b-2 '>
+              <div className='ml-[170px] px-2 min-w-[150px] text-right max-w-[220px] text-[14px] text-[#f2f2f2] mt-6 rounded-lg border-b-2 '>
                 <p>{gameInfo.enemyInfo.description}</p>
               </div>
             </div>
