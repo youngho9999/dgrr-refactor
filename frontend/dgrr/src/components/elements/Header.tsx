@@ -24,7 +24,14 @@ import { roomReset } from '@/store/roomSlice';
 import { disconnectSession } from '../Game/openVidu';
 import { Timer } from './Timer';
 
-export type headerType = 'MAIN' | 'GAMESTART' | 'PROFILE' | 'WAITING' | 'GAME' | 'OTHER';
+export type headerType =
+  | 'MAIN'
+  | 'GAMESTART'
+  | 'PROFILE'
+  | 'WAITING'
+  | 'GAME'
+  | 'OTHER'
+  | 'MATCHING';
 
 interface HeaderProps {
   headerType: headerType;
@@ -55,7 +62,6 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
     playsound();
     router.back();
     history.pushState({}, '', pathname);
-    console.log('Go Back');
   };
 
   const exitGame = async () => {
@@ -73,6 +79,17 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
       if (session) {
         disconnectSession(session, publisher);
       }
+    }
+  };
+  
+  const exitMatching = async () => {
+    playsound();
+    if (client) {
+      //여기 밑에 수정
+      publishMessage(client, EXIT_MATCHING, "");
+      client.deactivate();
+      disconnectWs();
+      router.push('/game/list');
     }
   };
 
@@ -119,6 +136,7 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
     // PROFILE : 마이 프로필에서의 헤더(뒤로 가기 버튼, 수정하기 버튼)
     // WAITING : 대기실에서의 헤더(클립보드 복사 버튼, 나가기 버튼)
     // GAME : 게임 화면에서의 헤더(시간, 나가기 버튼)
+    // MATCHING: 매칭 중에서의 헤더(뒤로 가기 버튼)
     // OTHER : 랭킹 조회, 프로필 수정, 최근 전적에서의 헤더(뒤로 가기 버튼)
     <div className='max-w-[500px]'>
       {headerType === 'MAIN' ? (
@@ -137,8 +155,10 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
       ) : headerType === 'GAMESTART' ? (
         <div className='h-[60px] top-0 right-0 flex items-center'>
           <div className='flex gap-2 ms-2'>
-            <div onClick={handleMoveBack} className='cursor-hover hover:text-white'>
-              <IoChevronBackOutline fontSize={'27px'} />
+            <div onClick={playsound} className='cursor-hover hover:text-white'>
+              <Link href='/main'>
+                <IoChevronBackOutline fontSize={'27px'} />
+              </Link>
             </div>
           </div>
         </div>
@@ -176,6 +196,15 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
           <Timer round={round} />
           <div className='cursor-hover text-white hover:text-main-blue' onClick={exitGame}>
             <IoExitOutline fontSize={'30px'} />
+          </div>
+        </div>
+      ) : headerType === 'MATCHING' ? (
+        <div className='h-[60px] top-0 right-0 flex items-center'>
+          <div className='flex gap-2 ms-2'>
+            <div onClick={exitMatching} className='cursor-hover hover:text-main-blue'>
+              <IoChevronBackOutline fontSize={'27px'} />
+            </div>
+            <div className='inline-block text-lg font-semibold'>{children}</div>
           </div>
         </div>
       ) : (
