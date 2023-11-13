@@ -75,7 +75,7 @@ const Rank = ({ pageType, tier, rating }: RankProps) => {
               {/* 물음표 누르면 티어 정보 모달이 뜸 */}
               <div>
                 {isModalOpen === true ? (
-                  <div className='z-10 max-w-[500px] w-full h-full fixed top-[-50px] flex items-center'>
+                  <div className='z-10 max-w-[500px] w-full h-full fixed top-[-65px] flex items-center'>
                     <div className='w-2/3 2sm:ms-3 h-fit bg-white rounded-lg border-2 border-black p-3'>
                       <div className='bg-white rounded-lg space-y-2'>
                         {tierList.map((tier, index) => [
