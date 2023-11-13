@@ -49,7 +49,7 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
   const ws = useAppSelector((state) => state.game.websocket);
   const { DESTINATION_URI } = stompConfig;
   const { ROOM_DESTINATION_URI } = roomStompConfig;
-  const { EXIT_URI } = DESTINATION_URI;
+  const { EXIT_URI, EXIT_MATCHING } = DESTINATION_URI;
   const { EXIT_SEND_URI } = ROOM_DESTINATION_URI;
   const dispatch = useDispatch();
   const session = useAppSelector((state) => state.game.OVsession);
@@ -81,14 +81,15 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
       }
     }
   };
-  
+
   const exitMatching = async () => {
     playsound();
     if (client) {
       //여기 밑에 수정
-      publishMessage(client, EXIT_MATCHING, "");
+      publishMessage(client, EXIT_MATCHING, '');
       client.deactivate();
       disconnectWs();
+      dispatch(reset());
       router.push('/game/list');
     }
   };
