@@ -5,7 +5,7 @@ import { publishMessage } from '@/components/Game/stomp';
 import Header from '@/components/elements/Header';
 import { saveGameInfo } from '@/store/gameSlice';
 import { useAppSelector } from '@/store/hooks';
-import { setReady } from '@/store/roomSlice';
+import { deleteMember, setReady } from '@/store/roomSlice';
 import { stompConfig } from '@/types/game';
 import { roomStompConfig } from '@/types/room';
 import { useRouter } from 'next/navigation';
@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import character from '@/../public/images/logo_character.png';
 import Image from 'next/image';
+import Toast from '@/components/elements/Toast';
 
 const RoomPage = () => {
   const client = useAppSelector((state) => state.game.client);
@@ -39,6 +40,12 @@ const RoomPage = () => {
     });
     client?.subscribe(EXIT_SUB_URI, (message) => {
       console.log('나갔음: ', message.body);
+      if (owner.waitingMemberId !== memberId) {
+        Toast.fire({
+          html: '방장이 방을 나가<br>권한이 위임되었습니다.',
+        });
+      }
+      dispatch(deleteMember(JSON.parse(message.body)));
     });
     client?.subscribe(GAME_URI, (message) => {
       console.log('게임정보 받는 메세지: ', message.body);
@@ -77,7 +84,7 @@ const RoomPage = () => {
         }
       })
       .catch((err) => console.log('웹캠 에러:', err));
-  }, [client, memberId]);
+  }, [client, memberId, owner]);
 
   return (
     <div className='w-screen h-screen max-w-[500px] min-h-[565px] bg-black relative'>
@@ -107,6 +114,7 @@ const RoomPage = () => {
         )}
       </div>
       <div className='userVideo mt-3 mx-3'>
+        <p>{owner.nickname}</p>
         {enemy ? (
           <div className='bg-white grid place-items-center h-full mx-auto w-full max-w-[412px]'>
             <Image
