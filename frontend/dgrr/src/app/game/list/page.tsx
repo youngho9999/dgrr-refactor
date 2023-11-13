@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { createClient } from '@/store/gameSlice';
 import axios from 'axios';
 import { saveRoomCode } from '@/store/roomSlice';
+import { useRouter } from 'next/navigation';
 
 const ListPage = () => {
   const gameList = [
@@ -28,6 +29,7 @@ const ListPage = () => {
   const dispatch = useDispatch();
   const [memberId, setMemberId] = useState('');
   const backUrl = process.env.NEXT_PUBLIC_BACK_URL;
+  const router = useRouter();
 
   const connectStomp = (headers: StompHeaders) => {
     const client = new Client({
@@ -84,6 +86,7 @@ const ListPage = () => {
         })
         .catch((err) => {
           console.log('내용: ', err.message);
+          router.push('/');
         });
     }
   };
