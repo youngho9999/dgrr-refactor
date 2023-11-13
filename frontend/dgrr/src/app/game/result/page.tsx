@@ -11,7 +11,6 @@ import { createClient } from '@/store/gameSlice';
 import { useRouter } from 'next/navigation';
 import ButtonClickAudio from '@/components/audio/ButtonClickAudio';
 
-
 const Result = () => {
   const [modalStatus, setModalStatus] = useState(false);
   const [memberId, setMemberId] = useState('');
@@ -76,12 +75,10 @@ const Result = () => {
           {gameResult.gameResult === 'LOSE' ? <div>LOSS</div> : <div>{gameResult.gameResult}</div>}
           {/* 하이라이트 사진 미리보기 */}
           {gameResult.highlightImage ? (
-            <Image
+            <img
               onClick={openModal}
               src={gameResult.highlightImage}
               alt='하이라이트 이미지'
-              width={500}
-              height={500}
               className='inline-block rounded-lg w-1/6 aspect-square animate-bounce cursor-hover'
             />
           ) : (
@@ -94,11 +91,9 @@ const Result = () => {
         <div>
           <div className='flex items-center justify-center mt-9 mb-7 gap-x-2'>
             <div>
-              <Image
+              <img
                 src={gameResult.enemyInfo.profileImage}
                 alt='상대방 프로필 사진'
-                width={500}
-                height={500}
                 className='w-10 aspect-square rounded-full'
               />
             </div>
@@ -127,11 +122,9 @@ const Result = () => {
               </button>
             </div>
             <div className='flex justify-center'>
-              <Image
+              <img
                 src={gameResult.highlightImage}
                 alt='하이라이트 사진'
-                width={500}
-                height={500}
                 className='w-full max-w-[280px]'
               />
             </div>

@@ -1,5 +1,4 @@
 'use client';
-import Image from 'next/image';
 import { IoCamera } from 'react-icons/io5';
 
 interface ImageInputProps {
@@ -11,11 +10,9 @@ const ImageInput = ({ myProfileImage, profileImageUpdate }: ImageInputProps) => 
   return (
     <div className='px-6 py-8'>
       <div className='w-[121px] relative'>
-        <Image
+        <img
           src={myProfileImage}
           alt='기본 사진'
-          width={500}
-          height={500}
           className='w-[121px] aspect-square rounded-full'
         />
         <label
@@ -29,7 +26,7 @@ const ImageInput = ({ myProfileImage, profileImageUpdate }: ImageInputProps) => 
           type='file'
           id='fileInput'
           style={{ display: 'none' }}
-          accept='img/*'
+          accept='image/*'
           onChange={profileImageUpdate}
         />
       </div>

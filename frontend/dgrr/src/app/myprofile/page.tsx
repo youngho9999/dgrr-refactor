@@ -1,5 +1,4 @@
 'use client';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import Header from '@/components/elements/Header';
 import Link from 'next/link';
@@ -78,13 +77,7 @@ const MyProfile = () => {
         <div>
           {/* 프로필 사진 */}
           <div className='flex justify-center'>
-            <Image
-              src={myProfileImage}
-              alt='내 프로필 이미지'
-              width={500}
-              height={500}
-              className='w-[80px] aspect-square rounded-full'
-            />
+            <img src={myProfileImage} alt='내 프로필 이미지' className='w-[80px] aspect-square rounded-full' />
           </div>
           {/* 닉네임 */}
           <div className='text-center mt-6 mb-3 text-lg font-semibold'>

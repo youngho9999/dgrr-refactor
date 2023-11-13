@@ -19,15 +19,18 @@ const Rank = ({ pageType, tier, rating }: RankProps) => {
   const playsound = ButtonClickAudio();
   const myTier =
     tier === 'Gold'
-      ? { name: 'Gold', image: '/images/Gold.png', bgColor: '#FCC858' }
+      ? { name: 'Gold', image: '/images/Gold.png', tierColor: '#FCC858' }
       : tier === 'Sliver'
-      ? { name: 'Sliver', image: '/images/Sliver.png', bgColor: '#B8B8B8' }
-      : { name: 'Bronze', image: '/images/Bronze.png', bgColor: '#C4872F' };
+      ? { name: 'Sliver', image: '/images/Sliver.png', tierColor: '#B8B8B8' }
+      : { name: 'Bronze', image: '/images/Bronze.png', tierColor: '#C4872F' };
+
+  const textColor =
+    tier === 'Gold' ? 'text-[#FCC858]' : tier === 'Sliver' ? 'text-[#B8B8B8]' : 'text-[#C4872F]';
 
   const tierList = [
     { image: '/images/Gold.png', title: '골드 Gold', explain: '1800 ~' },
-    { image: '/images/Sliver.png', title: '실버 Sliver', explain: '1600 ~' },
-    { image: '/images/Bronze.png', title: '브론즈 Bronze', explain: '1400 ~' },
+    { image: '/images/Sliver.png', title: '실버 Sliver', explain: '1600 ~ 1799' },
+    { image: '/images/Bronze.png', title: '브론즈 Bronze', explain: '0 ~ 1599' },
   ];
 
   const handleModalOpen = () => {
@@ -58,7 +61,7 @@ const Rank = ({ pageType, tier, rating }: RankProps) => {
   return (
     <div>
       {pageType === 'PROFILE' ? (
-        <div className='h-[220px] py-6 my-2'>
+        <div className='h-[280px] py-6 my-2'>
           <div className='flex items-center pb-4'>
             <div className='text-lg font-semibold ps-6 me-1'>내 티어</div>
             <div
@@ -80,7 +83,13 @@ const Rank = ({ pageType, tier, rating }: RankProps) => {
                             className='bg-[#e7e0ec] py-[10px] px-[8px]  rounded-md flex items-center gap-x-3'
                             key={index}
                           >
-                            <Image src={tier.image} alt='티어 이미지' width={500} height={500} className='w-[38px] aspect-square ms-3' />
+                            <Image
+                              src={tier.image}
+                              alt='티어 이미지'
+                              width={500}
+                              height={500}
+                              className='w-[38px] aspect-square ms-3'
+                            />
                             <div>
                               <div className='text-sm font-semibold'>{tier.title}</div>
                               <div className='text-xs'>{tier.explain}</div>
@@ -95,24 +104,36 @@ const Rank = ({ pageType, tier, rating }: RankProps) => {
             </div>
           </div>
           <div className='flex justify-center'>
-            <Image src={myTier.image} alt={myTier.name} width={500} height={500} className='w-[80px] aspect-square' />
+            <Image
+              src={myTier.image}
+              alt={myTier.name}
+              width={500}
+              height={500}
+              className='w-[80px] aspect-square'
+            />
           </div>
           <div className='flex justify-center mt-[19px]'>
             <ProgressBar
               {...progressBarProps} // 기본 매개변수를 전달
-              bgColor={myTier.bgColor}
+              bgColor={myTier.tierColor}
             />
           </div>
         </div>
       ) : (
         <div>
           <div className='flex justify-center'>
-            <Image src={myTier.image} alt={myTier.name} width={500} height={500} className='w-[90px] aspect-square' />
+            <Image
+              src={myTier.image}
+              alt={myTier.name}
+              width={500}
+              height={500}
+              className='w-[90px] aspect-square'
+            />
           </div>
           <div className='flex justify-center mt-[25px]'>
             <ProgressBar
               {...progressBarProps} // 기본 매개변수를 전달
-              bgColor={myTier.bgColor}
+              bgColor={myTier.tierColor}
             />
           </div>
         </div>

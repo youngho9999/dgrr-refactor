@@ -36,11 +36,21 @@ const RankingItem = ({ itemType, item }: RankingItemProps) => {
         </div>
       )}
       <div className='w-4/5 flex items-center bg-white rounded-r-lg'>
-        <Image src={profileImage} alt='프로필 사진' width={500} height={500} className='w-[60px] aspect-square rounded-full mx-3' />
+        <img
+          src={profileImage}
+          alt='프로필 사진'
+          className='w-[60px] aspect-square rounded-full mx-3'
+        />
         <div className='inline-block me-3'>
           <div className='mb-1 font-semibold text-sm'>{item.nickname}</div>
           <div className='flex gap-x-2'>
-            <Image src={medalColor} alt='메달 색깔' width={500} height={500} className='flex w-[24px] aspect-square' />
+            <Image
+              src={medalColor}
+              alt='메달 색깔'
+              width={500}
+              height={500}
+              className='flex w-[24px] aspect-square'
+            />
             <div className='flex items-center text-sm'>{item.rating}</div>
           </div>
         </div>
