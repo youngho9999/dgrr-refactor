@@ -1,7 +1,13 @@
 'use client';
 import vsImage from '@/../public/images/vs-image.png';
 import { initGame, joinSession } from '@/components/Game/openVidu';
-import { savePublisher, saveSubscriber, saveWebsocket } from '@/store/gameSlice';
+import {
+  saveOV,
+  saveOVSession,
+  savePublisher,
+  saveSubscriber,
+  saveWebsocket,
+} from '@/store/gameSlice';
 import { useAppSelector } from '@/store/hooks';
 import { Image } from 'next/dist/client/image-component';
 import { useRouter } from 'next/navigation';
@@ -15,8 +21,6 @@ const matchDefense = '/images/match-defense.png';
 import './match.scss';
 
 const MatchPage = () => {
-  const [OV, setOV] = useState<OpenVidu>();
-  const [OVSession, setOVSession] = useState<Session>();
   const [publisher, setPublisher] = useState<Publisher>();
   const [subscriber, setSubscriber] = useState<Subscriber>();
   const currentVideoDeviceRef = useRef<Device>();
@@ -61,8 +65,8 @@ const MatchPage = () => {
   const connectOV = () => {
     initGame().then(({ OV, session }) => {
       // console.log("THE FIRST OV INItialte");
-      setOV(OV);
-      setOVSession(session);
+      dispatch(saveOV(OV));
+      dispatch(saveOVSession(session));
       session.on('streamCreated', (event) => {
         const ySubscriber = session.subscribe(event.stream, undefined);
         setSubscriber(ySubscriber);
