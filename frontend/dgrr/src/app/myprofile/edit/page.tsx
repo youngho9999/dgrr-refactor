@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import Header from '@/components/elements/Header';
 import ImageInput from '@/components/elements/ImageInput';
 import DataInput from '@/components/elements/DataInput';
@@ -30,7 +30,6 @@ const Edit = () => {
   // 닉네임 존재 여부 확인
   const [nicknameExists, setNicknameExists] = useState(false);
   const [nowDescription, setNowDescription] = useState('');
-  // const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [nowProfileImage, setNowProfileImage] = useState<UploadImg | null>({
     file: {
       buffer: Buffer.from([]),
