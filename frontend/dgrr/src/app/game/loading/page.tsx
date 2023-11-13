@@ -3,7 +3,7 @@ import character from '@/../../public/images/logo_character.png';
 import Image from 'next/image';
 import Header from '@/components/elements/Header';
 import { FuncButton } from '@/components/FuncButton';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { ExplainModal } from '@/components/elements/ExplainModal';
 import { useAppSelector } from '@/store/hooks';
 import { stompConfig } from '@/types/game';
@@ -24,6 +24,7 @@ const GameLoading = () => {
   const { GAME_URI, MATCHING_URI } = DESTINATION_URI;
   const dispatch = useDispatch();
   const router = useRouter();
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // 랜덤매칭
   const gameMatch = () => {
@@ -43,12 +44,18 @@ const GameLoading = () => {
   };
 
   useEffect(() => {
+    audioRef.current = new Audio('/audio/game-loading.mp3');
+    audioRef.current.play();
     const interval = setInterval(() => {
       setSeconds((prev) => prev + 1);
     }, 1000);
     subscribeGame();
     gameMatch();
-    return () => clearInterval(interval);
+    return () => { 
+      // 페이지를 벗어날 때 오디오 정지
+      audioRef.current?.pause();
+      clearInterval(interval);
+    }
   }, [client]);
 
   return (
