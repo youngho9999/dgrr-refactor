@@ -11,7 +11,7 @@ import {
 import { useAppSelector } from '@/store/hooks';
 import { Image } from 'next/dist/client/image-component';
 import { useRouter } from 'next/navigation';
-import { Device, OpenVidu, Publisher, Session, Subscriber } from 'openvidu-browser';
+import { Device, Publisher, Subscriber } from 'openvidu-browser';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -83,7 +83,7 @@ const MatchPage = () => {
           // console.log('OpenVidu 연결 완료');
           setTimeout(() => {
             router.push('/game/play');
-          }, 4000);
+          }, 400000);
         })
         .catch((error) => {
           console.log('OpenVidu 연결 실패', error.code, error.message);
@@ -106,7 +106,7 @@ const MatchPage = () => {
   }, []);
 
   return (
-    <div className='Container relative w-screen h-screen h-screen max-w-[500px] min-h-[565px] z-0 truncate'>
+    <div className='Container relative w-screen h-screen h-screen min-w-[500px] max-w-[500px] min-h-[565px] z-0 truncate'>
       <div className='Turn flex absolute items-center justify-center bg-match-versus mt-10 mx-3 m-2 rounded-lg'>
         <img
           className='MatchedPersonProfile w-[20%] rounded-full'
@@ -125,17 +125,17 @@ const MatchPage = () => {
           <div className='flex flex-1 items-center justify-center bg-match-versus py-6 mx-3 my-4 rounded-lg'></div>
           <div className='MatchedPerson1 flex flex-1 relative items-end justify-center bg-match-versus py-5 px-3 mx-3 my-2 rounded-lg'>
             <div className='MatchedPersonBackground1 min-h-[150px] min-x-[400px] z-30'>
-              <div className='absolute text-[10px] text-[#9cd4ab] mt-4 ml-[80%] mb-[50px]'>
-                NickName
+              <div className='absolute text-[10px] text-[#9cd4ab] mt-4 ml-[85%] mb-[50px]'>
+                닉네임
               </div>
 
-              <div className='w-[240px] ml-[160px] mt-7 ml-4 text-[#fee691] text-[18px] rounded-lg border-b-2 '>
+              <div className='w-[240px] px-2 mt-7 ml-[150px] text-right text-[#fee691] text-[18px] rounded-lg border-b-2 '>
                 <p>{gameInfo.enemyInfo.nickname}</p>
               </div>
-              <div className='absolute text-[10px] text-[#9cd4ab] mt-4 ml-[80%] mb-[50px]'>
+              <div className='absolute text-[10px] text-[#9cd4ab] mt-3 ml-[80%] mb-[50px]'>
                 상태메시지
               </div>
-              <div className='ml-[160px] min-w-[150px] max-w-[220px] text-[14px] text-[#f2f2f2] pl-2 mt-6 ml-4 rounded-lg border-b-2 '>
+              <div className='ml-[170px] px-2 min-w-[150px] text-right max-w-[220px] text-[14px] text-[#f2f2f2] mt-6 ml-4 rounded-lg border-b-2 '>
                 <p>{gameInfo.enemyInfo.description}</p>
               </div>
             </div>
@@ -160,7 +160,7 @@ const MatchPage = () => {
         <div className='flex flex-col flex-1 justify-end bg-match-white mx-6 my-0'>
           <div className='MatchedPerson2 flex flex-1 relative items-start justify-center bg-match-versus py-5 px-2 mx-3 my-2 rounded-lg'>
             <div className='MatchedPersonBackground2 min-h-[150px] min-x-[400px] z-30'>
-              <div className='absolute text-[10px] text-[#9cd4ab] mt-4 ml-5'>NickName</div>
+              <div className='absolute text-[10px] text-[#9cd4ab] mt-4 ml-5'>닉네임</div>
               <div className='w-[240px] pl-2 mt-7 ml-4 text-[#fee691] text-[18px] rounded-lg border-b-2 '>
                 <p>{gameInfo.myInfo.nickname}</p>
               </div>
