@@ -89,6 +89,7 @@ const Edit = () => {
   // 닉네임 입력값 반영
   const handleNicknameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNowNickName(event.target.value);
+    setIsNicknameChanged(true);
   };
 
   // 상태 메시지 입력값 반영
