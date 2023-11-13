@@ -1,5 +1,5 @@
 'use client';
-import character from '@/../../public/images/floating-bread-happy-unscreen.gif';
+import character from '@/../../public/images/floating_bread_cropped.gif';
 import Image from 'next/image';
 import Header from '@/components/elements/Header';
 import { FuncButton } from '@/components/FuncButton';
@@ -63,7 +63,7 @@ const GameLoading = () => {
       <Header headerType='MATCHING' />
       {openModal && <ExplainModal onClose={handleModal} />}
       <div className='flex flex-col justify-between h-3/5 pt-10'>
-        <div className='flex justify-center'>
+        <div className='flex justify-center mb-10'>
           <Image alt='캐릭터' src={character} />
         </div>
         <div className='flex justify-center font-bold'>
