@@ -259,14 +259,14 @@ const PlayPage = () => {
     <div className='w-screen h-screen max-w-[500px] min-h-[565px] bg-black'>
       <Header headerType='GAME' />
       {modalOpen && <GameStateModal when={when} gameState={turn} />}
-      <UserVideoComponent ref={childRef} streamManager={publisher} />
+      <UserVideoComponent streamManager={subscriber} />
       <div className='flex justify-center'>
         <ProbabilityGauge probability={smileProbability} />
         <div
           className={`w-4 h-4 rounded-full ml-3 ${recognition ? 'bg-green-500' : 'bg-red-600'}`}
         ></div>
       </div>
-      <UserVideoComponent streamManager={subscriber} />
+      <UserVideoComponent ref={childRef} streamManager={publisher} />
       <canvas ref={canvasRef} width='640' height='480' style={{ display: 'none' }} />
     </div>
   );
