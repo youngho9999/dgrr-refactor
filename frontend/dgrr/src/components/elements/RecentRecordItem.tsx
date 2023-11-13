@@ -71,9 +71,11 @@ const RecentRecordItem = ({ pageType, item }: RecentRecordItemProps) => {
           </div>
         </div>
         <div className='flex items-center me-2'>
-          {item.gameResult !== 'DRAW' || pageType === 'PROFILE' ? (
+          {item.gameResult !== 'DRAW' ? (
             <div>
-              <IoImageOutline fontSize={'24px'} />
+              {pageType === 'RECENT-RECORD' ? (
+                <IoImageOutline fontSize={'24px'} />
+              ) : null}
             </div>
           ) : null}
           <div className='text-sm inline-block w-[69px] text-right'>
