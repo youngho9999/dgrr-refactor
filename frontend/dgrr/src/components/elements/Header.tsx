@@ -22,6 +22,7 @@ import { reset } from '@/store/gameSlice';
 import { roomStompConfig } from '@/types/room';
 import { roomReset } from '@/store/roomSlice';
 import { disconnectSession } from '../Game/openVidu';
+import { Timer } from './Timer';
 
 export type headerType = 'MAIN' | 'GAMESTART' | 'PROFILE' | 'WAITING' | 'GAME' | 'OTHER';
 
@@ -47,6 +48,7 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
   const session = useAppSelector((state) => state.game.OVsession);
   const publisher = useAppSelector((state) => state.game.publisher);
   const playsound = ButtonClickAudio();
+  const round = useAppSelector((state) => state.game.round);
 
   // 뒤로 가기
   const handleMoveBack = () => {
@@ -169,8 +171,9 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
           </div>
         </div>
       ) : headerType === 'GAME' ? (
-        <div className='bg-black h-[60px] top-0 right-0 gap-[107px] pe-4 flex justify-end items-center'>
-          <div className='text-white text-3xl font-semibold'>0:11</div>
+        <div className='bg-black h-[60px] top-0 right-0 gap-[107px] px-3 flex justify-between items-center'>
+          <div className='w-[30px] h-full'></div>
+          <Timer round={round} />
           <div className='cursor-hover text-white hover:text-main-blue' onClick={exitGame}>
             <IoExitOutline fontSize={'30px'} />
           </div>
