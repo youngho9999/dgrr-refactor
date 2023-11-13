@@ -99,7 +99,7 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
   };
 
   // 코드 복사
-  const handleCopyCode = async (roomCode: number | undefined) => {
+  const handleCopyCode = async (roomCode: string | undefined) => {
     playsound();
     if (roomCode !== undefined) {
       try {
