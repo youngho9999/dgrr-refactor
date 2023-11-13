@@ -1,5 +1,5 @@
 'use client';
-import character from '@/../../public/images/logo_character.png';
+import character from '@/../../public/images/floating-bread-happy-unscreen.gif';
 import Image from 'next/image';
 import Header from '@/components/elements/Header';
 import { FuncButton } from '@/components/FuncButton';
@@ -62,18 +62,18 @@ const GameLoading = () => {
     <div className='bg-main-blue w-screen h-screen min-h-[580px] max-w-[500px]'>
       <Header headerType='MATCHING' />
       {openModal && <ExplainModal onClose={handleModal} />}
-      <div className='flex flex-col justify-between h-5/6 pt-10'>
-        <div className='flex justify-center mb-5'>
-          <Image alt='캐릭터' src={character} className='w-40 h-40' />
+      <div className='flex flex-col justify-between h-3/5 pt-10'>
+        <div className='flex justify-center'>
+          <Image alt='캐릭터' src={character} />
         </div>
         <div className='flex justify-center font-bold'>
-          <h1>게임 찾는 중...</h1>
+          <h1>게임 찾는 중</h1><span className='animate-blink'>.</span><span className='animate-blink2'>.</span>.<span className='animate-blink3'>.</span>
         </div>
-        <div className='flex justify-center font-bold'>
+        <div className='flex justify-center font-bold mt-10'>
           <div className='Timer'>{seconds}s</div>
         </div>
-        <div className='flex justify-center'>
-          <FuncButton value='게임 설명' clickEvent={handleModal} small={true} />
+        <div className='flex justify-center mt-40'>
+          <FuncButton value='게임 설명' clickEvent={handleModal}  />
         </div>
       </div>
     </div>
