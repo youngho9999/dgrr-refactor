@@ -102,6 +102,7 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
         publishMessage(client, EXIT_SEND_URI, '');
         client.deactivate();
         dispatch(roomReset());
+        dispatch(reset());
         router.push('/main');
       }
       if (session) {
