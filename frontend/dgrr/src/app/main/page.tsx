@@ -2,21 +2,23 @@
 import character from '@/../public/images/logo_character.png';
 import title from '@/../public/images/logo_title.png';
 import { FuncButton } from '@/components/FuncButton';
-import Header from '@/components/elements/Header';
-import { ExplainModal } from '@/components/elements/ExplainModal';
-import { TutorialModal } from '@/components/elements/TutorialModal';
-import { useEffect, useState } from 'react';
 import { LinkButton } from '@/components/LinkButton';
 import ButtonClickAudio from '@/components/audio/ButtonClickAudio';
+import { ExplainModal } from '@/components/elements/ExplainModal';
+import Header from '@/components/elements/Header';
 import Toast from '@/components/elements/Toast';
+import { TutorialModal } from '@/components/elements/TutorialModal';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const MainPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openTutorialModal, setOpenTutorialModal] = useState(false);
   const router = useRouter();
   const playSound = ButtonClickAudio();
+  const logoTutoral = '/images/logo_tutorial.png';
+
   const handleModal = () => {
     playSound();
     setOpenModal(!openModal);
@@ -73,8 +75,9 @@ const MainPage = () => {
         </div>
         <div className='space-y-6'>
           {/* 튜토리얼 버튼 */}
-          <div className='flex justify-center'>
-            <FuncButton value='튜토리얼' clickEvent={handleTutorialModal} />
+          {/* 버튼에 handleTutorialModal 추가하면 댐*/}
+          <div className='flex justify-center Tutorial h-18'>
+            <img src={logoTutoral} alt='튜토리얼' />
           </div>
           {/* 게임 설명 버튼 */}
           <div className='flex justify-center'>
