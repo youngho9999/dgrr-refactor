@@ -119,9 +119,7 @@ const RoomPage = () => {
             <img
               src={owner.waitingMemberId === memberId ? enemy.profileImage : owner.profileImage}
               alt='상대프로필'
-              width={160}
-              height={160}
-              className='rounded-full border border-black'
+              className='w-40 h-40 rounded-full border border-black'
             />
             <p className='font-bold text-2xl mt-6'>
               {owner.waitingMemberId === memberId ? enemy.nickname : owner.nickname}
