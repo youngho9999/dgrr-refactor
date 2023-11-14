@@ -71,7 +71,6 @@ const PlayPage = () => {
       console.log('1라운드 결과: ', message.body);
       if (message) {
         dispatch(saveRoundResult('NO_LAUGH'));
-        subscribeSecondGame();
         setModalOpen(true);
         clearInterval(intervalId);
         if (turn === 'SECOND') {
@@ -80,13 +79,14 @@ const PlayPage = () => {
         // 1초 후 modalOpen를 false로 설정
         setTimeout(() => {
           setModalOpen(false);
-        }, 3000);
+          subscribeSecondGame();
+          dispatch(saveRound('second'));
+        }, 2000);
       }
     });
     client?.subscribe(FIRST_ROUND_LAUGH_URI, (message) => {
       console.log('1라운드 결과: ', message.body);
       dispatch(saveRoundResult(message.body));
-      subscribeSecondGame();
       setModalOpen(true);
       if (turn === 'SECOND') {
         disconnectWs();
@@ -94,7 +94,9 @@ const PlayPage = () => {
       // 1초 후 modalOpen를 false로 설정
       setTimeout(() => {
         setModalOpen(false);
-      }, 1000);
+        subscribeSecondGame();
+        dispatch(saveRound('second'));
+      }, 2000);
     });
 
     // error
@@ -130,7 +132,6 @@ const PlayPage = () => {
       console.log('2라운드 메세지: ', message.body);
       if (message.body == 'START') {
         console.log('2라운드 시작');
-        dispatch(saveRound('second'));
         if (turn === 'FIRST') {
           // 표정 분석 결과
           console.log('캡쳐 시작해줘');
