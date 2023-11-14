@@ -259,7 +259,7 @@ const Edit = () => {
           onClick={checkNickname}
           className='bg-gray-300 rounded-lg hover:brightness-110'
         >
-          <div className='text-black text-center text-base font-bold'>
+          <div className='text-black text-center text-base-300 font-bold cursor-hover'>
             중복 확인
           </div>
         </span>
