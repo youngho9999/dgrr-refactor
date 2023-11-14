@@ -40,12 +40,15 @@ const RoomPage = () => {
     });
     client?.subscribe(EXIT_SUB_URI, (message) => {
       console.log('나갔음: ', message.body);
-      if (owner.waitingMemberId !== memberId) {
+      const content = JSON.parse(message.body);
+      if (owner.waitingMemberId == content.waitingMember.waitingMemberId) {
         Toast.fire({
           html: '방장이 방을 나가<br>권한이 위임되었습니다.',
         });
+      } else {
+        Toast.fire('상대가 방을 나갔습니다');
       }
-      dispatch(deleteMember(JSON.parse(message.body)));
+      dispatch(deleteMember(content));
     });
     client?.subscribe(GAME_URI, (message) => {
       console.log('게임정보 받는 메세지: ', message.body);
