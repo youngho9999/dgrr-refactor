@@ -23,6 +23,7 @@ import { roomStompConfig } from '@/types/room';
 import { roomReset } from '@/store/roomSlice';
 import { disconnectSession } from '../Game/openVidu';
 import { Timer } from './Timer';
+import Toast from './Toast';
 
 export type headerType =
   | 'MAIN'
@@ -126,6 +127,7 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
       try {
         await navigator.clipboard.writeText(roomCode);
         console.log(`${roomCode} 복사 성공`);
+        Toast.fire('코드가 복사되었습니다', '', 'success');
       } catch (error) {
         console.log('복사 실패😥');
       }
@@ -186,7 +188,7 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
             className='flex cursor-hover text-white hover:text-main-blue'
             onClick={() => handleCopyCode(roomCode)}
           >
-            <p className='text-white text-lg mr-2 hover:text-main-blue'>{roomCode}</p>
+            <p className='text-white text-lg mr-2 hover:text-main-blue'>방 코드: {roomCode}</p>
             <IoCopyOutline fontSize={'27px'} />
           </div>
           <div className='cursor-hover text-white hover:text-main-blue' onClick={exitRoom}>
