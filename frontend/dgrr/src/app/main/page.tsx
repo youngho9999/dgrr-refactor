@@ -1,18 +1,21 @@
 'use client';
 import character from '@/../public/images/logo_character.png';
 import title from '@/../public/images/logo_title.png';
-import Image from 'next/image';
-import { LinkButton } from '@/components/LinkButton';
 import { FuncButton } from '@/components/FuncButton';
 import Header from '@/components/elements/Header';
 import { ExplainModal } from '@/components/elements/ExplainModal';
 import { TutorialModal } from '@/components/elements/TutorialModal';
 import { useEffect, useState } from 'react';
+import { LinkButton } from '@/components/LinkButton';
 import ButtonClickAudio from '@/components/audio/ButtonClickAudio';
+import Toast from '@/components/elements/Toast';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const MainPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openTutorialModal, setOpenTutorialModal] = useState(false);
+  const router = useRouter();
   const playSound = ButtonClickAudio();
   const handleModal = () => {
     playSound();
@@ -21,6 +24,16 @@ const MainPage = () => {
   const handleTutorialModal = () => {
     playSound();
     setOpenTutorialModal(!openTutorialModal);
+  };
+
+  const requestCameraPermission = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      // 사용 후 스트림을 닫음
+      stream.getTracks().forEach((track) => track.stop());
+    } catch (error) {
+      console.error('카메라 접근 권한 요청 실패:', error);
+    }
   };
 
   useEffect(() => {
@@ -33,7 +46,13 @@ const MainPage = () => {
       };
       const id = parseJwt(token).id;
       localStorage.setItem('memberId', id);
+    } else {
+      Toast.fire('로그인이 필요합니다!', '', 'warning');
+      // 토큰 없으면 로그인 화면으로 보내기
+      router.push('/');
     }
+    // 카메라 권한 요청
+    requestCameraPermission();
   }, []);
   return (
     <div className='bg-main-blue w-screen h-screen min-h-[580px] max-w-[500px]'>
