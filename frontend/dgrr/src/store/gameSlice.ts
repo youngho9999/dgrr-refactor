@@ -25,6 +25,7 @@ const initialState: GameType = {
   OVsession: undefined,
   OV: undefined,
   round: '',
+  origin: '',
 };
 
 const gameSlice = createSlice({
@@ -74,6 +75,9 @@ const gameSlice = createSlice({
     saveRound: (state, action) => {
       state.round = action.payload;
     },
+    saveOrigin: (state, action) => {
+      state.origin = action.payload;
+    },
   },
 });
 
@@ -90,4 +94,5 @@ export const {
   saveOVSession,
   saveOV,
   saveRound,
+  saveOrigin,
 } = gameSlice.actions;
