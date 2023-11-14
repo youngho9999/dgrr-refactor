@@ -161,7 +161,7 @@ const MatchPage = () => {
             </div>
 
             <img
-              className='MatchedPersonProfile w-[160px] mb-[2%] mr-[60%] absolute rounded-full border-0 border-cyan-500 z-50'
+              className='MatchedPersonProfile w-40 h-40 mb-[2%] mr-[60%] absolute rounded-full border-0 border-cyan-500 z-50'
               alt='프로필 이미지'
               src={gameInfo.enemyInfo.profileImage}
             />
@@ -193,7 +193,7 @@ const MatchPage = () => {
             </div>
 
             <img
-              className='MatchedPersonProfile w-[160px] mt-[2%] ml-[52%] absolute rounded-full border-0 border-cyan-500 z-50'
+              className='MatchedPersonProfile w-40 h-40 mt-[2%] ml-[52%] absolute rounded-full border-0 border-cyan-500 z-50'
               alt='프로필 이미지'
               src={gameInfo.myInfo.profileImage}
             />
