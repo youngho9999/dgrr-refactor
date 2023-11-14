@@ -181,12 +181,12 @@ const Header = ({ headerType, roomCode, children }: HeaderProps) => {
           </Link>
         </div>
       ) : headerType === 'WAITING' ? (
-        <div className='bg-black h-[60px] top-0 right-0 gap-4 pe-4 flex justify-end items-center'>
+        <div className='bg-black h-[60px] top-0 right-0 gap-4 px-3 flex justify-between items-center'>
           <div
+            className='flex cursor-hover text-white hover:text-main-blue'
             onClick={() => handleCopyCode(roomCode)}
-            className='cursor-hover text-white hover:text-main-blue flex'
           >
-            <p className='mr-1'>방 코드</p>
+            <p className='text-white text-lg mr-2 hover:text-main-blue'>{roomCode}</p>
             <IoCopyOutline fontSize={'27px'} />
           </div>
           <div className='cursor-hover text-white hover:text-main-blue' onClick={exitRoom}>
