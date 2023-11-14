@@ -10,6 +10,9 @@ import { GameStateModal } from '@/components/elements/GameStateModal';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/elements/Header';
 import ProbabilityGauge from './probabilityGauge';
+import attackImg from '@/../public/images/match-attack.png';
+import defenseImg from '@/../public/images/match-defense.png';
+import Image from 'next/image';
 
 const PlayPage = () => {
   const client = useAppSelector((state) => state.game.client);
@@ -20,6 +23,7 @@ const PlayPage = () => {
   const publisher = useAppSelector((state) => state.game.publisher);
   const subscriber = useAppSelector((state) => state.game.subscriber);
   const ws = useAppSelector((state) => state.game.websocket);
+  const round = useAppSelector((state) => state.game.round);
 
   const { DESTINATION_URI } = stompConfig;
   const {
@@ -260,14 +264,44 @@ const PlayPage = () => {
     <div className='w-screen h-screen max-w-[500px] min-h-[565px] bg-black'>
       <Header headerType='GAME' />
       {modalOpen && <GameStateModal when={when} gameState={turn} />}
-      <UserVideoComponent streamManager={subscriber} />
+      <div className='relative userVideo'>
+        <Image
+          src={
+            round === 'FIRST'
+              ? turn === 'FIRST'
+                ? defenseImg
+                : attackImg
+              : turn === 'FIRST'
+              ? attackImg
+              : defenseImg
+          }
+          alt='공격상태'
+          className='w-10 h-10 rounded-full bg-white absolute left-6 top-3'
+        />
+        <UserVideoComponent streamManager={subscriber} />
+      </div>
       <div className='flex justify-center'>
         <ProbabilityGauge probability={smileProbability} />
         <div
           className={`w-4 h-4 rounded-full ml-3 ${recognition ? 'bg-green-500' : 'bg-red-600'}`}
         ></div>
       </div>
-      <UserVideoComponent ref={childRef} streamManager={publisher} />
+      <div className='relative userVideo'>
+        <Image
+          src={
+            round === 'FIRST'
+              ? turn === 'FIRST'
+                ? attackImg
+                : defenseImg
+              : turn === 'FIRST'
+              ? defenseImg
+              : attackImg
+          }
+          alt='공격상태'
+          className='w-10 h-10 rounded-full bg-white absolute left-6 top-3'
+        />
+        <UserVideoComponent ref={childRef} streamManager={publisher} />
+      </div>
       <canvas ref={canvasRef} width='640' height='480' style={{ display: 'none' }} />
     </div>
   );
