@@ -37,17 +37,17 @@ const ListPage = () => {
       connectHeaders: {
         ...headers,
       },
-      debug: (message) => {
-        console.log('[Stomp Debug :: message]', message); // 웹소켓 디버깅 로그 추가
-      },
+      // debug: (message) => {
+      //   console.log('[Stomp Debug :: message]', message); // 웹소켓 디버깅 로그 추가
+      // },
     });
 
     // 클라이언트 활성화
     client.activate();
 
     client.onConnect = (frame) => {
-      console.log('연결');
-      console.log(client);
+      // console.log('연결');
+      // console.log(client);
       // redux에 client 저장
       dispatch(createClient(client));
     };
@@ -59,17 +59,17 @@ const ListPage = () => {
       connectHeaders: {
         ...headers,
       },
-      debug: (message) => {
-        console.log('[Stomp Debug :: message]', message); // 웹소켓 디버깅 로그 추가
-      },
+      // debug: (message) => {
+      //   console.log('[Stomp Debug :: message]', message); // 웹소켓 디버깅 로그 추가
+      // },
     });
 
     // 클라이언트 활성화
     client.activate();
 
     client.onConnect = (frame) => {
-      console.log('연결');
-      console.log(client);
+      // console.log('연결');
+      // console.log(client);
       // redux에 client 저장
       dispatch(createClient(client));
       dispatch(saveOrigin('room'));

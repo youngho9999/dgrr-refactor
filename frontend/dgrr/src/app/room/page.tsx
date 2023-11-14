@@ -35,11 +35,11 @@ const RoomPage = () => {
   const subscribeRoom = () => {
     client?.subscribe(READY_SUB_URI, (message) => {
       const content = JSON.parse(message.body);
-      console.log('준비상황: ', content);
+      // console.log('준비상황: ', content);
       dispatch(setReady(content.waitingMember.ready));
     });
     client?.subscribe(EXIT_SUB_URI, (message) => {
-      console.log('나갔음: ', message.body);
+      // console.log('나갔음: ', message.body);
       const content = JSON.parse(message.body);
       if (owner.waitingMemberId == content.waitingMember.waitingMemberId) {
         Toast.fire({
@@ -51,7 +51,7 @@ const RoomPage = () => {
       dispatch(deleteMember(content));
     });
     client?.subscribe(GAME_URI, (message) => {
-      console.log('게임정보 받는 메세지: ', message.body);
+      // console.log('게임정보 받는 메세지: ', message.body);
       // 게임 정보 저장
       dispatch(saveGameInfo(JSON.parse(message.body)));
       // 게임 정보가 왔다면 매칭 페이지로 이동
