@@ -19,6 +19,7 @@ const matchAttack = '/images/match-attack.png';
 const matchDefense = '/images/match-defense.png';
 
 import './match.scss';
+import Toast from '@/components/elements/Toast';
 
 const MatchPage = () => {
   const [publisher, setPublisher] = useState<Publisher>();
@@ -79,6 +80,20 @@ const MatchPage = () => {
   }, []);
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const parseJwt = (token: any) => {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace('-', '+').replace('_', '/');
+        return JSON.parse(window.atob(base64));
+      };
+      const id = parseJwt(token).id;
+      localStorage.setItem('memberId', id);
+    } else {
+      Toast.fire('로그인이 필요합니다!', '', 'warning');
+      // 토큰 없으면 로그인 화면으로 보내기
+      router.push('/');
+    }
     if (gameInfo.turn === 'FIRST') {
       setRoleMessage(roleMessages[0]);
       setRoleImage(roleImages[0]);
@@ -134,8 +149,8 @@ const MatchPage = () => {
 
   return (
     <div className='Container relative w-screen h-screen max-w-[500px] min-h-[580px] z-0 truncate'>
-      <div className='Turn flex absolute items-center justify-center bg-match-versus mt-10 mx-3 m-2 rounded-lg'>
-        <img className='MatchedPersonProfile w-[20%]' alt='역할 이미지' src={roleImage} />
+      <div className='Turn flex absolute items-center justify-center mt-5 mx-3 rounded-lg'>
+        <img className='MatchedPersonProfile w-[20%] ' alt='역할 이미지' src={roleImage} />
         <div className='text-[#000000] font-black text-2xl'>
           <p>{roleMessage}</p>
         </div>
@@ -145,14 +160,14 @@ const MatchPage = () => {
         {/* 상대 정보 */}
 
         <div className='flex flex-col flex-1 justify-end mx-6 my-0'>
-          <div className='flex flex-1 items-center justify-center py-6 mx-3 my-4 rounded-lg'></div>
+          <div className='flex flex-1 items-center justify-center py-1 mx-3 my-4 rounded-lg'></div>
           <div className='MatchedPerson1 flex flex-1 relative items-end justify-center py-5 px-3 mx-3 my-2 rounded-lg'>
             <div className='MatchedPersonBackground1 min-h-[150px] z-30 '>
-              <div className='ml-[160px] px-1 mt-3 text-right max-w-[240px] rounded-lg border-b-2 '>
+              <div className='ml-[38%] px-1 mt-3 text-left max-w-[240px] rounded-lg border-b-2 '>
                 <p className='text-[10px] text-[#9cd4ab] truncate'>닉네임</p>
-                <p className='text-[#fee691] text-lg truncate'>{gameInfo.enemyInfo.nickname}</p>
+                <p className='text-[#fee691] text-[120%] truncate'>{gameInfo.enemyInfo.nickname}</p>
               </div>
-              <div className='ml-[180px] px-1 mt-3 text-right max-w-[220px] rounded-lg border-b-2 '>
+              <div className='ml-[38%] px-1 mt-3 text-left max-w-[220px] rounded-lg border-b-2 '>
                 <p className='text-[10px] text-[#9cd4ab] truncate'>상태메시지</p>
                 <p className='text-base text-[#f2f2f2] truncate'>
                   {gameInfo.enemyInfo.description}
@@ -161,7 +176,7 @@ const MatchPage = () => {
             </div>
 
             <img
-              className='MatchedPersonProfile w-40 h-40 mb-[2%] mr-[60%] absolute rounded-full border-0 border-cyan-500 z-50'
+              className='MatchedPersonProfile w-[50%] aspect-square mt-[2%] -left-[10%] absolute rounded-full border-0 border-cyan-500 z-50'
               alt='프로필 이미지'
               src={gameInfo.enemyInfo.profileImage}
             />
@@ -193,13 +208,13 @@ const MatchPage = () => {
             </div>
 
             <img
-              className='MatchedPersonProfile w-40 h-40 mt-[2%] ml-[52%] absolute rounded-full border-0 border-cyan-500 z-50'
+              className='MatchedPersonProfile w-[50%] aspect-square mt-[1%] ml-[60%] absolute rounded-full border-0 border-cyan-500 z-50'
               alt='프로필 이미지'
               src={gameInfo.myInfo.profileImage}
             />
           </div>
 
-          <div className='flex flex-1 items-center justify-center bg-match-versus py-6 mx-3 my-4 rounded-lg'></div>
+          <div className='flex flex-1 items-center justify-center bg-match-versus py-1 mx-3 my-4 rounded-lg'></div>
         </div>
       </div>
     </div>
