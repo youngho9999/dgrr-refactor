@@ -55,7 +55,7 @@ export const TutorialModal = ({ onClose }: { onClose: () => void }) => {
               <IoChevronForward fontSize={'30px'} />
             </div>
           </div>
-          <img className='' alt='역할 이미지' src={`/images/tutorial_${currentImage}.png`} />
+          <img className='' alt='튜토리얼 이미지' src={`/images/tutorial_${currentImage}.png`} />
           <br />
         </div>
       </div>
