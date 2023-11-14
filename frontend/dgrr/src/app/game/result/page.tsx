@@ -19,6 +19,8 @@ const Result = () => {
   const publisher = useAppSelector((state) => state.game.publisher);
   const [memberId, setMemberId] = useState('');
   const gameResult = useAppSelector((state) => state.game.gameResult);
+  const origin = useAppSelector((state) => state.game.origin);
+
   const ratingProperty =
     gameResult.afterRating > gameResult.myInfo.rating
       ? {
@@ -129,9 +131,11 @@ const Result = () => {
           </div>
         </div>
         <div className='space-y-3'>
-          <div className='flex justify-center'>
-            <FuncButton clickEvent={clickOneMore} value='한 판 더?' />
-          </div>
+          {origin !== 'room' && (
+            <div className='flex justify-center'>
+              <FuncButton clickEvent={clickOneMore} value='한 판 더?' />
+            </div>
+          )}
           <div className='flex justify-center'>
             <FuncButton clickEvent={clickGoToMain} value='메인으로' />
           </div>
