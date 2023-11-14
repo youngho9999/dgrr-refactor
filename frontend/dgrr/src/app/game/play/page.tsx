@@ -267,7 +267,7 @@ const PlayPage = () => {
       <div className='relative userVideo'>
         <Image
           src={
-            round === 'FIRST'
+            round === 'first'
               ? turn === 'FIRST'
                 ? defenseImg
                 : attackImg
@@ -276,7 +276,7 @@ const PlayPage = () => {
               : defenseImg
           }
           alt='공격상태'
-          className='w-10 h-10 rounded-full bg-white absolute left-6 top-3'
+          className='w-10 h-10 rounded-full bg-white absolute left-6 top-3 z-1'
         />
         <UserVideoComponent streamManager={subscriber} />
       </div>
@@ -289,7 +289,7 @@ const PlayPage = () => {
       <div className='relative userVideo'>
         <Image
           src={
-            round === 'FIRST'
+            round === 'first'
               ? turn === 'FIRST'
                 ? attackImg
                 : defenseImg
@@ -298,7 +298,7 @@ const PlayPage = () => {
               : attackImg
           }
           alt='공격상태'
-          className='w-10 h-10 rounded-full bg-white absolute left-6 top-3'
+          className='w-10 h-10 rounded-full bg-white absolute left-6 top-3 z-1'
         />
         <UserVideoComponent ref={childRef} streamManager={publisher} />
       </div>
