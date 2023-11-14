@@ -71,13 +71,13 @@ const MainPage = () => {
           </div>
           {/* 데구르르 로고 */}
           <div className="flex justify-center 2sm:px-20 px-14">
-            <Image alt="타이틀" src={title} className="ms-3 z-50" />
+            <Image alt="타이틀" src={title} className="ms-3 z-10" />
           </div>
         </div>
         <div className="space-y-6 mt-10">
           {/* 튜토리얼 버튼 */}
           {/* 버튼에 handleTutorialModal 추가하면 댐*/}
-          <div className="flex justify-center animate-slideDown -z-50">
+          <div className="flex justify-center animate-slideDown -z-50" onClick={handleTutorialModal}>
             <div className="h-20 w-20 -top-50 -left-50">
               <img src={clickMe} alt="click me" />
             </div>
