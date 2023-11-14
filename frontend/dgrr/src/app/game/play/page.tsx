@@ -287,19 +287,21 @@ const PlayPage = () => {
         ></div>
       </div>
       <div className='relative userVideo'>
-        <Image
-          src={
-            round === 'first'
-              ? turn === 'FIRST'
-                ? attackImg
-                : defenseImg
-              : turn === 'FIRST'
-              ? defenseImg
-              : attackImg
-          }
-          alt='공격상태'
-          className='w-10 h-10 rounded-full bg-white absolute left-6 top-3 z-1'
-        />
+        {!modalOpen && (
+          <Image
+            src={
+              round === 'first'
+                ? turn === 'FIRST'
+                  ? attackImg
+                  : defenseImg
+                : turn === 'FIRST'
+                ? defenseImg
+                : attackImg
+            }
+            alt='공격상태'
+            className='w-10 h-10 rounded-full bg-white absolute left-6 top-3 z-10'
+          />
+        )}
         <UserVideoComponent ref={childRef} streamManager={publisher} />
       </div>
       <canvas ref={canvasRef} width='640' height='480' style={{ display: 'none' }} />
