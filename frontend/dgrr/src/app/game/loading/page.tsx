@@ -8,7 +8,7 @@ import { ExplainModal } from '@/components/elements/ExplainModal';
 import { useAppSelector } from '@/store/hooks';
 import { stompConfig } from '@/types/game';
 import { useDispatch } from 'react-redux';
-import { saveGameInfo } from '@/store/gameSlice';
+import { saveGameInfo, saveOrigin } from '@/store/gameSlice';
 import { publishMessage } from '@/components/Game/stomp';
 import { useRouter } from 'next/navigation';
 
@@ -51,11 +51,12 @@ const GameLoading = () => {
     }, 1000);
     subscribeGame();
     gameMatch();
-    return () => { 
+    dispatch(saveOrigin('random'));
+    return () => {
       // 페이지를 벗어날 때 오디오 정지
       audioRef.current?.pause();
       clearInterval(interval);
-    }
+    };
   }, [client]);
 
   return (
