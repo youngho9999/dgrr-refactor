@@ -12,6 +12,7 @@ import { publishMessage } from '@/components/Game/stomp';
 import { useRouter } from 'next/navigation';
 import Toast from '@/components/elements/Toast';
 import ButtonClickAudio from '@/components/audio/ButtonClickAudio';
+import { TutorialModal } from '@/components/elements/TutorialModal';
 
 const GameLoading = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -87,6 +88,7 @@ const GameLoading = () => {
     <div className='bg-main-blue w-screen h-screen min-h-[580px] max-w-[500px]'>
       <Header headerType='MATCHING' />
       {openModal && <ExplainModal onClose={handleModal} />}
+      {openTutorialModal && <TutorialModal onClose={handleTutorialModal} />}
       <div className='flex flex-col justify-between h-3/5 pt-10'>
         <div className='flex justify-center mb-10'>
           <Image alt='캐릭터' src={character} />
@@ -102,7 +104,7 @@ const GameLoading = () => {
           {/* 튜토리얼 버튼 */}
           {/* 버튼에 handleTutorialModal 추가하면 댐*/}
           <div
-            className='flex justify-center animate-slideDown z-50 mt-12'
+            className='flex justify-center animate-slideDown mt-12'
             onClick={handleTutorialModal}
           >
             <div className='h-20 w-20 -top-50 -left-50'>
