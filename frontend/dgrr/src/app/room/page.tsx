@@ -9,7 +9,7 @@ import { deleteMember, setReady } from '@/store/roomSlice';
 import { stompConfig } from '@/types/game';
 import { roomStompConfig } from '@/types/room';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import character from '@/../public/images/logo_character.png';
 import Image from 'next/image';
@@ -136,15 +136,30 @@ const RoomPage = () => {
           ''
         )}
       </div>
-      <div className='userVideo bg-white grid place-items-center h-full mx-auto w-full max-w-[412px]'>
-        <img
-          src={owner.waitingMemberId === memberId ? owner.profileImage : ''}
-          alt='내 이미지'
-          className='w-40 h-40 rounded-full border border-black'
-        />
-        <p className='font-bold text-2xl mt-6'>
-          {owner.waitingMemberId === memberId && owner.nickname}
-        </p>
+      <div className='userVideo mb-3 mx-3'>
+        {enemy ? (
+          <div className='bg-white grid place-items-center h-full mx-auto w-full max-w-[412px]'>
+            <img
+              src={owner.waitingMemberId === memberId ? owner.profileImage : enemy.profileImage}
+              alt='상대프로필'
+              className='w-40 h-40 rounded-full border border-black'
+            />
+            <p className='font-bold text-2xl mt-6'>
+              {owner.waitingMemberId === memberId ? owner.nickname : enemy.nickname}
+            </p>
+          </div>
+        ) : (
+          <div className='bg-white grid place-items-center h-full mx-auto w-full max-w-[412px]'>
+            <img
+              src={owner.waitingMemberId === memberId ? owner.profileImage : ''}
+              alt='상대프로필'
+              className='w-40 h-40 rounded-full border border-black'
+            />
+            <p className='font-bold text-2xl mt-6'>
+              {owner.waitingMemberId === memberId && owner.nickname}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

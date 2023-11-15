@@ -212,6 +212,8 @@ const PlayPage = () => {
     if (publisher && canvasRef.current) {
       const videoElement = publisher.videos[0].video;
       const canvas = canvasRef.current;
+      canvas.width = videoElement.videoWidth;
+      canvas.height = videoElement.videoHeight;
       const ctx = canvas.getContext('2d');
 
       // Canvas에 비디오 화면 그리기

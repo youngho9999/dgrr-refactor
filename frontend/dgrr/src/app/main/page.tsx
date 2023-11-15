@@ -7,9 +7,11 @@ import { ExplainModal } from '@/components/elements/ExplainModal';
 import Header from '@/components/elements/Header';
 import Toast from '@/components/elements/Toast';
 import { TutorialModal } from '@/components/elements/TutorialModal';
+import { reset } from '@/store/gameSlice';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 const MainPage = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -18,6 +20,7 @@ const MainPage = () => {
   const playSound = ButtonClickAudio();
   const logoTutoral = '/images/logo_tutorial.png';
   const clickMe = '/images/click_me.png';
+  const dispatch = useDispatch();
 
   const handleModal = () => {
     playSound();
@@ -55,14 +58,16 @@ const MainPage = () => {
     }
     // 카메라 권한 요청
     requestCameraPermission();
+    dispatch(reset());
   }, []);
+
   return (
     <div className='bg-main-blue w-screen h-screen min-h-[580px] max-w-[500px]'>
       <Header headerType='MAIN' />
       {openModal && <ExplainModal onClose={handleModal} />}
       {openTutorialModal && <TutorialModal onClose={handleTutorialModal} />}
       
-      <div className='flex flex-col h-5/6 pt-12'>
+      <div className='flex flex-col h-5/6 pt-10'>
         <div>
           {/* 식빵이 이미지 */}
           <div className='flex justify-center mb-6'>
