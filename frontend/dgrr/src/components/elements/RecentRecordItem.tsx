@@ -23,7 +23,7 @@ interface RecentRecordItemProps {
 }
 
 const RecentRecordItem = ({ pageType, item }: RecentRecordItemProps) => {
-  const itemHeight = pageType === 'RECENT-RECORD' ? 'h-[59px]' : 'h-[42px]';
+  const itemHeight = pageType === 'RECENT-RECORD' ? 'h-[59px]' : 'h-[44px]';
   const itemWidth = pageType === 'RECENT-RECORD' ? 'min-w-[255px]' : 'min-w-[245px]';
   const borderColor =
     item.gameResult === 'WIN'

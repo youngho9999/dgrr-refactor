@@ -68,7 +68,7 @@ const RecentRecord = () => {
   }, []);
 
   return (
-    <div className='w-screen max-w-[500px]'>
+    <div className='w-screen max-w-[500px] min-w-[275px]'>
       <Header headerType='OTHER'>최근 전적</Header>
       <div className='px-4 pt-2'>
         {myHistoryInfo.map((item, index) => (
