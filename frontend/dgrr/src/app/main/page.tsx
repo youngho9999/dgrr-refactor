@@ -61,7 +61,7 @@ const MainPage = () => {
       <Header headerType='MAIN' />
       {openModal && <ExplainModal onClose={handleModal} />}
       {openTutorialModal && <TutorialModal onClose={handleTutorialModal} />}
-
+      
       <div className='flex flex-col h-5/6 pt-12'>
         <div>
           {/* 식빵이 이미지 */}

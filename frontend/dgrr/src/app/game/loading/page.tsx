@@ -2,7 +2,6 @@
 import character from '@/../../public/images/floating_bread_cropped.gif';
 import Image from 'next/image';
 import Header from '@/components/elements/Header';
-import { FuncButton } from '@/components/FuncButton';
 import { useEffect, useState, useRef } from 'react';
 import { ExplainModal } from '@/components/elements/ExplainModal';
 import { useAppSelector } from '@/store/hooks';
@@ -100,7 +99,7 @@ const GameLoading = () => {
         <div className='flex justify-center font-bold text-white mt-9'>
           <div className='Timer'>{seconds}s</div>
         </div>
-        {/* 튜토리얼 버튼 */}
+          {/* 튜토리얼 버튼 */}
           {/* 버튼에 handleTutorialModal 추가하면 댐*/}
           <div
             className='flex justify-center animate-slideDown z-50 mt-12'

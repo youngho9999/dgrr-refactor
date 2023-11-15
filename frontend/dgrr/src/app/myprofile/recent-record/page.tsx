@@ -31,8 +31,6 @@ const RecentRecord = () => {
   // Back에서 정보를 이 형태로 보내줌
   const [myHistoryInfo, setMyHistoryInfo] = useState<GameHistoryProps[]>([]);
 
-  
-
   useEffect(() => {
     const token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
@@ -49,7 +47,6 @@ const RecentRecord = () => {
       // 토큰 없으면 로그인 화면으로 보내기
       router.push('/');
     }
-    
 
     const fetchData = async () => {
       try {
