@@ -83,7 +83,7 @@ const MainPage = () => {
             <div className='h-20 w-20 -top-50 -left-50'>
               <img src={clickMe} alt='click me' />
             </div>
-            <img src={logoTutoral} alt='튜토리얼' />
+            <img src={logoTutoral} alt='튜토리얼' className='cursor-hover' />
           </div>
           {/* 게임 시작 버튼 */}
           <div className='flex justify-center'>

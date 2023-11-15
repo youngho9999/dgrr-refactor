@@ -103,13 +103,13 @@ const GameLoading = () => {
         {/* 튜토리얼 버튼 */}
           {/* 버튼에 handleTutorialModal 추가하면 댐*/}
           <div
-            className='flex justify-center animate-slideDown z-50 mt-12 cursor-hover'
+            className='flex justify-center animate-slideDown z-50 mt-12'
             onClick={handleTutorialModal}
           >
             <div className='h-20 w-20 -top-50 -left-50'>
               <img src={clickMe} alt='click me' />
             </div>
-            <img src={logoTutoral} alt='튜토리얼' />
+            <img src={logoTutoral} alt='튜토리얼' className='cursor-hover' />
           </div>
       </div>
     </div>
