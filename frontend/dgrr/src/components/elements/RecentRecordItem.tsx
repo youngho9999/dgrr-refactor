@@ -48,7 +48,7 @@ const RecentRecordItem = ({ pageType, item }: RecentRecordItemProps) => {
   return (
     <div>
       <div
-        className={`flex ${itemHeight} min-w-[305px] mb-3 justify-between rounded-lg border-2 ${borderColor}`}
+        className={`flex ${itemHeight} mb-3 justify-between rounded-lg border-2 ${borderColor}`}
       >
         <div className='gap-x-[12px] flex items-center ms-2'>
           <div
