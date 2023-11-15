@@ -89,6 +89,7 @@ const GameLoading = () => {
       <Header headerType='MATCHING' />
       {openModal && <ExplainModal onClose={handleModal} />}
       {openTutorialModal && <TutorialModal onClose={handleTutorialModal} />}
+      
       <div className='flex flex-col justify-between h-3/5 pt-10'>
         <div className='flex justify-center mb-10'>
           <Image alt='캐릭터' src={character} />
@@ -101,17 +102,14 @@ const GameLoading = () => {
         <div className='flex justify-center font-bold text-white mt-9'>
           <div className='Timer'>{seconds}s</div>
         </div>
-          {/* 튜토리얼 버튼 */}
-          {/* 버튼에 handleTutorialModal 추가하면 댐*/}
-          <div
-            className='flex justify-center animate-slideDown mt-12'
-            onClick={handleTutorialModal}
-          >
-            <div className='h-20 w-20 -top-50 -left-50'>
-              <img src={clickMe} alt='click me' />
-            </div>
-            <img src={logoTutoral} alt='튜토리얼' className='cursor-hover' />
+        {/* 튜토리얼 버튼 */}
+        {/* 버튼에 handleTutorialModal 추가하면 댐*/}
+        <div className='flex justify-center animate-slideDown mt-12' onClick={handleTutorialModal}>
+          <div className='h-20 w-20 -top-50 -left-50'>
+            <img src={clickMe} alt='click me' />
           </div>
+          <img src={logoTutoral} alt='튜토리얼' className='cursor-hover' />
+        </div>
       </div>
     </div>
   );

@@ -40,10 +40,15 @@ const AuthPage = () => {
     onClick();
   }, [searchParams]);
   return (
-    <div className='bg-main-blue w-screen h-screen min-h-[580px] max-w-[500px]'>
-      <div className='flex flex-col justify-between h-3/5 pt-10'>
+    <div className='bg-main-blue w-screen h-screen max-w-[500px] pt-32'>
+      <div className='flex flex-col justify-between'>
         <div className='flex justify-center mb-10'>
           <Image alt='캐릭터' src={character} />
+        </div>
+        <div className='flex justify-center font-bold text-xl text-white mt-5'>
+          로그인 중
+          <span className='animate-blink'>.</span>
+          <span className='animate-blink2'>.</span>.<span className='animate-blink3'>.</span>
         </div>
       </div>
     </div>
