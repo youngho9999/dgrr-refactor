@@ -12,9 +12,14 @@ import { saveGameInfo, saveOrigin } from '@/store/gameSlice';
 import { publishMessage } from '@/components/Game/stomp';
 import { useRouter } from 'next/navigation';
 import Toast from '@/components/elements/Toast';
+import ButtonClickAudio from '@/components/audio/ButtonClickAudio';
 
 const GameLoading = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [openTutorialModal, setOpenTutorialModal] = useState(false);
+  const playSound = ButtonClickAudio();
+  const logoTutoral = '/images/logo_tutorial.png';
+  const clickMe = '/images/click_me.png';
   const [seconds, setSeconds] = useState(0);
   const handleModal = () => {
     setOpenModal(!openModal);
@@ -32,6 +37,11 @@ const GameLoading = () => {
     if (client) {
       publishMessage(client, MATCHING_URI, '');
     }
+  };
+
+  const handleTutorialModal = () => {
+    playSound();
+    setOpenTutorialModal(!openTutorialModal);
   };
 
   const subscribeGame = () => {
@@ -82,17 +92,25 @@ const GameLoading = () => {
         <div className='flex justify-center mb-10'>
           <Image alt='캐릭터' src={character} />
         </div>
-        <div className='flex justify-center font-bold'>
+        <div className='flex justify-center font-bold text-white text-xl'>
           <h1>게임 찾는 중</h1>
           <span className='animate-blink'>.</span>
           <span className='animate-blink2'>.</span>.<span className='animate-blink3'>.</span>
         </div>
-        <div className='flex justify-center font-bold mt-10'>
+        <div className='flex justify-center font-bold text-white mt-9'>
           <div className='Timer'>{seconds}s</div>
         </div>
-        <div className='flex justify-center mt-40'>
-          <FuncButton value='게임 설명' clickEvent={handleModal} />
-        </div>
+        {/* 튜토리얼 버튼 */}
+          {/* 버튼에 handleTutorialModal 추가하면 댐*/}
+          <div
+            className='flex justify-center animate-slideDown z-50 mt-12 cursor-hover'
+            onClick={handleTutorialModal}
+          >
+            <div className='h-20 w-20 -top-50 -left-50'>
+              <img src={clickMe} alt='click me' />
+            </div>
+            <img src={logoTutoral} alt='튜토리얼' />
+          </div>
       </div>
     </div>
   );
